@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+     <!-- used for tes the method -->
+	<context:component-scan base-package="com.hyun"></context:component-scan>
+	<!-- property file config -->
+	<bean id="propertyConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdc.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+	<!-- 配置源 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${driverclass}"></property>
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+	</bean>
+
+	<!-- sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 配置mybatis 配置文件路径 -->
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/hyun/mapper/account-mapper.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 管理sqlmapper 
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.hzjw.mapper"></property>
+		<property name="markerInterface" value="com.hzjw.mapper.SqlMapper"></property>
+	</bean>
+-->
+<!--  -->
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" >
+<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+</bean>
+</beans>

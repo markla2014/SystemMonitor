@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzjw.entity.Account">
+<update id="createNewTable" parameterType="account">
+if not exists (select * from dbo.sysobjects where name = #{Stock}) 
+create table ${
+</update>
+    <!-- 插入操作 -->
+	<insert id="add" parameterType="account">
+	   insert into account(name,pwd) values(#{name},#{pwd})
+	</insert>
+	<!-- 删除操作 -->
+	<delete id="delete" parameterType="int">
+	  delete from account where id=#{id}
+	</delete>
+	<update id="update" parameterType="account">
+	 update account set name=#{name}pwd=#{pwd} where id=#{id}
+	</update>
+	<select id="findById" parameterType="int" resultType="account">
+	select * from account where id=#{id}
+	</select>
+	
+	<select id="findAll" resultType="account">
+	select * from account
+	</select>
+	<!-- 分页查询 -->
+	<select id="findByPage" resultType="account" parameterType="map">
+	  select * from account limit #{pageNo},#{pageSize}
+	</select>
+	<select id="findTotal" resultType="int" parameterType="int">
+	select count(*) from account;
+	</select>
+</mapper>
