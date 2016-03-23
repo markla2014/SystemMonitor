@@ -38,15 +38,5 @@ public String findByPage(HttpServletRequest req){
 	req.setAttribute("pager",pager);
 	return "findByPage";
 }
-@RequestMapping("/login")
-public String login(HttpServletRequest req){
-	  String name=req.getParameter("username");
-	  String password=req.getParameter("Password");
-	   if(name.equals(login_Name)&&password.equals(login_PassWord)){
-		   return "redirect:main";
-	   }else{
-		   return "redirect:/index.jsp";
-	   }
-	
-}
+
 }

@@ -26,7 +26,7 @@
 
 <body>
 <div class="login_box">
-   <form id="login" action="account/login" method="post">
+   <form id="login" action="main/login" method="post">
   <table width="400" border="0" align="center" cellpadding="0" cellspacing="0" >
     <tr>
       <td width="417" height="90" colspan="2">&nbsp;</td>
@@ -57,11 +57,12 @@
   <tr>
       <td height="40" align="center" valign="middle"><table width="260" border="0">
   <tr>
-    <td align="center" valign="middle"><a href="#" class="button grow" onclick="form_reset()">重置</a></td>
-    <td align="center" valign="middle"><a href="index.htm" class="button grow" onclick="form_submit()">登录</a></td>
+    <td align="center" valign="middle"><a class="button grow" onclick="form_reset()">重置</a></td>
+    <td align="center" valign="middle"><a class="button grow" onclick="form_submit()">登录</a></td>
   </tr>
+   </form>
 </table>
- </form>
+
 </td>
 
     </tr>
