@@ -1,0 +1,16 @@
+@charset "gb2312";
+/* CSS Document */
+
+body, th, td, input, select, textarea, button { font: 12px/1.5em  'ËÎÌו' ,Verdana,"Lucida Grande", Arial, Helvetica, sans-serif; color:#333;}
+body, div, li, h1, h2, h3, h4, h5, h6, p, ul, dl, dt, dd, form, fieldset { margin: 0; padding: 0; border:0}
+ul li { list-style: none; }
+
+
+a { color: #fff; text-decoration: none; }
+a:hover { text-decoration: underline; color:#ff0;}
+a img { border: none; }
+.cl{clear:both;}
+.fl{float:left;}
+.fr{float:right;}
+.head{background:url(../../images/frameRight/top_c.jpg) repeat-x; width:100%;}
+.head_r{background:url(../../images/frameRight/top_r.jpg) no-repeat; width:300px; height:100px; color:#fff; padding:20px 0 0 0;}

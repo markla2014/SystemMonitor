@@ -45,7 +45,7 @@ public String login(HttpServletRequest req){
 	   if(name.equals(login_Name)&&password.equals(login_PassWord)){
 		   return "redirect:main";
 	   }else{
-		   return "redirect:/";
+		   return "redirect:/index.jsp";
 	   }
 	
 }
