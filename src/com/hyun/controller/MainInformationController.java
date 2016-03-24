@@ -1,30 +1,26 @@
 package com.hyun.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hyun.service.AccountService;
+
 @Controller
 @RequestMapping("/main")
 public class MainInformationController {
-	public final static String login_Name = "mark";
-	public final static String login_PassWord = "1234";
-
-	@RequestMapping("/show")
-	public ModelAndView showMainInformation(HttpServletRequest req) {
-		ModelAndView mv = new ModelAndView("hello");
-		mv.addObject("title", "Spring MVC And Freemarker");
-		mv.addObject("content", " Hello world ， test my first spring mvc ! ");
+ public static String login_Name="";
+ public final String login_PassWord="";
+	@Resource(name="accountServiceImpl")
+private AccountService as;
+	@RequestMapping("/header.do")
+	public ModelAndView showHead(HttpServletRequest req) {
+		ModelAndView mv = new ModelAndView("head");
+		mv.addObject("username", req.getAttribute("username"));
 		return mv;
-	}
-
-	@RequestMapping("/show1")
-	public ModelAndView index() {
-		ModelAndView view = new ModelAndView("test");
-		view.addObject("message", "Say hi for Freemarker.");
-		return view;
 	}
 
 	@RequestMapping("/login")
@@ -32,9 +28,11 @@ public class MainInformationController {
 		String name = req.getParameter("username");
 		String password = req.getParameter("Password");
 		if (name.equals(login_Name) && password.equals(login_PassWord)) {
-			return "main/show1";
+			req.setAttribute("username", name);
+			return "main";
 		} else {
-			return "success";
+			req.setAttribute("errorMessage","您输入的用户名或者密码有误");
+			return "index";
 		}
 
 	}

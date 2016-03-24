@@ -100,4 +100,5 @@ color:#d6d6d6;opacity:1;-moz-transition:color .5s;
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+.Errors{font-family: "微软雅黑";color:#ff0000; padding-left:15px; padding-top:2px; line-height:30px; font-size: 14px;}
 
