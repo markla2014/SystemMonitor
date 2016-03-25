@@ -27,7 +27,7 @@
 
 <body>
 	<div class="login_box">
-		<form id="login" action="main/login" method="post">
+		<form id="login" action="main/login.do" method="post">
 			<table width="400" border="0" align="center" cellpadding="0"
 				cellspacing="0">
 				<tr>

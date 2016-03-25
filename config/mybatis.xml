@@ -5,6 +5,6 @@
 <configuration>
 	<!--  配置别名-->
 	<typeAliases>
-	   <typeAlias type="com.hyun.entity.Account" alias="account"></typeAlias>
+	  
 	</typeAliases>
 </configuration>

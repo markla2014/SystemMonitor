@@ -21,7 +21,7 @@
 <frame name=header  src="${pageContext.request.contextPath}/main/header.do" frameBorder=0 noResize scrolling=no>
 <frameset cols="189, *" >
 <frame name=menu src="page/frame/menu.jsp" frameBorder=0 noResize scrolling="no">
-<frame name=rightFrame src="page/frame/content.jsp" frameBorder=0 noResize scrolling=yes>
+<frame name=rightFrame src="page/frame/systemInformation.jsp" frameBorder=0 noResize scrolling=yes>
 </frameset>
 </frameset>
 <noframes></noframes>
