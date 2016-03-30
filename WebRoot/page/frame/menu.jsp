@@ -27,7 +27,7 @@ $(document).ready(function (){
 
 <body>
 
-<table width="189" border="0" cellSpacing=0 cellPadding=0  background="menu_bg_06.gif" height="100%">
+<table width="189" border="0" cellSpacing=0 cellPadding=0  background="page/images/menu_bg_06.gif" height="100%">
   <tr>
 <td height="40"><div class="menu_bg1">
 <ul>

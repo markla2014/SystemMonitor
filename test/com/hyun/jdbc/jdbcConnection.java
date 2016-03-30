@@ -6,8 +6,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.cloudwave.jdbc.CloudConnection;
@@ -210,8 +212,19 @@ public class jdbcConnection {
 		}
 			 
 	////////////////////////////////
-			 
-		
-		
+	
    }
+	@Test
+	public void Test_PROCESS_TEXT(){
+	    String test="AllLoad:530220830720,192.168.0.21:260875837440,192.168.0.20:269344993280,";
+	    Hashtable<String,Long> temp=new Hashtable<String,Long>();
+	      String[] test1=StringUtils.split(test,",");
+	       for(String i:test1){
+	    	   System.out.println(i);
+	    	  
+	    	   String[] test2=StringUtils.split(i,":");
+	    	   temp.put(test2[0],Long.parseLong(test2[1]));
+	       }
+	       System.out.println(temp.get("AllLoad"));
+	}
 }

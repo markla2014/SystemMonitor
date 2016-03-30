@@ -17,7 +17,7 @@ public abstract class BaseDao {
 	
 	public static final String USER_NAME = "system";
 	public static final String PASS_WORD = "CHANGEME";
-	public static final String SERVER = ":@192.168.0.20:1978";
+	public static final String SERVER = ":@192.168.0.17:1978";
 
     private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
 
