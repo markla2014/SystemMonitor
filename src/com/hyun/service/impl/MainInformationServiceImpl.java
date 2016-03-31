@@ -112,7 +112,7 @@ public class MainInformationServiceImpl implements MainInformationService {
            temp2.add(informationTemp.getMinCPUse());
            temp2.add(informationTemp.getAvgCPUse());
        temp.setDataArray(temp2);
-		temp.setObjName("master CPU 占有率");
+		temp.setObjName("CPU占有率");
 		String[] temp1={"maxCPU","minCPU","avgCPU"};
 		Date date=new Date();
 		DateFormat format=new SimpleDateFormat("HH:mm:ss");

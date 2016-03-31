@@ -8,7 +8,7 @@ var pieopt = {
 	},
 	tooltip : {
 		trigger : 'item',
-		formatter : "{b} : {c} ({d}%)"
+		formatter : "{b} : {c}G ({d}%)"
 	},
 	toolbox : {
 		show : true,
@@ -50,9 +50,12 @@ function getPie(resp) {
 	var piedata = []; // 饼的数字
 	var pieLegend = []; // 饼的图例
 	$(respobj.value).each(function(i) {
+		var temp=respobj.value[i]/(1024*1024*1024);
+		temp=temp.toFixed(2);
+		
 		piedata.push({
 			name : respobj.dispName[i],
-			value : respobj.value[i]
+			value : temp
 		}); // 饼的数据是对象 {name:"str", value:number}
 		pieLegend.push(respobj.dispName[i]); // 图例和每块饼的name要一致
 	});

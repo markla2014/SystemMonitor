@@ -139,10 +139,12 @@ function getInfomation(){
             clearInterval();
         },  
             success: function(msg){
+            if(msg.info!=null){
               	var resobj = msg.info;
                var opt=addData(resobj);
                  console.log(opt);
                 line.setOption(opt);
+                }
             }
     }); 
 }
@@ -170,15 +172,20 @@ var series=[];
 	var now=new Date();
    var now1= resobj.time;
     xAxis.push(now1);
+   
   $(totalcpu).each(function(i){
      var temp=totalcpu[i];
      var num=resobj.dataArray[i] 
      temp.push(num);
-  totalcpu[i]=temp});
+  totalcpu[i]=temp
+  });
       console.log(totalcpu);
-    if (count>10) {
+ if (count>10) {
     count=11;
-      $(totalcpu).each(function(i){totalcpu[i].shift});
+      $(totalcpu).each(function(i){
+          totalcpu[i].shift();
+      });
+          xAxis.shift();
       }
     for(var i=0;i<totalcpu.length;i++){
         var new_series = JSON.parse(JSON.stringify(itemserie));

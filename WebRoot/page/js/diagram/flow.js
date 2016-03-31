@@ -9,7 +9,7 @@ var lineopt = {
 		   formatter:function (params){ // tip的样式
                 var res = '时间 : ' + params[0].name +'<br/>';
                 for (var i = 0, l = params.length; i < l; i++) {
-                    res += '<br/>' + params[i].seriesName + ' : ' + params[i].value;
+                    res += '<br/>' + params[i].seriesName + ' : ' + params[i].value+"%";
                 }    
                 return res;
             }
