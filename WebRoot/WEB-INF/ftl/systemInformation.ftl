@@ -8,51 +8,29 @@
 	<script src="../page/js/diagram/pie.js" type="text/javascript"></script>
 <script type="text/javascript">
 var request_time = [];
-
+var xAxis=[];
 var pie;
 var line; 
-var now = new Date();
 var count=0;
+var myChart0;
+var myChart1;
  $(document).ready(function(){
+ myChart0 = document.getElementById('line1');
+myChart1 = document.getElementById('pie1');
+loadCharts();
 
- var myChart0 = document.getElementById('line1');
-		var myChart1 = document.getElementById('pie1');
-        function eConsolePieClick(e) {
-                console.log(e); // 3.0 e有嵌套结构，不可以JSON.stringify
-        }
-		  pie = echarts.init(myChart1, 'infograph'); // 带主题的初始化
-        pie.setOption(pieopt);
-      //  pie.on('click',  eConsolePieClick); // 点击事件绑定 与2.0不同
-        
-      line =  echarts.init(myChart0);
-      line.setOption(lineopt);
-        
-        // 多图联动 3.0.1fix
-       // line.group =  'group1'; 
-		//pie.group= 'group1';
-        //echarts.connect('group1');
-        //    echarts.connect([pie, bar, line]); // 联动的两种写法
-         var temp1='${lineValue}'
-         var temp2='${pieValue}'
+ var temp1='${lineValue}'
+ var temp2='${pieValue}'
 getPie(temp2);
 getLine(temp1);
-/*
+
 timeTicket = setInterval(function () {
-    addData();
-    line.setOption({
-        xAxis: {
-            data: request_time
-        },
-        series: [{
-            name:'点击大小',
-            data: click_size
-        },{
-		  name:'响应大小',
-		  data:request_size
-		}]
-    });
-}, 3000);*/	
+getInfomation();
+  
+}, 3000);
+
 	});
+
 </script>
   </head>
 
@@ -147,141 +125,75 @@ timeTicket = setInterval(function () {
 </ul>
 </div>
 <script src="../page/js/echarts.js" type="text/javascript"></script>
-<!--<script src="../page/js/diagram/flow.js" type="text/javascript"></script>-->
+<script src="../page/js/diagram/flow.js" type="text/javascript"></script>
 <script type="text/javascript">
-var lineopt = {
-		title : {
-			text : '',
-		},
-	tooltip : {
-		trigger : 'axis',
-		   formatter:function (params){ // tip的样式
-                var res = '时间 : ' + params[0].name +'<br/>';
-                for (var i = 0, l = params.length; i < l; i++) {
-                    res += '<br/>' + params[i].seriesName + ' : ' + params[i].value;
-                }    
-                return res;
+var itemserie={name:'',data:[]};
+function getInfomation(){
+    $.ajax({
+         type: "get",
+            dataType: "json",
+            url: "${path}/main/getCPUSum.do",
+            //complete :function(){$("#load").hide();},AJAX请求完成时隐藏loading提示
+            error:function(data){  
+            console.log(data);
+            clearInterval();
+        },  
+            success: function(msg){
+              	var resobj = msg.info;
+               var opt=addData(resobj);
+                 console.log(opt);
+                line.setOption(opt);
             }
-	},
-	toolbox : {
-		show : true,
-		feature : {
-			mark : {
-				show : true
-			},
-			dataView : {
-				show : true,
-				readOnly : false
-			},
-			restore : {
-				show : true
-			},
-			saveAsImage : {
-				show : true
-			}
-		}
-	},
-	grid : {
-		x : 60,
-		y : 30,
-		x2 : 40,
-		y2 : 30,
-
-		borderWidth : 0,
-		borderColor : "#ccc"
-	},
-	calculable : true,
-	xAxis : [ {
-		type : 'category',
-		boundaryGap : false,
-		axisLabel : {
-			show : true,
-			interval : 'auto', // {number}
-			margin : 10,
-			formatter : '{value}', // Template formatter!
-			textStyle : {
-				color : 'black',
-				fontFamily : 'verdana',
-			},
-		},
-		splitLine : {
-			show : true,
-			lineStyle : {
-				type : 'dashed',
-			},
-
-		},
-		data:[]
-	} ],
-	yAxis : [ {
-		  name:'',
-            nameLocation:'end',
-            type: 'value',
-            scale:true,
-            axisLabel: {
-                formatter: '{value}'
-            }
-	} ],
-	series : []
-};
-function getLine(resp){
-	var resobj = JSON.parse(resp);
-	var lineLedge=[];
-	var series=[];
-	var xAxis=[]
-var minCPU = [];
-var maxCPU = [];
-var avgCPU=[];
- var now1= now.getHours() +":"+ now.getMinutes()
-            +":"+ now.getSeconds();
-           xAxis.push(now1);
-
- maxCPU.push(resobj.dataArray[0]);
- minCPU.push(resobj.dataArray[1]);
- avgCPU.push(resobj.dataArray[2]);
-  var totalcpu=[];
-  totalcpu.push(maxCPU);
-  totalcpu.push(minCPU);
-  totalcpu.push(avgCPU);
-  
-	 for (var i=0; i<resobj.dataArray.length; i++)
-     {
-         var new_series = JSON.parse(JSON.stringify(lineserie));  // 可以用预设的不同风格的曲线
-         new_series.name = resobj.curName[i];
-         new_series.data=totalcpu[i];
-         console.log(new_series.data);
-         lineLedge.push(resobj.curName[i]); // 必须和曲线的name一致 每条曲线的名字必须不一样，否则图例会出错
-         series.push(new_series);
-     }
-    
-	var opt = {
-			title : {
-				text : resobj.objName
-			},
-			legend : {
-				data : lineLedge
-			},
-			  xAxis:{
-	                data:xAxis
-	            },
-	            series:series
-	}
-	
-	line.setOption(opt);
+    }); 
 }
-var lineserie =  {
-        name:'',
-    	type : 'line',
-		stack : '总量',
-		itemStyle : {
-			normal : {
-				areaStyle : {
-					type : 'default'
-				}
-			}
-		},
-		data:[]
-};
+function loadCharts(){
+
+     function eConsolePieClick(e) {
+                console.log(e); // 3.0 e有嵌套结构，不可以JSON.stringify
+        }
+		  pie = echarts.init(myChart1, 'infograph'); // 带主题的初始化
+        pie.setOption(pieopt);
+      //  pie.on('click',  eConsolePieClick); // 点击事件绑定 与2.0不同
+      line =  echarts.init(myChart0);
+      line.setOption(lineopt);
+        // 多图联动 3.0.1fix
+       // line.group =  'group1'; 
+		//pie.group= 'group1';
+        //echarts.connect('group1');
+        //    echarts.connect([pie, bar, line]); // 联动的两种写法
+
+}
+
+function addData(resobj) {
+var series=[];
+	count++;
+	var now=new Date();
+   var now1= resobj.time;
+    xAxis.push(now1);
+  $(totalcpu).each(function(i){
+     var temp=totalcpu[i];
+     var num=resobj.dataArray[i] 
+     temp.push(num);
+  totalcpu[i]=temp});
+      console.log(totalcpu);
+    if (count>10) {
+    count=11;
+      $(totalcpu).each(function(i){totalcpu[i].shift});
+      }
+    for(var i=0;i<totalcpu.length;i++){
+        var new_series = JSON.parse(JSON.stringify(itemserie));
+         new_series.name=lineLedge[i];
+          new_series.data=totalcpu[i];
+         series.push(new_series);
+    }
+     var opt={
+          xAxis: {
+            data: xAxis
+        },
+        series:series
+      }
+      return opt;
+}
 </script>
 </body>
 </html>

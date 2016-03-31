@@ -1,5 +1,8 @@
 package com.hyun.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +114,9 @@ public class MainInformationServiceImpl implements MainInformationService {
        temp.setDataArray(temp2);
 		temp.setObjName("master CPU 占有率");
 		String[] temp1={"maxCPU","minCPU","avgCPU"};
+		Date date=new Date();
+		DateFormat format=new SimpleDateFormat("HH:mm:ss");
+		 temp.setTime(format.format(date));
 		temp.setCurName(temp1);
 		return temp;
 	}

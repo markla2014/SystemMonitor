@@ -1,9 +1,13 @@
 package com.hyun.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.jdbc.core.StatementCreatorUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +26,8 @@ import com.hyun.vo.diagram.totalDiskSpaceDiagram;
 public class MainInformationController {
  public static String login_Name="";
  public final String login_PassWord="";
- public Gson gson=new Gson();
+ private Gson gson=new Gson();
+ private final static String SUCCESS="success";
  @Resource
  private MainInformationServiceImpl service;
  private String name="";
@@ -65,12 +70,14 @@ public class MainInformationController {
 		return gson.toJson(o);
 	}
 	
-	@RequestMapping(value="/getTotalDiskSpace.do")
-	@ResponseBody 
-	public totalCPUpercent getTotalDiskSpace(){
-		   
-		return service.perpareTotalCPU(service.getMasterInfroamtion());
-		
+	@RequestMapping(value="/getCPUSum.do")
+	@ResponseBody
+	public Map<String,totalCPUpercent> getTotalDiskSpace(HttpServletRequest req,HttpServletResponse response){
+		 
+		totalCPUpercent temp=service.perpareTotalCPU(service.getMasterInfroamtion());
+		Map<String,totalCPUpercent> map=new HashMap<String, totalCPUpercent>();
+		map.put("info",temp);
+		return map;
 	}
    
 }
