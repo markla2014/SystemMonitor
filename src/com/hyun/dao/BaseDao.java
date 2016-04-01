@@ -17,13 +17,16 @@ public abstract class BaseDao {
 	
 	public static final String USER_NAME = "system";
 	public static final String PASS_WORD = "CHANGEME";
-	public static final String SERVER = ":@192.168.0.20:1978";
+	public static final String SERVER = ":@192.168.0.13:1978";
 
     private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
 
     private static DecimalFormat  numberS2Format = new DecimalFormat("###,##0.00");
-    private CloudConnection connection;
+    private static CloudConnection connection;
 	public CloudConnection getConnection() {
+		if(connection==null){
+			getJdbcConnection(USER_NAME,PASS_WORD);
+		}
 		return connection;
 	}
 	public void setConnection(CloudConnection connection) {

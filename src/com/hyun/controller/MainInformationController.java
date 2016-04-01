@@ -1,6 +1,7 @@
 package com.hyun.controller;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonNull;
+import com.hyun.common.JasonCover;
 import com.hyun.common.ServerMonitorConstant;
 import com.hyun.service.impl.MainInformationServiceImpl;
 import com.hyun.vo.totalCPUpercent;
@@ -26,8 +28,6 @@ import com.hyun.vo.diagram.totalDiskSpaceDiagram;
 public class MainInformationController {
  public static String login_Name="";
  public final String login_PassWord="";
- private Gson gson=new Gson();
- private final static String SUCCESS="success";
  @Resource
  private MainInformationServiceImpl service;
  private String name="";
@@ -55,20 +55,16 @@ public class MainInformationController {
 		ModelAndView mv =new ModelAndView("systemInformation");
 		
 		totalMasterOverviewInformation info=service.getMasterInfroamtion();
-		totalMasterOverviewInformation temp=service.getMasterInfroamtion();
-		mv.addObject("info",temp);
+		mv.addObject("info",info);
 		totalDiskSpaceDiagram temp1=service.perpareTotalDiskSpace(info);
 		totalCPUpercent temp2=service.perpareTotalCPU(info);
-		mv.addObject("pieValue",toJason(temp1));
-		mv.addObject("lineValue", toJason(temp2));
+		new JasonCover();
+		mv.addObject("pieValue",JasonCover.toJason(temp1));
+		new JasonCover();
+		mv.addObject("lineValue",JasonCover.toJason(temp2));
 		return mv;
 	}
-	public String toJason(Object o){
-		if(o==null){
-			return gson.toJson(JsonNull.INSTANCE);
-		}
-		return gson.toJson(o);
-	}
+
 	
 	@RequestMapping(value="/getCPUSum.do")
 	@ResponseBody
@@ -79,5 +75,13 @@ public class MainInformationController {
 		map.put("info",temp);
 		return map;
 	}
-   
+	@RequestMapping("/diskInformation.do")
+	public ModelAndView diskInformation(HttpServletRequest req,HttpServletResponse response){
+		 ModelAndView mv=new ModelAndView("hardDiskInformation");
+		 totalMasterOverviewInformation info=service.getMasterInfroamtion();
+		 LinkedList<totalDiskSpaceDiagram> retrnValue=service.perpareTableDiskSpace(info);
+		 mv.addObject("info",retrnValue);
+		return mv;
+	}
+		
 }

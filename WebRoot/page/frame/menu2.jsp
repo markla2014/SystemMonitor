@@ -40,6 +40,15 @@ $(document).ready(function (){
 <tr>
     <td><div class="menu" >
 	<ul >
+		<li><a href="${pageContext.request.contextPath}/main/mainInformtion.do"  target="rightFrame">
+        <table width="280" border="0">
+  <tr>
+    <td width="30"><img src="page/images/3.png" width="26" height="20" /></td>
+    <td>系统概述</td>
+  </tr>
+</table>
+ </a>	
+</li>
 		<li><a href="CPU.html"  target="rightFrame">
         <table width="280" border="0">
   <tr>
@@ -47,10 +56,9 @@ $(document).ready(function (){
     <td>CPU</td>
   </tr>
 </table>
- </a>
-			
-		</li>
-		<li><a href="#"><table width="280" border="0">
+ </a>	
+</li>
+		<li><a href="#" target="rightFrame"><table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/disk.png" width="26" height="20" /></td>
     <td>硬盘</td>
@@ -58,7 +66,7 @@ $(document).ready(function (){
 </table></a>
         
         </li>
-		<li><a href="#"><table width="280" border="0">
+		<li><a href="${pageContext.request.contextPath}/memory/info.do" target="rightFrame"><table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/2.png" width="26" height="20" /></td>
     <td>内存</td>
@@ -66,7 +74,7 @@ $(document).ready(function (){
 </table></a>
         
         </li>
-        		<li><a href="#"><table width="280" border="0">
+        		<li><a href="${pageContext.request.contextPath}/session/info.do" target="rightFrame"><table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/1.png" width="26" height="20" /></td>
     <td>线程</td>
@@ -75,14 +83,14 @@ $(document).ready(function (){
         
         </li>
         <li>
-		<a href="#"><table width="280" border="0">
+		<a href="#" target="rightFrame"><table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/ico_D.png" width="26" height="20" /></td>
     <td>日志</td>
   </tr>
 </table></a>
         			<ul style="display:none;">
-				<li><a href="#" > <table width="280" border="0">
+				<li><a href="#" target="rightFrame"> <table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/ico_.png" width="26" height="20" /></td>
     <td>创建日志</td>

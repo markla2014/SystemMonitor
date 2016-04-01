@@ -31,7 +31,7 @@ public class MainInformationDao extends BaseDao{
 	            throw new GwtException(t.getMessage());
 	        }
 	    }
-	 public String[][] getServerList(Connection connection) throws GwtException {
+	 public String[][] getServerList(CloudConnection connection) throws GwtException {
 	        ArrayList<String[]> rows = new ArrayList<String[]>();
 	        try {
 	            CloudDatabaseMetaData dbmeta = (CloudDatabaseMetaData) connection.getMetaData();
@@ -40,7 +40,7 @@ public class MainInformationDao extends BaseDao{
 	            result.close();
 	            
 	          //  rows.add(new String[] {String.valueOf(records.length)});
-	           // rows.add(new String[] {"服务器", "类型", "状态", "系统", "JAVA", "处理器", "核心", "内存", "磁盘", "系统时间"});
+	           rows.add(new String[] {"服务器", "类型", "状态", "系统", "JAVA", "处理器", "核心", "内存", "磁盘", "系统时间"});
 	            for (String[] record : records) {
 	                int coreNum = Integer.parseInt(record[6]);
 	                if (coreNum < 0) {

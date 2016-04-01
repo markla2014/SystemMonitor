@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.hyun.dao.MainInformationDao;
 import com.hyun.exception.GwtException;
 import com.hyun.service.MainInformationService;
+import com.hyun.vo.tableUseSpace;
 import com.hyun.vo.totalCPUpercent;
 import com.hyun.vo.totalMasterOverviewInformation;
 import com.hyun.vo.diagram.totalDiskSpaceDiagram;
@@ -119,6 +120,23 @@ public class MainInformationServiceImpl implements MainInformationService {
 		 temp.setTime(format.format(date));
 		temp.setCurName(temp1);
 		return temp;
+	}
+
+
+	@Override
+	public LinkedList<totalDiskSpaceDiagram> perpareTableDiskSpace(totalMasterOverviewInformation informationTemp) {
+		// TODO Auto-generated method stub
+		LinkedList<totalDiskSpaceDiagram> retrnValue=new LinkedList<totalDiskSpaceDiagram>();
+	     LinkedList<tableUseSpace> temp=informationTemp.getUseSpace();
+	    for(tableUseSpace i:temp){
+	     totalDiskSpaceDiagram diagram=new totalDiskSpaceDiagram();
+	     long[] spaceValue={i.getUsedSpace(),i.getFreeSpace()};
+	       diagram.setObjName(i.getAddr());
+	       diagram.setValue(spaceValue);
+	       diagram.setDispName(new String[]{"已用空间","未用空间"});
+	       retrnValue.add(diagram);
+	    }
+		return retrnValue;
 	}
 
 }
