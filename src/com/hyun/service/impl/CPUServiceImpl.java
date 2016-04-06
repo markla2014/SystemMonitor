@@ -36,8 +36,8 @@ public class CPUServiceImpl implements CPUService{
 		for(String[] i:temp){
 		totalCPUpercent temp1=new totalCPUpercent();
         LinkedList<Double> temp2=new LinkedList<Double>();
-        BigDecimal testValue=new BigDecimal(i[i.length-2]).multiply(new BigDecimal(100));
-        BigDecimal testprocess=new BigDecimal(i[i.length-1]).multiply(new BigDecimal(100));
+        BigDecimal testValue=(new BigDecimal(i[i.length-2]).multiply(new BigDecimal(100))).setScale(4, BigDecimal.ROUND_HALF_UP);
+        BigDecimal testprocess=(new BigDecimal(i[i.length-1]).multiply(new BigDecimal(100))).setScale(4, BigDecimal.ROUND_HALF_UP);
         double tempValue=testValue.doubleValue();
         double tempprocess=testprocess.doubleValue();
         temp2.add(tempValue);

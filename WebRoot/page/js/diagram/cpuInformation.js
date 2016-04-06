@@ -10,7 +10,7 @@ charlen=ms.length;
 for(var i=0;i<ms.length;i++){
 var item=ms[i];
  tag+='<li><div class="chart_T"></div>';
- tag+='<div id="line'+i+'" style="width:550px;height:260px;"></div>';
+ tag+='<div id="line'+i+'" style="width:1024px;height:510px;"></div>';
  tag+="</li>";
 }
 tag+='</url>';
@@ -135,25 +135,44 @@ var now=new Date();
 			legend : {
 				data : lineLedge
 			},
+		    dataZoom: [{
+		        type: 'inside',
+		        start: 0,
+		        end: 100
+		    }, {
+		        start: 0,
+		        end: 10
+		    }],
 			  xAxis:{
 	                data:xAxis
 	            },
 	            series:series
 	}
-	
+	console.log(opt);
 	line.setOption(opt);
 }
 var lineserie =  {
         name:'',
     	type : 'line',
 		stack : '总量',
-		itemStyle : {
-			normal : {
-				areaStyle : {
-					type : 'default'
-				}
-			}
-		},
+        markPoint: {
+                  data: [
+                    {type: 'max', name: '最大值'},
+                ]
+        },
+        markLine: {
+            data: [
+                {type: 'average', name: '平均值'}
+            ]
+        },
+		//itemStyle : {
+			//normal : {
+				//areaStyle : {
+					//type : 'default'
+				//}
+			//}
+		//},
+		
 		data:[]
 };
 var itemserie={name:'',data:[]};
