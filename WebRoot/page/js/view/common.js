@@ -6,6 +6,7 @@ function creatMapByXxbh(mes){
 		var str="<table border='1' border='0' cellspacing='0' cellpadding='0' class='tablelist'>";
 		for(var i=0;i<mes.length;i++){
 		     var xxbn=mes[i];
+		     if(xxbn[0]!=null){
 		     str+="<tr>";
 			for(var j=0;j<xxbn.length;j++){
 			      if(i==0){
@@ -15,6 +16,7 @@ function creatMapByXxbh(mes){
 					}
 			}
 			str+="</tr>";
+		}
 		}
 		str+="</table> ";
 		var mm=document.getElementById('content');

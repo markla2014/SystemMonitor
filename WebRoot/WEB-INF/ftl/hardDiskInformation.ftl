@@ -8,8 +8,13 @@
 	<script src="${path}/page/js/diagram/pie.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 <script type="text/javascript">
+var charlen;
 $(document).ready(function(){
 var arrJson='${info}';
+var dataNode='${datanode}';
+creatMapByXxbh(dataNode);
+createTage(arrJson);
+loadCharts(arrJson);
 });
 </script>
 <body>
@@ -18,20 +23,51 @@ var arrJson='${info}';
 <div class="Titleicon"><img src="../page/images/home03.gif" width="18" height="38" /></div>
 <ul class="placeul">
     <li>监控</li>
-    <li class="title_text">memory</li>
+    <li class="title_text">硬盘</li>
   </ul>  
 </div>
 <div class="titlebg">
 <ul>
-<li>总服务器信息</li>
+<li>DFS节点信息</li>
 </ul>
-<div>
+</div>
 <div id="content" class="daily_mid">
 </div>
+<div class="titlebg">
+<ul>
+<li>硬盘信息</li>
+</ul>
+<div>
+<div id="content1" class="chart_box">
+</div>
 </body>
+<script src="../page/js/echarts.js" type="text/javascript"></script>
+<script src="../page/js/diagram/flow.js" type="text/javascript"></script>
 <script type="text/javascript">
 function createTage(message){
+var ms=JSON.parse(message)
+var myChart0 = document.getElementById('content1');
+var tag="<url>"
+charlen=ms.length;
+for(var i=0;i<ms.length;i++){
+var item=ms[i];
+ tag+='<li><div class="chart_T"></div>';
+ tag+='<div id="pie'+i+'" style="width:550px;height:260px;"></div>';
+ tag+="</li>";
 }
+tag+='</url>';
+myChart0.innerHTML=tag;
+}
+function loadCharts(message){
+var ms=JSON.parse(message)
+for(var i=0;i<ms.length;i++){
 
+var charName='pie'+i;
+var Tchart= document.getElementById(charName);
+pie =  echarts.init(Tchart);
+pie.setOption(pieopt);
+getPie(JSON.stringify(ms[i]));
+}
+}
 </script>
 </html>

@@ -22,5 +22,16 @@ public class SessionListServiceImpl implements SessionListService {
 		}
 		return temp;
 	}
+	@Override
+	public String[][] getRunningSQL() {
+           String[][] temp = null;
+		try {
+			temp = dao.getRunningSQL(dao.getConnection());
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
 
 }

@@ -21,7 +21,9 @@ public class SessionInformaitonController {
 public ModelAndView showSessionList(HttpServletRequest req,HttpServletResponse response) {
 	ModelAndView mv = new ModelAndView("session");
 	String[][] temp=service.getSessionList();
+	String[][] temp1=service.getRunningSQL();
 	mv.addObject("sessionList",JasonCover.toJason(temp));
+	mv.addObject("SQL",JasonCover.toJason(temp1));
 	return mv;
 }
 }

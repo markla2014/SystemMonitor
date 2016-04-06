@@ -49,7 +49,7 @@ $(document).ready(function (){
 </table>
  </a>	
 </li>
-		<li><a href="CPU.html"  target="rightFrame">
+		<li><a href="${pageContext.request.contextPath}/cpu/cpuInformation.do"  target="rightFrame">
         <table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/3.png" width="26" height="20" /></td>
@@ -58,7 +58,7 @@ $(document).ready(function (){
 </table>
  </a>	
 </li>
-		<li><a href="#" target="rightFrame"><table width="280" border="0">
+		<li><a href="${pageContext.request.contextPath}/main/diskInformation.do" target="rightFrame"><table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/disk.png" width="26" height="20" /></td>
     <td>硬盘</td>
@@ -83,25 +83,25 @@ $(document).ready(function (){
         
         </li>
         <li>
-		<a href="#" target="rightFrame"><table width="280" border="0">
+	<a href="${pageContext.request.contextPath}/config/baseInfo.dao" target="rightFrame"><table width="280" border="0"> 
   <tr>
     <td width="30"><img src="page/images/ico_D.png" width="26" height="20" /></td>
-    <td>日志</td>
+    <td>配置</td>
   </tr>
 </table></a>
         			<ul style="display:none;">
-				<li><a href="#" target="rightFrame"> <table width="280" border="0">
+				<li><a href="${pageContext.request.contextPath}/config/DFSInfo.dao" target="rightFrame"> <table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/ico_.png" width="26" height="20" /></td>
-    <td>创建日志</td>
+    <td>文件配置</td>
   </tr>
 </table></a></li>
-
-				<li><a href="RZCX.html" target="rightFrame"> <table width="280" border="0">
+ <!--  
+				<li><a href="${pageContext.request.contextPath}/config/DFSInfo.dao" target="rightFrame"> <table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/ico.png" width="26" height="20" /></td>
-    <td>查询日志</td>
-  </tr>
+    <td>基础配置</td>
+  </tr>-->
 </table></a></li>
 </ul>	
 		</li>

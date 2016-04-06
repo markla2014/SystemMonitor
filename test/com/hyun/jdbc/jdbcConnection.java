@@ -275,7 +275,7 @@ public class jdbcConnection {
 	   //////////////////////////*
 	   
 	   /*
-	    * 内存利用率
+	    *cpu利用率
 	    */
 	   public String[][] getSystemUtilization(Connection connection) throws GwtException {
 	        ArrayList<String[]> rows = new ArrayList<String[]>();
@@ -299,6 +299,46 @@ public class jdbcConnection {
 	        return getMoreData(result, FETCH_PAGE * PAGE_SIZE);
 	    }
 	 ///////////////////////////////////////////////////////////////////////////////
+	   /**
+	    *  内存利用率 
+	    * @param connection
+	    * @return
+	    * @throws GwtException
+	    */
+	   public String[][] getMemorySize(Connection connection) throws GwtException {
+	        ArrayList<String[]> rows = new ArrayList<String[]>();
+	        try {
+	            CloudDatabaseMetaData dbmeta = (CloudDatabaseMetaData) connection.getMetaData();
+	            ResultSet result = dbmeta.getMemorySize();
+	            String[][] records = getMoreData(result);
+	            result.close();
+	            
+	            rows.add(new String[] {String.valueOf(records.length)});
+	            rows.add(new String[] {"服务器", "类型", "状态", "物理内存", "配置内存", "提交内存", "已用内存", "交换内存"});
+	            for (String[] record : records) {
+	                Double phyical = Double.parseDouble(record[3])
+	                        / (1024 * 1024 * 1024);
+	                record[3] = numberS2Format.format(phyical);
+	                Double config = Double.parseDouble(record[4])
+	                        / (1024 * 1024 * 1024);
+	                record[4] = numberS2Format.format(config);
+	                Double commit = Double.parseDouble(record[5])
+	                        / (1024 * 1024 * 1024);
+	                record[5] = numberS2Format.format(commit);
+	                Double current = Double.parseDouble(record[6])
+	                        / (1024 * 1024 * 1024);
+	                record[6] = numberS2Format.format(current);
+	                Double swap = Double.parseDouble(record[7])
+	                        / (1024 * 1024 * 1024);
+	                record[7] = numberS2Format.format(swap);
+	                rows.add(record);
+	            }
+	            return rows.toArray(new String[0][]);
+	        } catch (Throwable t) {
+	            throw new GwtException(t.getMessage());
+	        }
+	    }
+	    ////////////////////////////////////////
 	@Test
    public void testServerList(){
 			Connection conn=jdbcConnectionTest();

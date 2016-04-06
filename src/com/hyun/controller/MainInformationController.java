@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonNull;
 import com.hyun.common.JasonCover;
 import com.hyun.common.ServerMonitorConstant;
+import com.hyun.service.impl.ConfigurationServiceImpl;
 import com.hyun.service.impl.MainInformationServiceImpl;
 import com.hyun.vo.totalCPUpercent;
 import com.hyun.vo.totalMasterOverviewInformation;
@@ -30,6 +31,8 @@ public class MainInformationController {
  public final String login_PassWord="";
  @Resource
  private MainInformationServiceImpl service;
+ @Resource
+ private ConfigurationServiceImpl service1; 
  private String name="";
  @RequestMapping("/header.do")
 	public ModelAndView showHead(HttpServletRequest req,HttpServletResponse response) {
@@ -79,8 +82,11 @@ public class MainInformationController {
 	public ModelAndView diskInformation(HttpServletRequest req,HttpServletResponse response){
 		 ModelAndView mv=new ModelAndView("hardDiskInformation");
 		 totalMasterOverviewInformation info=service.getMasterInfroamtion();
+		   service1.getDFSConfigure();
+		   LinkedList<String[]> temp=service1.getDataNode();
 		 LinkedList<totalDiskSpaceDiagram> retrnValue=service.perpareTableDiskSpace(info);
-		 mv.addObject("info",retrnValue);
+		 mv.addObject("info",JasonCover.toJason(retrnValue));
+		 mv.addObject("datanode",JasonCover.toJason(temp));
 		return mv;
 	}
 		
