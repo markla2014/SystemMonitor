@@ -6,9 +6,11 @@ import java.sql.ResultSetMetaData;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Repository;
+
 import com.cloudwave.jdbc.CloudDatabaseMetaData;
 import com.hyun.exception.GwtException;
-
+@Repository
 public class MemoryDao extends BaseDao {
     public static final int FETCH_PAGE = 1;
     public static final int PAGE_SIZE = 20;
@@ -28,7 +30,7 @@ public class MemoryDao extends BaseDao {
 	            String[][] records = getMoreData(result);
 	            result.close();
 	            
-	            rows.add(new String[] {String.valueOf(records.length)});
+	           // rows.add(new String[] {String.valueOf(records.length)});
 	            rows.add(new String[] {"服务器", "类型", "状态", "物理内存", "配置内存", "提交内存", "已用内存", "交换内存"});
 	            for (String[] record : records) {
 	                Double phyical = Double.parseDouble(record[3])

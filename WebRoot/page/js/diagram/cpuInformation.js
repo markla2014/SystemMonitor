@@ -66,7 +66,7 @@ var lineopt = {
 		x : 60,
 		y : 30,
 		x2 : 40,
-		y2 : 30,
+		y2 : 60,
 
 		borderWidth : 0,
 		borderColor : "#ccc"
@@ -77,6 +77,7 @@ var lineopt = {
 		boundaryGap : false,
 		axisLabel : {
 			show : true,
+			
 			interval : 'auto', // {number}
 			margin : 10,
 			formatter : '{value}', // Template formatter!
@@ -136,10 +137,12 @@ var now=new Date();
 				data : lineLedge
 			},
 		    dataZoom: [{
-		        type: 'inside',
+		    	 type:'slider',
+		    	 show : true,
 		        start: 0,
 		        end: 100
 		    }, {
+		    	 type: 'inside',
 		        start: 0,
 		        end: 10
 		    }],
@@ -148,7 +151,6 @@ var now=new Date();
 	            },
 	            series:series
 	}
-	console.log(opt);
 	line.setOption(opt);
 }
 var lineserie =  {
@@ -176,3 +178,38 @@ var lineserie =  {
 		data:[]
 };
 var itemserie={name:'',data:[]};
+
+function addData(resobj,resValue,resTime) {
+	var series=[];
+	var xAxis=resTime;
+	var totalcpu=[];
+	   var now1= resobj.time;
+	    xAxis.push(now1);
+	   
+	  $(resValue).each(function(i){
+	     var temp=resValue[i].data;
+	     var num=resobj.dataArray[i] 
+	     temp.push(num);
+	  totalcpu.push(temp);
+	  });
+	      
+	 if (xAxis.length>50) {
+	      $(totalcpu).each(function(i){
+	          totalcpu[i].shift();
+	      });
+	          xAxis.shift();
+	      }
+	    for(var i=0;i<totalcpu.length;i++){
+	        var new_series = JSON.parse(JSON.stringify(itemserie));
+	         new_series.name=lineLedge[i];
+	          new_series.data=totalcpu[i];
+	         series.push(new_series);
+	    }
+	     var opt={
+	          xAxis: {
+	            data: xAxis
+	        },
+	        series:series
+	      }
+	      return opt;
+	}

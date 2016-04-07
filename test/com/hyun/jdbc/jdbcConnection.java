@@ -473,10 +473,10 @@ public class jdbcConnection {
 		////////////////////////////////
 	}
 	@Test
-	public void testSystemMemory(){
+	public void testSystemCPU(){
 		Connection conn=jdbcConnectionTest();
 		CloudConnection connect=((CloudConnection) conn);
-		System.out.println("memory");
+		System.out.println("cpu running");
 		/////////////////////////////////////////////////
 		try {
 			String[][] a=getSystemUtilization(connect);
@@ -497,5 +497,28 @@ public class jdbcConnection {
 		System.out.println("////////////////////////////////////////////");
 		////////////////////////////////
 	}
-	
+	@Test
+	public void testSystemMemory(){
+		Connection conn=jdbcConnectionTest();
+		CloudConnection connect=((CloudConnection) conn);
+		System.out.println("memory");
+		/////////////////////////////////////////////////
+		try {
+			String[][] a=this.getMemorySize(connect);
+			
+			
+			for(String[] i:a){
+				for(String j:i){
+					System.out.print(j+" ");
+				}
+				System.out.println();
+			}
+			
+			
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("////////////////////////////////////////////");
+	}
 }
