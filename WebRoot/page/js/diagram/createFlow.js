@@ -37,9 +37,11 @@ var lineopt = {
 	tooltip : {
 		trigger : 'axis',
 		   formatter:function (params){ // tip的样式
-                var res = '时间 : ' + params[0].name +'<br/>';
+                //var res = '时间 : ' + params[0].name +'<br/>';
+			   var test=params[0];
+			   var res="<br/>";
                 for (var i = 0, l = params.length; i < l; i++) {
-                    res += '<br/>' + params[i].seriesName + ' : ' + params[i].value+"%";
+                   res += '<br/>' + params[i].seriesName + ' : ' + params[i].value+"%";
                 }    
                 return res;
             }
@@ -62,6 +64,7 @@ var lineopt = {
 			}
 		}
 	},
+	color:['#b6a2de','#2ec7c9','#3d7dec'], 
 	grid : {
 		x : 60,
 		y : 30,
@@ -77,12 +80,11 @@ var lineopt = {
 		boundaryGap : false,
 		axisLabel : {
 			show : true,
-			
 			interval : 'auto', // {number}
 			margin : 10,
 			formatter : '{value}', // Template formatter!
 			textStyle : {
-				color : 'black',
+				color : '#008acd',
 				fontFamily : 'verdana',
 			},
 		},
@@ -90,6 +92,7 @@ var lineopt = {
 			show : true,
 			lineStyle : {
 				type : 'dashed',
+				color : '#008acd'
 			},
 
 		},
@@ -101,8 +104,20 @@ var lineopt = {
             type: 'value',
             scale:true,
             axisLabel: {
-                formatter: '{value}'
-            }
+                formatter: '{value}',
+                textStyle : {
+    				color : '#008acd',
+    				fontFamily : 'verdana',
+    			},
+            },
+            splitLine : {
+    			show : true,
+    			lineStyle : {
+    				type : 'dashed',
+    				color : '#008acd'
+    			},
+
+    		}
 	} ],
 	series : []
 };
@@ -156,6 +171,7 @@ var now=new Date();
 var lineserie =  {
         name:'',
     	type : 'line',
+    	smooth:true,
 		stack : '总量',
         markPoint: {
                   data: [
@@ -193,7 +209,7 @@ function addData(resobj,resValue,resTime) {
 	  totalcpu.push(temp);
 	  });
 	      
-	 if (xAxis.length>50) {
+	 if (xAxis.length>20) {
 	      $(totalcpu).each(function(i){
 	          totalcpu[i].shift();
 	      });

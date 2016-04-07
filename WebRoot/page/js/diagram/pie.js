@@ -10,6 +10,7 @@ var pieopt = {
 		trigger : 'item',
 		formatter : "{b} : {c}G ({d}%)"
 	},
+	color:['#dda490','#8db8be'],  
 	toolbox : {
 		show : true,
 		feature : {
@@ -33,14 +34,15 @@ var pieopt = {
 		type : 'pie',
 		data : [],
 		itemStyle : {
+		
 			emphasis : {
 				shadowBlur : 200,
 				shadowColor : 'rgba(0, 0, 0, 0.5)'
 			}
+             
 		}
 	} ]
 };
-
 function getPie(resp) {
 	// var resp = "{\"objName\":\"告警\", \"dispName\":[\"已使用\",\"未使用\"],
 	// \"value\":[10.0, 20.0], \"id\":[\"111\", \"112\"]}";

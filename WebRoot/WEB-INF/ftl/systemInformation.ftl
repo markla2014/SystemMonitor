@@ -117,10 +117,10 @@ getInfomation();
 <div class="chart_box">
 <ul>
 <li><div class="chart_T">CPU监控</div>
-<div id="line1" style="width:550px;height:260px;"></div>
+<div id="line1" style="width:800px;height:318px;"></div>
 </li>
 <li><div class="chart_T" >硬盘监控</div>
-<div id="pie1" style="width:340px;height:376px;"></div>
+<div id="pie1" style="width:318px;height:318px;"></div>
 </li>
 </ul>
 </div>
@@ -201,6 +201,10 @@ var series=[];
       }
       return opt;
 }
+/**
+**/
+
+
 </script>
 </body>
 </html>

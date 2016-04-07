@@ -14,6 +14,7 @@ var lineopt = {
                 return res;
             }
 	},
+	color:['#36b8eb','#94eb2a','#3d7dec'],  
 	toolbox : {
 		show : true,
 		feature : {
@@ -117,10 +118,12 @@ var lineserie =  {
         name:'',
     	type : 'line',
 		stack : '总量',
+		smooth:true,
 		itemStyle : {
 			normal : {
 				areaStyle : {
-					type : 'default'
+					type : 'default',
+					//color:'rgba(0,0,0,0.5)'
 				}
 			}
 		},

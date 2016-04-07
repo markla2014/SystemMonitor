@@ -5,7 +5,7 @@
     <title>内存信息</title>
 	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css">
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
-	<script src="${path}/page/js/diagram/cpuInformation.js" type="text/javascript"></script>
+	<script src="${path}/page/js/diagram/createFlow.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -60,6 +60,7 @@ function getInfomation(){
               	var testv=lineObjects[i].getOption().series;
               	var testt=lineObjects[i].getOption().xAxis[0].data;
                var opt=addData(resobj[i],testv,testt);
+               lineObjects[i].clear;
                 lineObjects[i].setOption(opt);
                 }
                 }
