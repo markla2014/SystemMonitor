@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
- <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 
 <%
@@ -22,6 +22,7 @@
 $(document).ready(function (){
   $(".menu ul li").menu();
 }); 
+
 </script>
 </head>
 
@@ -31,7 +32,7 @@ $(document).ready(function (){
   <tr>
 <td height="40"><div class="menu_bg1">
 <ul>
-<li><a href="page/frame/menu.jsp" target="menu"><div class="menu_bg1_DP2"></div></a></li>
+<li><a href="${pageContext.request.contextPath}/query/getSchema.do" target="menu"><div class="menu_bg1_DP2"></div></a></li>
 <li><a href="page/frame/menu2.jsp" target="menu"><div class="menu_bg1_monitor1"></div></a></li>
 </ul>
 

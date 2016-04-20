@@ -49,12 +49,8 @@ var lineopt = {
 	toolbox : {
 		show : true,
 		feature : {
-			mark : {
-				show : true
-			},
 			dataView : {
-				show : true,
-				readOnly : false
+				show : true
 			},
 			restore : {
 				show : true
@@ -172,7 +168,7 @@ var lineserie =  {
         name:'',
     	type : 'line',
     	smooth:true,
-		stack : '总量',
+		//stack : '总量',
         markPoint: {
                   data: [
                     {type: 'max', name: '最大值'},
