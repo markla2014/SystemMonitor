@@ -8,7 +8,8 @@
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 	<script src="${path}/page/js/SimpleTree.js" type="text/javascript"></script>
 </head>
-
+<script  type="text/javascript">
+</script>
 <body>
 <div class="title">
 
@@ -18,6 +19,7 @@
 </div>
 <div class="navwrap">
 <ul id="nav">
+<!--  
 <li><a href="#">查询</a></li>
 
 <li><a href="#">编辑</a></li>
@@ -25,10 +27,11 @@
 <li><a href="#">窗口</a></li>
 
 <li><a href="#">帮助</a></li>
+-->
 </ul>
 
 </div>
-<div class="toolsli">
+<!--  <div class="toolsli">
   <ul class="toollist">
    <li><img src="../page/images/icon.gif" width="18" height="38" /></li>
     <li><a href="">新建</a></li>
@@ -52,16 +55,26 @@
        <li> <img src="../page/images/icon9.gif" width="18" height="38" /></li>
       <li><a href="">下移</a></li>      
   </ul>
-</div>
+</div>-->
 <div class="main_box">
   <div class="itab">
   	<ul> 
-    <li><a class="selected" onclick="isChoose()">栏位</a></li> 
-    <li><a id="index">索引</a></li> 
+    <li><a id="column"class="selected">栏位</a></li> 
+   <!-- <li><a id="index">索引</a></li> -->
     <li><a id="data">数据</a></li> 
     <li><a id="distribution">分布</a></li> 
   	</ul>
   </div>
+<div id="popm">
+		<p></p>
+		<div>
+			<div>
+				<img
+					src="../page/images/loading.gif" /><br />
+				<span id="tis">数据加载中……</span>
+			</div>
+		</div>
+</div> 
  <Div class="tabson">
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0  >
   <tr>
@@ -81,10 +94,16 @@
     </div></td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
+    <td><div class="pagin">
+    	<div class="message">共<i class="blue">${recordCount}</i>条记录，当前显示第&nbsp;<i class="blue" id="currentPage">${currentpage}&nbsp;</i>页</div>
+        <ul class="paginList">
+        <li class="paginItem"><a onclick="pagebackward()"><img src="../page/images/pre.png" width="28" height="30" id="pre"/></a></li>
+        <li class="paginItem"><a onclick="pageForward()"><img src="../page/images/next.png" width="28" height="30" id="next"/></a></li>
+        </ul>
+    </div></td>
   </tr>
     <tr>
-    <td><div class=" form_textbox">栏位数：</div></td>
+    <td><div class="form_textbox">栏位数: ${rowCount}</div></td>
   </tr>
 </table>
 
@@ -93,10 +112,93 @@
 
 </body>
 <script type="text/javascript" >
+var totalpage=${pageCount};
+var current=${currentpage};
+function pageForward(){
+var next=current+1;
+//if(current!=totalpage){
+//$("img[src='../page/images/pre.png']").attr('src','../page/images/pre.png');
+//}
+if(next>totalpage){
+alter("这是最后一页");
+return;
+}
+urlpath="${path}/command/getTableData.do";
+ datapath={schema:"${schema}",table:"${table}",pageNum:next};
+updateTable(urlpath,datapath);
+$("#currentPage").html(next);
+}
+
+function pagebackward(){
+var next=current-1;
+if(next<1){
+alter("这是第一页");
+return;
+}
+urlpath="${path}/command/getTableData.do";
+ datapath={schema:"${schema}",table:"${table}",pageNum:next};
+updateTable(urlpath,datapath);
+$("#currentPage").html(next);
+}
+
 $(".itab li a").click(function(){
 $(this).addClass('selected').parent().siblings().children().removeClass('selected');
-console.log();
+var tagename=$(this).attr("id");
+var urlpath="";
+var datapath;
+if(tagename=='distribution'){
+ urlpath="${path}/query/getTableDistribution.do";
+ datapath={schema:"${schema}",table:"${table}"};
+ 	$(".form_textbox").hide();
+ 	$(".pagin").show();
+}else if(tagename=='data'){
+ urlpath="${path}/command/getTableData.do";
+ datapath={schema:"${schema}",table:"${table}",pageNum:1 };
+ $(".form_textbox").hide();
+ $(".pagin").show();
+}else if(tagename=='column'){
+urlpath="${path}/query/getTableColumn.do";
+datapath={schema:"${schema}",table:"${table}"};
+	$(".form_textbox").show();
+	$(".pagin").hide();
+}
+updateTable(urlpath,datapath);
 });
-          
+function updateTable(url,urldata){
+loadingShow(".tabson")
+    $.ajax({
+         type: "get",
+            dataType: "json",
+            data:urldata,
+            url: url,
+            complete :function(){},
+            error:function(data){  
+           console.error(data);
+        },  
+            success: function(msg){
+            if(msg.info!=null){
+              	var resobj =JSON.parse(msg.info);
+              	if(msg.current!=null){
+                current=parseInt(msg.current);
+                }
+                 $(".tablelist").empty();
+                 var value="";
+                  for(var i=0;i<resobj.length;i++){
+                     value+="<tr>";
+                      for(var j=0;j<resobj[i].length;j++){
+                          if(i==0){
+                           value+='<td width="285"  bgcolor="#6fb3e0"  style="color:#FFF;">'+resobj[i][j]+'</td>'
+                          }else{
+                          value+='<td height="40">'+resobj[i][j]+'</td>'
+                          }
+                       }
+                       value+="</tr>"
+                  }
+                  $(".tablelist").html(value);
+               loadingHide(".tabson")
+                }
+            }
+    }); 
+}         
 </script>
 </html>

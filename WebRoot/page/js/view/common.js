@@ -62,3 +62,12 @@ function createTables(mes){
 	var mm=document.getElementById('list');
 	 mm.innerHTML=str;
 }
+function loadingShow(opDiv){
+	$("#popm").css('display','block'); 
+	document.getElementById("tis").innerHTML="数据加载中……";
+	$(opDiv).css('display','none');
+}
+function loadingHide(opDiv){
+	   document.getElementById("popm").style.display="none";	
+       $(opDiv).css('display','block');
+}

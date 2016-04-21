@@ -21,8 +21,5 @@ public class springTest {
 	        //BaseDao BaseDao = (BaseDao) beanFactory.getBean("baseDao");  
 	        testDao=(CommandDao)beanFactory.getBean("commandDao");
 	}
-	@Test
-	public void test(){
-		System.out.println(testDao.runCommnad());
-	}
+	
 }

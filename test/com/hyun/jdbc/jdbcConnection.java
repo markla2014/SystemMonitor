@@ -662,17 +662,17 @@ public class jdbcConnection {
 	        try {
 	            CloudDatabaseMetaData dbmeta = (CloudDatabaseMetaData) connection.getMetaData();
 	            CloudResultSet result = (CloudResultSet)dbmeta.getTablets(schema, table);
-	            return  this.getMoreData(result, 20);
-//	            long recordCount = result.getRecordCount();
-//	            array.add(new String[] { String.valueOf(recordCount) });
-//	            String[] head = getHeadData(result);
-//	            array.add(head);
-//	            CloudResultSet result1 = (CloudResultSet)dbmeta.getTablets(schema, table);
-//	            String[][] rows = getMoreData(result,20); 
-//	            for (int i = 0; i < rows.length; i ++) {
-//	              //  array.add(rows[i]);
-	            //}
-	          //  return array.toArray(new String[0][]);
+	          
+	            //array.add(new String[] { String.valueOf(recordCount) });
+	            String[] head = getHeadData(result);
+	            array.add(head);
+	            
+//	           CloudResultSet result1 = (CloudResultSet)dbmeta.getTablets(schema, table);
+	            String[][] rows = getMoreData(result,20); 
+	            for (int i = 0; i < rows.length; i ++) {
+	               array.add(rows[i]);
+	            }
+	           return array.toArray(new String[0][]);
 	        } catch (Exception t) {
 	           t.printStackTrace();
 	           return null;
@@ -932,10 +932,10 @@ public class jdbcConnection {
 	public void testTableDefinition(){
 		Connection conn=jdbcConnectionTest();
 		CloudConnection connect=((CloudConnection) conn);
-			String[][] a=this.getTableDistribution(connect,"ITEST1c","tgfhfgh");
-			System.out.println(a.length);
+			String[][] a=this.getTableDistribution(connect,"ITEST","ITEST1");
+			//System.out.println(a.length);
 			for(String[] i:a){
-				System.out.println(i.length);
+				
 				for(String j:i){
 					System.out.print(j+" ");
 				}

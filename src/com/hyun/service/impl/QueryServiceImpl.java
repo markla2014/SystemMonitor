@@ -77,4 +77,10 @@ private static Logger logger = Logger.getLogger(QueryServiceImpl.class);
 		return dao.getTableDistribution(dao.getConnection(), schema, table);
 	}
 
+	@Override
+	public long getRowCount() {
+		
+		return dao.getRowCount();
+	}
+
 }

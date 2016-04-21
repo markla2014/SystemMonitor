@@ -268,6 +268,7 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #CCC;
+	display:none;
 }
 .pagin .blue{color:#056dae;font-style:normal;}
 .pagin .paginList{
@@ -441,3 +442,8 @@ color: #585858; }
 	border-bottom-color: #CCC;
 	border-left-color: #CCC;
 }
+/*加载窗口*/
+#popm{/*position:absolute;*/left:0;top:0;z-index:999;text-align:center; vertical-align:middle;width:100%;height:100%;display:none;}
+#popm p{width:100%;height:100%;background:#fff;opacity:0.5;filter:alpha(opacity:50);}
+#popm div{position:absolute;left:50%;top:50%;}
+#popm div div{margin:-50% 0 0 -50%;position:static;font:14px/30px '宋体';}
