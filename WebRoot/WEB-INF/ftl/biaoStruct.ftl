@@ -116,9 +116,6 @@ var totalpage=${pageCount};
 var current=${currentpage};
 function pageForward(){
 var next=current+1;
-//if(current!=totalpage){
-//$("img[src='../page/images/pre.png']").attr('src','../page/images/pre.png');
-//}
 if(next>totalpage){
 alter("这是最后一页");
 return;
@@ -155,7 +152,7 @@ if(tagename=='distribution'){
  urlpath="${path}/command/getTableData.do";
  datapath={schema:"${schema}",table:"${table}",pageNum:1 };
  $(".form_textbox").hide();
- $(".pagin").show();
+ if(totalpage>1){  $(".pagin").show(); }
 }else if(tagename=='column'){
 urlpath="${path}/query/getTableColumn.do";
 datapath={schema:"${schema}",table:"${table}"};
@@ -180,7 +177,17 @@ loadingShow(".tabson")
               	var resobj =JSON.parse(msg.info);
               	if(msg.current!=null){
                 current=parseInt(msg.current);
-                }
+                
+                if(current==totalpage){
+                $("#pre").attr('src','../page/images/pre1.png');
+                 $("#next").attr('src','../page/images/next1.png');
+                }else if(current==1){
+                   $("#pre").attr('src','../page/images/pre.png');
+                 $("#next").attr('src','../page/images/next.png');
+                }else{
+                 $("#pre").attr('src','../page/images/pre1.png');
+                 $("#next").attr('src','../page/images/next.png');
+                }}
                  $(".tablelist").empty();
                  var value="";
                   for(var i=0;i<resobj.length;i++){

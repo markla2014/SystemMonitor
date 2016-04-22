@@ -918,7 +918,7 @@ public class jdbcConnection {
 		CloudConnection connect=((CloudConnection) conn);
 		System.out.println("view");
 		try {
-			String[] a=this.getViewList(connect,"default","ITEST");
+			String[] a=this.getViewList(connect,"default","LJTEST");
 			for(String i:a){
 				System.out.println(i);
 			}

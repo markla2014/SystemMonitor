@@ -43,16 +43,16 @@ public class CommandDao extends BaseDao {
     	 String[][] returnValue=new String[rows][col];
            int i=1;
            int keyc=0;
-         for(String k:temp.get(0).keySet()){
-        	 returnValue[0][keyc]=k;
-        	 keyc++;
-         }
     	 for(Map<String,Object> t:temp){
     		  int j=0;
         	   for(String k:t.keySet()){
+        		   returnValue[0][j]=k;
+        		   if(t.get(k)==null){
+        			   returnValue[i][j]="";
+        		   }else{
+        			   returnValue[i][j]=t.get(k).toString();
+        		   }
         		 
-        		  String test=t.get(k).toString();
-        		  returnValue[i][j]=t.get(k).toString();
         		  j++;
         	   }
         	   i++;

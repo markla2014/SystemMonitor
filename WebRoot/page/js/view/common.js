@@ -27,7 +27,7 @@ function createMenus(mes){
 	var str="<ul>";
 	for(var i=0;i<mes.length;i++){
 		var temp=mes[i];
-		str+='<li><a><table width="280" border="0"><tr><td width="30"><img src="page/images/1_03.png" width="26" height="20" /></td><td>'
+		str+='<li><a><table width="280" border="0" id="thisSchema"><tr><td width="30"><img src="page/images/1_03.png" width="26" height="20" /></td><td>'
 		str+=temp+"</td>";
 		str+='</tr></table></a><ul style="display: none;"><li><a href="query/getTables.do?schema='+temp+'" target="rightFrame"> <table width="280" border="0"><tr><td width="30"><img src="page/images/2_07.png" width="26" height="20" /></td><td>表</td></tr></table></a>';
 		str+='<ul><li><a href="query/createTableInterface.do?schema='+temp+'" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_08.png" width="26" height="20" /></td><td>创建表</td></tr></table></a></li></ul></li>';

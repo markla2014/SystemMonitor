@@ -16,6 +16,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>无标题文档</title>
 <link rel="stylesheet" href="page/css/frameStyle.css" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="page/css/smartMenu.css">
 <script src="page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="page/js/jquery-smartMenu.js"></script>
 <script type="text/javascript" src="page/js/menu_min.js"></script>
@@ -27,15 +28,19 @@ var menus=[];
 $(document).ready(function (){
 createMenus(getSchema);
   $(".menu ul li").menu();
-  var obj=[{
-				text:'删除模块',
+ 	var obj = [[{
+		text:'删除模块',
 				func:function(){
 					location.href = "query/getTables.do?schema="+menus;
-				}},
-		{text:'添加模块',func:function(){  window.parent.rightFrame.location.replace("query/createSchema.do?schema="+menus); }}];
-// $(".menu ul li:first").smartMenu(obj, {
-  //  name: "body"    
-//});
+				}
+			}, { 
+	  text:'添加模块',func:function(){  
+	  window.parent.rightFrame.location.replace("query/createSchema.do?schema="+menus); }
+		}]];
+	var atemp= $(".menu #thisSchema");
+atemp.smartMenu(obj, {
+   name: "menus"    
+});
 }); 
 
 </script>

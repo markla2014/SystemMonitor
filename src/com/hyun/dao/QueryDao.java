@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.cloudwave.jdbc.CloudConnection;
 import com.cloudwave.jdbc.CloudDatabaseMetaData;
 import com.cloudwave.jdbc.CloudResultSet;
+import com.hyun.common.ServerMonitorConstant;
 import com.hyun.exception.GwtException;
 
 @Repository
@@ -85,7 +86,7 @@ public void setRowCount(long rowCount) {
 					schema, null, new String[] { "VIEW" });
 			int count = (int) result.getRecordCount();
 			this.setRowCount(count);
-			int col = (int) Math.ceil(count / 10);
+			int col = ServerMonitorConstant.getMath(count, 10);
 			String[][] tables = new String[col][10];
 			for (int i = 0; i < col; i++) {
 				for (int j = 0; j < 10 && result.next(); j++) {

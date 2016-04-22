@@ -4,14 +4,27 @@
   <head>
     <title>内存信息</title>
 	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css">
+	<link rel="stylesheet" type="text/css" href="${path}/page/css/smartMenu.css">
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 	<script src="${path}/page/js/SimpleTree.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${path}/page/js/jquery-smartMenu.js"></script>
 <script type="text/javascript">
 var schema='${schemaName}';
 $(document).ready(function(){
 var array=${tableList};
 createTables(array);
+	var obj = [[{
+		text:'删除模块',
+				func:function(){
+				   var table=$(this).children().html()
+					location.href = "query/getTables.do?schema="+schema+"&table="+table;
+				}
+			}]];
+		var atemp= $("td");
+atemp.smartMenu(obj, {
+   name: "menus"    
+});
 });
 </script>
 </head>
@@ -27,5 +40,7 @@ createTables(array);
 
 </div>
 </body>
+<script type="text/javascript"> 
 
+</script>
 </html>

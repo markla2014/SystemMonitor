@@ -147,15 +147,6 @@
 				target.hide();
 			}		
 		},
-		removeevent: function (event) {
-		    var target = D.data("target");
-		    if (target) {
-		        target.remove();
-		        if ($.isFunction(event)) {
-		            event.call(this);
-		        }
-		    }
-		},
 		remove: function() {
 			var target = D.data("target");
 			if (target) {

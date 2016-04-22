@@ -48,7 +48,12 @@ public class indexPager {
 	}
 
 	public long getTotalpages() {
-		return (long)Math.ceil(this.totalRecord/this.interval);
+     long tem=this.totalRecord%this.interval;
+     long tm1=this.totalRecord/this.interval;
+        if(tem!=0){
+        	tm1++;
+        }
+		return tm1;
 		
 	}
 
