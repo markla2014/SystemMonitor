@@ -1,5 +1,7 @@
 package com.hyun.common;
 
+import java.util.Arrays;
+
 public class ServerMonitorConstant {
     public static final int FETCH_PAGE = 1;
     public static final int PAGE_SIZE = 20;
@@ -15,4 +17,10 @@ public class ServerMonitorConstant {
 		}
 		return tem1;
 	}
+	public static boolean checkArray(String[] arr, String targetValue) {
+		
+		    return Arrays.asList(arr).contains(targetValue);
+		
+		}
+
 }

@@ -1,6 +1,7 @@
 package com.hyun.dao;
 
 import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import com.hyun.connectionpool.currentTemplate;
 @Repository
 public class CommandDao extends BaseDao {
    private int resultCount;
+   private static final String SUCCESS="success";
+   private static final String FAIL="fail";
 	@Autowired
 	private currentTemplate template;
 	
@@ -23,7 +26,20 @@ public class CommandDao extends BaseDao {
 	public void setResultCount(int resultCount) {
 		this.resultCount = resultCount;
 	}
-
+    public String deleteSchema(String schema) throws SQLException{
+    String sql="drop schema "+schema;
+    return (template.getTemplate().update(sql)>-1)?SUCCESS:FAIL;
+    }
+    public String deleteTable(String schema,String table) throws SQLException{
+    	String sql="drop table "+schema+"."+table;
+    	 return (template.getTemplate().update(sql)>-1)?SUCCESS:FAIL;
+    }
+    public String createSchema(String schema,String username) throws SQLException{
+    	String sql="create schema "+schema+" authorization "+username;
+    	int test=template.getTemplate().update(sql);
+    	 String value= (test>-1)?SUCCESS:FAIL;
+    	 return value;
+    }
 	public long runCommnad(String schema,String table){
     	return template.getTemplate().queryForObject("select count(*) from "+schema+"."+table,Long.class); 
       }

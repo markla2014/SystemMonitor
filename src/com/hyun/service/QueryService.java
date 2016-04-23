@@ -9,4 +9,5 @@ public interface QueryService {
               public String[][] getTableColumn(String schema,String table);
               public long getRowCount();
 			String[][] getTableDistriution(String schema, String table);
+			public String[] getUsers();
 }

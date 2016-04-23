@@ -9,13 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hyun.common.JasonCover;
+import com.hyun.common.ServerMonitorConstant;
 import com.hyun.service.impl.CommandServiceImpl;
 import com.hyun.service.impl.QueryServiceImpl;
-import com.hyun.vo.totalCPUpercent;
 @Controller
 @RequestMapping("/query")
 public class QueryInformationController {
@@ -97,5 +98,43 @@ public ModelAndView createTableInterface(HttpServletRequest req,HttpServletRespo
 	String schema=req.getParameter("schema");
 	mv.addObject("schema",schema);
 	return mv;
+}
+@RequestMapping("/getCreateSchemaInterface.do")
+public ModelAndView getCreateSchemaInterface(HttpServletRequest req,HttpServletResponse response){
+ModelAndView mv=new ModelAndView("createSchema");
+String[] temp=service.getUsers();
+mv.addObject("userlist",temp);
+return mv;
+}
+@RequestMapping("/deleteTable.do")
+public ModelAndView deleteTable(HttpServletRequest req,HttpServletResponse response){
+	ModelAndView mv =new ModelAndView("forward:getTables.do");
+	String schema=req.getParameter("schema");
+	String table=req.getParameter("table");
+	service1.deleteTable(schema, table);
+	return mv;
+}
+@RequestMapping("/deleteSchema.do")
+public ModelAndView deleteSchema(HttpServletRequest req,HttpServletResponse response){
+	ModelAndView mv =new ModelAndView("forward:getSchema.do");
+	String schema=req.getParameter("schema");
+	service1.deleteSchema(schema);
+	return mv;
+}
+@RequestMapping("/createSchema.do")
+@ResponseBody
+public String createrSchema(HttpServletRequest req,HttpServletResponse response){
+	String schema=req.getParameter("schema");
+	String name=req.getParameter("name");
+	if(service.getCheckedSchemaList().length<1){
+	
+		return service1.createSchema(schema, name);
+	}
+	if(ServerMonitorConstant.checkArray(service.getCheckedSchemaList(), schema)){
+		return "该模块已经存在请重新命名";
+	}else{
+		return service1.createSchema(schema, name);
+	}
+	
 }
 }

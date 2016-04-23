@@ -8,4 +8,7 @@ public interface CommandService {
   public String[][] getTableDate(String schema,String table,int jumpPage);
   public long getPageCount();
   public int getCurrent();
+  public String createSchema(String schema,String name);
+  public String deleteSchema(String schema);
+  public String deleteTable(String schema,String table);
 }

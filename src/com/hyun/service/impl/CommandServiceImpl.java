@@ -1,5 +1,6 @@
 package com.hyun.service.impl;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,37 @@ public class CommandServiceImpl implements CommandService {
 		return dao.getTableInfor(schema, table,a.getStart(),a.getEnd());
 		}
 		
+	}
+	@Override
+	public String createSchema(String schema, String name) {
+		// TODO Auto-generated method stu
+	
+		try {
+			return dao.createSchema(schema,name);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+		  return e.getSQLState();
+		}
+	}
+	@Override
+	public String deleteSchema(String schema) {
+		// TODO Auto-generated method stub
+		
+		try {
+			return dao.deleteSchema(schema);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			 return e.getSQLState();
+		}
+	}
+	@Override
+	public String deleteTable(String schema, String table) {
+		// TODO Auto-generated method stub
+		try {
+			return dao.deleteTable(schema, table);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return e.getSQLState();
+		}
 	}
 }

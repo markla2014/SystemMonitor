@@ -22,7 +22,7 @@ public abstract class BaseDao {
 	
 	public static final String USER_NAME = "system";
 	public static final String PASS_WORD = "CHANGEME";
-	public static final String SERVER = ":@192.168.0.20:1978";
+	public static final String SERVER = ":@192.168.0.13:1978";
     private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
     private BasicDataSource datasource=new BasicDataSource();
     private static DecimalFormat  numberS2Format = new DecimalFormat("###,##0.00");

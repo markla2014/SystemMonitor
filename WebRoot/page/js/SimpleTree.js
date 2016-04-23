@@ -1,5 +1,5 @@
 function openNewWindow(temp){
-	window.open('getTableCol.do?schema='+schema+'&table='+temp+'','newwindow','left=280,top=130,height=800,width=1200,menubar=no,toolbar=no,location=no,status=no,scrollbars=yes');
+	window.open('getTableCol.do?schema='+schema+'&table='+temp+'','left=280,top=130,height=800,width=1200,menubar=no,toolbar=no,location=no,status=no,scrollbars=yes');
 }
 
 

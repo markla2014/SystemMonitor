@@ -71,3 +71,6 @@ function loadingHide(opDiv){
 	   document.getElementById("popm").style.display="none";	
        $(opDiv).css('display','block');
 }
+function openWindow(temp){
+	window.open(temp,'newwindows','left=280,top=130,height=341,width=420,menubar=no,toolbar=no,location=no,status=no,scrollbars=no');
+}

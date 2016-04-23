@@ -15,6 +15,16 @@ public class QueryServiceImpl implements QueryService {
 @Autowired
 private QueryDao dao;
 private static Logger logger = Logger.getLogger(QueryServiceImpl.class);
+private String[] checkedSchemaList;
+
+	public String[] getCheckedSchemaList() {
+	return checkedSchemaList;
+}
+
+public void setCheckedSchemaList(String[] checkedSchemaList) {
+	this.checkedSchemaList = checkedSchemaList;
+}
+
 	public QueryServiceImpl() {
 		// TODO Auto-generated constructor stub
 	}
@@ -24,8 +34,8 @@ private static Logger logger = Logger.getLogger(QueryServiceImpl.class);
 		// TODO Auto-generated method stub
 		
 		try {
-	
-				return dao.getSchemaNameList(dao.getConnection(),"default");
+	           this.setCheckedSchemaList(dao.getSchemaNameList(dao.getConnection(),"default"));
+				return this.getCheckedSchemaList();
 		} catch (GwtException e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage());
@@ -81,6 +91,19 @@ private static Logger logger = Logger.getLogger(QueryServiceImpl.class);
 	public long getRowCount() {
 		
 		return dao.getRowCount();
+	}
+
+	@Override
+	public String[] getUsers() {
+		
+		try {
+			return dao.getUserNameList(dao.getConnection());
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getStackTrace());
+			String[] error={e.getMessage()};
+			return error;
+		}
 	}
 
 }

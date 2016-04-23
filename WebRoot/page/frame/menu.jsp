@@ -31,11 +31,15 @@ createMenus(getSchema);
  	var obj = [[{
 		text:'删除模块',
 				func:function(){
-					location.href = "query/getTables.do?schema="+menus;
+					if(confirm("继续")){
+					 var currentSchema=$(this).find("td:last").html();
+					 var valueTemp="${pageContext.request.contextPath}/query/deleteSchema.do?schema="+currentSchema;
+					 location.href=valueTemp; 
+					}
 				}
 			}, { 
 	  text:'添加模块',func:function(){  
-	  window.parent.rightFrame.location.replace("query/createSchema.do?schema="+menus); }
+	  openWindow("query/getCreateSchemaInterface.do") }
 		}]];
 	var atemp= $(".menu #thisSchema");
 atemp.smartMenu(obj, {

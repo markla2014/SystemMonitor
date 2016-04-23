@@ -349,4 +349,31 @@ public void setRowCount(long rowCount) {
 			throw new GwtException(t.getMessage());
 		}
 	}
+	   public String[] getUserNameList(CloudConnection connection) throws GwtException {
+	        try {
+	            CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection.getMetaData();
+	            CloudResultSet result = (CloudResultSet)meta.getUsers();
+	            int count = (int) result.getRecordCount();
+	            String[] users = new String[count];
+	            boolean existDba = false;  
+	            for (int i = 0; i < count && result.next(); i ++) {
+	                String user = result.getString(1); 
+	                if (!user.equals("system")) {
+	                    users[i] = user;
+	                } else {
+	                    users[i] = "管理员在尾部";
+	                    existDba = true;
+	                }
+	            }
+	            result.close();
+	            
+	            Arrays.sort(users);
+	            if (existDba) {
+	                users[count - 1] = "system";    
+	            }
+	            return users;
+	        } catch (Throwable t) {
+	            throw new GwtException(t.getMessage());
+	        }
+	    }
 }

@@ -18,7 +18,7 @@ createTables(array);
 		text:'删除模块',
 				func:function(){
 				   var table=$(this).children().html()
-					location.href = "query/getTables.do?schema="+schema+"&table="+table;
+					location.href = "{path}/query/deleteSchema.do?schema="+schema+"&table="+table;
 				}
 			}]];
 		var atemp= $("td");
