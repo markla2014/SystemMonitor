@@ -56,9 +56,11 @@
             },
             success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
                 // 此处可对 data 作相关处理
-                $(this).reset();
+                //$("form").reset();
                 if(data=="success"){
-              opener.location.reload();
+              opener.location.href="${path}/query/getSchema.do";
+              window.opener=null;
+              window.close();
               //  window.close();  
                 }else{
                 $(".Errors").html(data);

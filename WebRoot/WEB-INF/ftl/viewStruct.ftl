@@ -3,16 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>内存信息</title>
-	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css"/>
+	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css">
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 	<script src="${path}/page/js/SimpleTree.js" type="text/javascript"></script>
 </head>
+<script  type="text/javascript">
+</script>
 <body>
 <div class="title">
 
 <ul class="placeul">
-    <li>${table}表</li>
+    <li>${table}图表</li>
   </ul>
 </div>
 <div class="navwrap">
@@ -57,10 +59,10 @@
 <div class="main_box">
   <div class="itab">
   	<ul> 
-    <li><a id="column"class="selected">栏位</a></li> 
+    <!--  <li><a id="column"class="selected">栏位</a></li> -->
    <!-- <li><a id="index">索引</a></li> -->
-    <li><a id="data">数据</a></li> 
-    <li><a id="distribution">分布</a></li> 
+    <li><a id="data" class="selected">数据</a></li> 
+    <li><a id="column">定义</a></li> 
   	</ul>
   </div>
 <div id="popm">
@@ -74,14 +76,14 @@
 		</div>
 </div> 
  <Div class="tabson">
-<table cellSpacing=0 cellPadding=0 width="100%" align=center border=0  >
+<table cellSpacing=0 cellPadding=0 width="100%" align=center border=0 rules=none  >
   <tr>
     <td><div class="forminfo">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablelist">
 <#assign x=0 />
 <#list result as su>
 <tr>
-<#import "tableCol.ftl" as my/>
+<#import "viewCol.ftl" as my/>
 <@my.columns col=su cou=x>
 </@my.columns>
 </tr>
@@ -130,7 +132,7 @@ if(next<1){
 alter("这是第一页");
 return;
 }
-urlpath="${path}/command/getTableData.do";
+urlpath="${path}/command/getViewData.do";
  datapath={schema:"${schema}",table:"${table}",pageNum:next};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
@@ -141,18 +143,14 @@ $(this).addClass('selected').parent().siblings().children().removeClass('selecte
 var tagename=$(this).attr("id");
 var urlpath="";
 var datapath;
-if(tagename=='distribution'){
- urlpath="${path}/query/getTableDistribution.do";
- datapath={schema:"${schema}",table:"${table}"};
- 	$(".form_textbox").hide();
- 	$(".pagin").show();
-}else if(tagename=='data'){
- urlpath="${path}/command/getTableData.do";
+
+if(tagename=='data'){
+ urlpath="${path}/command/getViewData.do";
  datapath={schema:"${schema}",table:"${table}",pageNum:1 };
  $(".form_textbox").hide();
  if(totalpage>1){  $(".pagin").show(); }
 }else if(tagename=='column'){
-urlpath="${path}/query/getTableColumn.do";
+urlpath="${path}/query/getViewDefiniation.do";
 datapath={schema:"${schema}",table:"${table}"};
 	$(".form_textbox").show();
 	$(".pagin").hide();

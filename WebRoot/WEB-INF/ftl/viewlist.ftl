@@ -13,12 +13,12 @@
 var schema='${schemaName}';
 $(document).ready(function(){
 var array=${tableList};
-createTables(array);
+createViews(array);
 	var obj = [[{
 		text:'删除模块',
 				func:function(){
 				   var table=$(this).children().html()
-					location.href = "deleteTable.do?schema="+schema+"&table="+table;
+					location.href = "deleteView.do?schema="+schema+"&view="+table;
 				}
 			}]];
 		var atemp= $("td");
