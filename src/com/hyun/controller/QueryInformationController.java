@@ -1,12 +1,18 @@
 package com.hyun.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +48,7 @@ public ModelAndView getTebles(HttpServletRequest req,HttpServletResponse respons
 }
 @RequestMapping("/getViews.do")
 public ModelAndView getViews(HttpServletRequest req,HttpServletResponse response){
-	ModelAndView mv=new ModelAndView("biaolist");
+	ModelAndView mv=new ModelAndView("viewlist");
 	String schema=req.getParameter("schema");
 	String[][] temp=service.getView(schema);
 	mv.addObject("databaseName","DEFAULT");
@@ -70,12 +76,43 @@ public ModelAndView getTabelColumn(HttpServletRequest req,HttpServletResponse re
 	//mv.addObject("count",count);
 	return mv;
 }
+@RequestMapping("/getViewDataInterface.do")
+public ModelAndView getViewData(HttpServletRequest req,HttpServletResponse response){
+	ModelAndView mv=new ModelAndView("viewStruct");
+	String schema=req.getParameter("schema");
+	String table=req.getParameter("table");
+	long recordCount=service1.getRowsCount(schema, table);
+	String[][] result=service1.getViewData(schema,table,1);
+	long pageCount=service1.getPageCount();
+	int currentpage=service1.getCurrent();
+	mv.addObject("table",table);
+	mv.addObject("schema",schema);
+	mv.addObject("result",result);
+	mv.addObject("rowCount",service.getRowCount());
+	mv.addObject("recordCount",recordCount);
+	mv.addObject("pageCount",pageCount);
+	mv.addObject("currentpage",currentpage);
+	//int count=service1.getTotalRows();
+	//mv.addObject("count",count);
+	return mv;
+}
+
 @RequestMapping("/getTableColumn.do")
 @ResponseBody
 public Map<String,String> getTableColumns(HttpServletRequest req,HttpServletResponse response){
 	String schema=req.getParameter("schema");
 	String table=req.getParameter("table");
 	String[][] result=service.getTableColumn(schema, table);
+	Map<String,String> temp=new HashMap<String, String>();
+	temp.put("info",JasonCover.toJason(result));
+	return temp;
+}
+@RequestMapping("/getViewDefiniation.do")
+@ResponseBody
+public Map<String,String> getViewDfiniation(HttpServletRequest req,HttpServletResponse response){
+	String schema=req.getParameter("schema");
+	String table=req.getParameter("table");
+	String[][] result=service.getViewDefination(schema, table);
 	Map<String,String> temp=new HashMap<String, String>();
 	temp.put("info",JasonCover.toJason(result));
 	return temp;
@@ -108,9 +145,9 @@ return mv;
 }
 @RequestMapping("/deleteTable.do")
 public ModelAndView deleteTable(HttpServletRequest req,HttpServletResponse response){
-	ModelAndView mv =new ModelAndView("forward:getTables.do");
 	String schema=req.getParameter("schema");
 	String table=req.getParameter("table");
+	ModelAndView mv =new ModelAndView("forward:getTables.do?schema="+schema);
 	service1.deleteTable(schema, table);
 	return mv;
 }
@@ -119,6 +156,14 @@ public ModelAndView deleteSchema(HttpServletRequest req,HttpServletResponse resp
 	ModelAndView mv =new ModelAndView("forward:getSchema.do");
 	String schema=req.getParameter("schema");
 	service1.deleteSchema(schema);
+	return mv;
+}
+@RequestMapping("/deleteView.do")
+public ModelAndView deleteView(HttpServletRequest req,HttpServletResponse response){
+	ModelAndView mv =new ModelAndView("forward:getSchema.do");
+	String schema=req.getParameter("schema");
+	String view=req.getParameter("view");
+	service1.deleteView(schema, view);
 	return mv;
 }
 @RequestMapping("/createSchema.do")
@@ -135,6 +180,18 @@ public String createrSchema(HttpServletRequest req,HttpServletResponse response)
 	}else{
 		return service1.createSchema(schema, name);
 	}
-	
 }
+
+@RequestMapping("/download.do")  
+public ResponseEntity<byte[]> download(HttpServletRequest req) throws IOException {  
+    HttpHeaders headers = new HttpHeaders(); 
+    String input=req.getParameter("commandInput");
+    if(input==null){
+    	input="";
+    }
+    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
+    headers.setContentDispositionFormData("attachment", "sql.txt");  
+    return new ResponseEntity<byte[]>(input.getBytes(),headers, HttpStatus.CREATED);  
+}  
+
 }

@@ -10,4 +10,5 @@ public interface QueryService {
               public long getRowCount();
 			String[][] getTableDistriution(String schema, String table);
 			public String[] getUsers();
+			public String[][] getViewDefination(String schema,String view);
 }

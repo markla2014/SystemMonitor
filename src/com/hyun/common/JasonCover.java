@@ -14,4 +14,8 @@ public class JasonCover {
 			}
 			return gson.toJson(o);
 		}
+		public static <T> T fromJson(String str, Class<T> type) {  
+	        Gson gson = new Gson();  
+	        return gson.fromJson(str, type);  
+	    }  
 }

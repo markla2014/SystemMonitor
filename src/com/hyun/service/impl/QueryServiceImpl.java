@@ -92,6 +92,17 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 		
 		return dao.getRowCount();
 	}
+	public String[][] getViewDefination(String schema,String view){
+		try {
+			return dao.getViewDefinition(dao.getConnection(), schema,view);
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			String[][] temp=new String[1][1];
+			temp[0][0]=e.getMessage();
+			logger.error(e.getMessage());
+			return temp;
+		}
+	}
 
 	@Override
 	public String[] getUsers() {

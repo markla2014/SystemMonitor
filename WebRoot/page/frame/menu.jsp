@@ -22,7 +22,6 @@
 <script type="text/javascript" src="page/js/menu_min.js"></script>
 <script type="text/javascript" src="page/js/view/common.js"></script>
 <script type="text/javascript">
-
 var getSchema='${schema}';
 var menus=[];
 $(document).ready(function (){
@@ -46,12 +45,10 @@ atemp.smartMenu(obj, {
    name: "menus"    
 });
 }); 
-
 </script>
 </head>
 
 <body>
-
 <table width="189" border="0" cellSpacing=0 cellPadding=0  background="page/images/menu_bg_06.gif" height="100%">
   <tr>
 <td height="40"><div class="menu_bg1">

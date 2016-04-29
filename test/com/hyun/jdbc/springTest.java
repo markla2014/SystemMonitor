@@ -1,11 +1,16 @@
 package com.hyun.jdbc;
 
+import java.util.LinkedList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.hyun.common.JasonCover;
 import com.hyun.dao.BaseDao;
 import com.hyun.dao.CommandDao;
+import com.hyun.vo.DataTable;
+import com.hyun.vo.dataInfo;
 
 public class springTest {
 
@@ -15,11 +20,4 @@ public class springTest {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Before
-	public void getDao(){
-		   ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");  
-	        //BaseDao BaseDao = (BaseDao) beanFactory.getBean("baseDao");  
-	        testDao=(CommandDao)beanFactory.getBean("commandDao");
-	}
-	
 }

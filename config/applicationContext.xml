@@ -12,7 +12,7 @@
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
 	http://www.springframework.org/schema/cache
-     http://www.springframework.org/schema/cache/spring-cache-4.2.xsd">
+     http://www.springframework.org/schema/cache/spring-cache-4.2.xsd" >
 	<!-- used for tes the method -->
 	<context:component-scan base-package="com.hyun"></context:component-scan>
 	<cache:annotation-driven cache-manager ="cacheManager" />

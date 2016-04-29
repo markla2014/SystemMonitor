@@ -9,13 +9,9 @@
 <script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 <script  type="text/javascript">
 function onDownload(){
-var input=$("commandInput").val();
-var url='${path}/query/download.do&commandInput='+input;
+var input=$("#commandInput").val();
+var url='${path}/query/download.do?commandInput='+input;
 window.location.href=url;
-}
-function clear(){
-$("#runOutcome").text("");
-$("#commandInput").text("");
 }
 </script>
 </head>
@@ -40,7 +36,7 @@ $("#commandInput").text("");
    <li><img src="../page/images/main_08.gif" width="18" height="38" /></li>
     <li><a onclick="splitString()">运行</a></li>
        <li><img src="../page/images/main_10.gif" width="18" height="38" /></li>
-      <li><a onclick="clear()">停止</a></li>
+      <li><a onclick="onClear()">清空</a></li>
   <!--   <li> <img src="../page/images/main_12.gif" width="18" height="38" /></li>
       <li><a href="">导出向导</a></li>
      <li><img src="../page/images/main_14.gif" width="1" height="40" /></li>-->
@@ -55,10 +51,20 @@ $("#commandInput").text("");
     <li><a href="#tab2" class="selected">查询编辑器</a></li> 
   	</ul>
   </div>
+  <div id="popm">
+		<p></p>
+		<div>
+			<div>
+				<img
+					src="../page/images/loading.gif" /><br />
+				<span id="tis">数据加载中……</span>
+			</div>
+		</div>
+</div> 
  <Div class="tabson">
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0 >
   <tr>
-    <td><textarea class="forminfo" style=" width:100%; height:100%;" id="commandInput"></textarea></td>
+    <td id="commandarea"><textarea class="forminfo" style=" width:100%; height:100%;" id="commandInput"></textarea></td>
   </tr>
 </table>
 
@@ -75,7 +81,7 @@ $("#commandInput").text("");
  <Div class="tabson">
 <table cellSpacing=0 cellPadding=0 width="100%" align=center border=0 >
   <tr>
-    <td><textarea class="forminfo" style=" width:100%; height:100%;" id="runOutcome"></textarea></div></td>
+    <td><textarea class="forminfo" style=" width:100%; height:100%;" id="runOutcome" readonly="readonly"></textarea></div></td>
   </tr>
   <!--  
   <tr>
@@ -110,25 +116,68 @@ $("#commandInput").text("");
 $(".itab li a").click(function(){
 $(this).addClass('selected').parent().siblings().children().removeClass('selected');
 });
-
+function addNotice(notice){
+var annount=$("#runOutcome").val();
+annount+="\n\r"+notice;
+$("#runOutcome").val(annount);
+}
+function onClear(){
+$("#runOutcome").val("");
+$("#commandInput").val("");
+}
  function splitString(){
  var commandString=$("#commandInput").val();
  if($.trim(commandString)==""){
-    $("#runOutcome").val("没有输入")；
-     
+   $("#runOutcome").val("不能为空");
  }
- var commands=$.trim(commandString).replace(/[\r\n ]/g,"").split(";");
+ var commands=$.trim(commandString).replace(/[\r\n]/g,"").split(";");
  var selectPattern=/^(select|SELECT).*/;
  var insertPattern=/^(INSERT|insert).*/;
  var desPattern=/^(DESC|desc).*/;
  var createPattern=/^(create|CREATE).*/;
  var dropPattern=/^(drop|DROP).*/;
  var deletePattern=/^(delete|Delete).*/;
- $.each(commands,function(i,key){
- if(selectPattern.test(key)){
-   alert("is selected");
+  $.each(commands,function(i,key){
+  if(key==""||key=='undefined'){
+       commands.splice(i,i);
  }
  });
- }         
+ $.each(commands,function(i,key){
+  addNotice("当前运行语句 "+key);
+ if(selectPattern.test(key)){
+    var url="${path}/command/getSreachquery.do?sql="+key;
+     addNotice("运行成功请到页面查看");
+     var postitation=280-i;
+    openWindowtimes(url,url+i,postitation);
+ }else if(insertPattern.test(key) || desPattern.test(key) || createPattern.test(key) || dropPattern.test(key) || deletePattern.test(key) ){
+    var url="${path}/command/getGernalCommand.do?sql="+key;
+    sendRequest(url)
+ }else{
+   addNotice("又不是以正规开头的sql 语句");
+   return;
+ }
+ });
+ }  
+   function sendRequest(urlpath){
+   loadingShow("#commandarea");
+       $.ajax({
+         type: "get",
+            dataType: "json",
+            url: urlpath,
+            complete :function(){},
+            error:function(data){  
+            addNotice(data);
+              loadingHide(".tabson"); },  
+            success: function(msg){
+                      if(msg.result=="success"){
+                         addNotice('运行成功');
+                      }else{
+                        addNotice(msg.result);
+                      }         
+              loadingHide("#commandarea");
+            }
+            });
+   
+   }      
 </script>
 </html>
