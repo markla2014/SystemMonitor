@@ -4,6 +4,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.jca.cci.core.InteractionCallback;
 public class totalMasterOverviewInformation {
@@ -123,7 +125,10 @@ public void setUseSpace(String useSpace) {
    }
 }
 public String getSystemUsage() {
-	return systemUsage;
+	String returnValue=this.minCPUse+"%/";
+	returnValue+=this.avgCPUse+"%/";
+	returnValue+=this.maxCPUse+"%";
+	return returnValue;
 }
 public void setSystemUsage(String systemUsage) {
 	   
@@ -196,6 +201,7 @@ public void setTabletServers(String tabletServers) {
 }
 public Hashtable<String, Long> processSpaceInfor(String message){
 	  Hashtable<String,Long> temp=new Hashtable<String,Long>();
+        message=message.replace("#",":0,");
       String[] messageTemp=StringUtils.split(message,",");
        for(String i:messageTemp){
     	   String[] test2=StringUtils.split(i,":");

@@ -1,12 +1,11 @@
 package com.hyun.service.impl;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
-import org.junit.internal.runners.statements.Fail;
-import org.omg.PortableInterceptor.SUCCESSFUL;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.hyun.common.indexPager;
@@ -15,17 +14,21 @@ import com.hyun.dao.CommandDao;
 import com.hyun.service.CommandService;
 import com.hyun.vo.DataTable;
 import com.hyun.vo.dataInfo;
-@Service
+@Service 
 public class CommandServiceImpl implements CommandService {
 
 	@Autowired
 	public CommandDao dao;
 	private indexPager pager;
 	private LinkedList<pageNumber> pagelist;
+   private int BfileCount;
 	private static Logger logger = Logger.getLogger(CommandServiceImpl.class);
 	  public int getTotalRows(){
 		  return dao.getResultCount();
 	  }
+	  /**
+	   *  考虑在当中加入chach 但是考虑部署和性能问题暂时停止
+	   */
       public long getRowsCount(String schema,String table){
     	  pager=new indexPager();
     	  pager.setInterval(20);
@@ -55,6 +58,7 @@ public class CommandServiceImpl implements CommandService {
 		}
 		
 	}
+
 	public String[][] getViewData(String schema,String view,int jumpPage){
 		if(this.getPageCount()<1){
             String[][] temp={{"没有数据"}}; 
@@ -193,4 +197,43 @@ public class CommandServiceImpl implements CommandService {
 		   return e.getMessage();
 		}
 	}
+	@Override
+	public String[][] getBfileInterface(String schema) {
+		// TODO Auto-generated method stub
+		 String sql = "select * from " +schema+".bfiles";
+		try{
+		String user=dao.getSchemaUser(dao.getConnection(), schema);
+		if(user!=null){
+			  sql +=" where create_user = '" + user + "'";
+		}
+		BfileCount=dao.sreachQueryCount(sql);
+		return this.getSreachQuery(sql,1,20);
+		}catch(Exception e){
+			logger.error(e.getStackTrace());
+	       String[][] temp=new String[1][1];
+	       temp[0][0]=e.getMessage();
+	       return temp;
+		}
+	}
+	public int getBfileCount() {
+		return BfileCount;
+	}
+	public void setBfileCount(int bfileCount) {
+		BfileCount = bfileCount;
+	}
+	public String[][] getBfile(String schema,int start, int end){
+		 String sql = "select * from " +schema+".bfiles";
+			try{
+			String user=dao.getSchemaUser(dao.getConnection(), schema);
+			if(user!=null){
+				  sql +=" where create_user = '" + user + "'";
+			}
+			return this.getSreachQuery(sql,start,end);
+			}catch(Exception e){
+				logger.error(e.getStackTrace());
+		       String[][] temp=new String[1][1];
+		       temp[0][0]=e.getMessage();
+		       return temp;
+			}
+		}
 }

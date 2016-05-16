@@ -9,10 +9,13 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
+import com.cloudwave.jdbc.CloudConnection;
+import com.cloudwave.jdbc.CloudDatabaseMetaData;
 import com.hyun.connectionpool.currentTemplate;
 @Repository
 public class CommandDao extends BaseDao {
@@ -68,6 +71,7 @@ public class CommandDao extends BaseDao {
     	 }
      	 return value;
       }
+
 	public long runCommnad(String schema,String table){
     	return template.getTemplate().queryForObject("select count(*) from "+schema+"."+table,Long.class); 
       }
@@ -112,6 +116,7 @@ public class CommandDao extends BaseDao {
      	 return returnValue;
      	}
        }
+
       public String[][] getTableInfor(String schema,String table,int start,int end){
     	 String sql="select * from "+schema+"."+table+" where rownum >= "+start+" and rownum <= "+end;
     	 List<Map<String, Object>> temp=template.getTemplate().queryForList(sql);
@@ -144,5 +149,10 @@ public class CommandDao extends BaseDao {
     	 
     	 return returnValue;
     	}
+      }
+      public String getSchemaUser(CloudConnection connection, String schema) throws Exception{
+    	  CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection.getMetaData();
+          String user = meta.getSchemaOwner(schema);
+          return user;
       }
 }

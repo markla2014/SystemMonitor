@@ -19,4 +19,6 @@ public interface CommandService {
   public String getGernalQuery(String sql);
 	public int getSreachQueryCount(String sql);
 	  public String[][] getSreachQuery(String sql,int start,int end);
+	public String[][] getBfileInterface(String schema);
+	public String[][] getBfile(String schema,int start, int end);
 }

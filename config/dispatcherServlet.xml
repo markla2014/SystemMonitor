@@ -5,14 +5,26 @@
  xmlns:mvc="http://www.springframework.org/schema/mvc"  
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
  xsi:schemaLocation="http://www.springframework.org/schema/beans  
-      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+      http://www.springframework.org/schema/beans/spring-beans.xsd  
       http://www.springframework.org/schema/context  
       http://www.springframework.org/schema/context/spring-context.xsd  
       http://www.springframework.org/schema/mvc  
-      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"> 
+      http://www.springframework.org/schema/mvc/spring-mvc.xsd"> 
 	<!-- 配置扫描 管理 -->
 	<context:component-scan base-package="com.hyun"></context:component-scan>
      <mvc:annotation-driven />
+     <mvc:interceptors>
+     <mvc:interceptor>
+     <mvc:mapping path="/main/**"/>
+     <mvc:mapping path="/command/**"/>
+     <mvc:mapping path="/config/**"/>
+     <mvc:mapping path="/cpu/**"/>
+     <mvc:mapping path="/memory/**"/>
+     <mvc:mapping path="/session/**"/>
+     <mvc:exclude-mapping path="/main/login.do"/>
+     <bean class="com.hyun.interceptor.UserInterceptor"></bean>
+     </mvc:interceptor>
+     </mvc:interceptors>
 <!--JSP视图解析器-->
     <bean id="viewResolverJsp" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/page/frame/"/>

@@ -33,8 +33,8 @@ function createMenus(mes){
 		str+='<ul><li><a href="query/createTableInterface.do?schema='+temp+'" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_08.png" width="26" height="20" /></td><td>创建表</td></tr></table></a></li></ul></li>';
 	     str+='<li><a href="query/getViews.do?schema='+temp+'" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_10.png" width="26" height="20" /></td><td>视图</td></tr></table></a>';
 	     str+='<ul><li><a href="" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_11.png" width="26" height="20" /></td><td>创建视图</td></tr></table></a></li></ul></li>';
-	     str+='<li><a><table width="280" border="0"><tr><td width="30"><img src="page/images/2_13.png" width="26" height="20" /></td><td>函数</td></tr></table></a>';
-	     str+='<ul><li><a href="" target="rightFrame" ><table width="280" border="0"><tr><td width="30"><img src="page/images/2_16.png" width="26" height="20" /></td><td>创建函数</td></tr></table></a></li></ul></li>';
+	     str+='<li><a a href="query/getBfileInterface.do?schema='+temp+'" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/Folder.png" width="26" height="20" /></td><td>文件</td></tr></table></a></li>';
+	    // str+='<ul><li><a href="" target="rightFrame" ><table width="280" border="0"><tr><td width="30"><img src="page/images/2_16.png" width="26" height="20" /></td><td>创建函数</td></tr></table></a></li></ul></li>';
 	     str+='<li><a><table width="280" border="0"><tr><td width="30"><img src="page/images/2_19.png" width="26" height="20" /></td><td>查询</td></tr></table></a><ul><li><a href="command/getCommandInterface.do" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_20.png" width="26" height="20" /></td><td>创建查询</td></tr></table></a></li></ul></li></ul></li>';
 	   
 	}

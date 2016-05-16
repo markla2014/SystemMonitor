@@ -17,13 +17,6 @@ public class ConfigInformationController {
  @Resource
  private ConfigurationServiceImpl service; 
  
- @RequestMapping("/DFSInfo.dao")
- public ModelAndView getConfigurationInfomation(HttpServletRequest req,HttpServletResponse response) {
-	 ModelAndView mv = new ModelAndView("DFSInformation");
-	 String[][] temp=service.getDFSConfigure();
-	 mv.addObject("info", JasonCover.toJason(temp));
-	 return mv;
- }
  @RequestMapping("/baseInfo.dao")
  public ModelAndView getBaseConfigInfomation(HttpServletRequest req,HttpServletResponse response) {
 	 ModelAndView mv = new ModelAndView("BaseConfigInformation");

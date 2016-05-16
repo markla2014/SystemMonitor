@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.ehcache.CacheManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +31,8 @@ import com.hyun.vo.dataInfo;
 public class CommandInformationController {
 	@Autowired
 	private CommandServiceImpl service;
+	@Autowired
+	private CacheManager cacheManager;
 
 	@RequestMapping("/getTableData.do")
 	@ResponseBody
@@ -53,13 +57,14 @@ public class CommandInformationController {
 	@ResponseBody
 	public Map<String, String> getViewData(HttpServletRequest req,
 			HttpServletResponse response) {
+		
 		String schema = req.getParameter("schema");
 		String table = req.getParameter("table");
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
 		String[][] result = service.getTableDate(schema, table, pageNum);
 		Map<String, String> temp = new HashMap<String, String>();
 		temp.put("info", JasonCover.toJason(result));
-		temp.put("current", pageNum + "");
+		temp.put("currentpage", pageNum + "");
 		return temp;
 	}
 	
@@ -103,9 +108,9 @@ public class CommandInformationController {
 	    service.createTable(temp1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			return e.getMessage();
+			return JasonCover.toJason(e.getMessage());
 		}
-		return "sccuess";
+		return JasonCover.toJason("success");
 	}
 	@RequestMapping("/getCommandInterface.do")
 	public ModelAndView getCommandInterface(HttpServletRequest req,
@@ -154,4 +159,18 @@ public class CommandInformationController {
 	 temp.put("current", current+"");
 	 return temp;
    }
+@RequestMapping("/getBFile.do")
+@ResponseBody
+public Map<String,String> getBFile(HttpServletRequest req){
+	Map<String,String> temp=new HashMap<String,String>();
+	String schema=req.getParameter("schema");
+	String pageNum=req.getParameter("pageNum");
+	int current=Integer.parseInt(pageNum);
+	 int start=(current-1)*20;
+	 int end=current*20;
+	String[][] value=service.getBfile(schema, start, end);
+	 temp.put("info", JasonCover.toJason(value));
+	 temp.put("current", current+"");
+	 return temp;
+}
 }

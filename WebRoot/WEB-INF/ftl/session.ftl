@@ -21,7 +21,7 @@ creatMap(temp);
 <div class="Titleicon"><img src="../page/images/home03.gif" width="18" height="38" /></div>
 <ul class="placeul">
     <li>监控</li>
-    <li class="title_text">进程运行信息</li>
+    <li class="title_text">线程</li>
   </ul>  
 </div>
 <div class="titlebg">

@@ -44,8 +44,7 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 
 .menu ul li{display:block;width:189px;background: url(../images/menu_04.gif) top left no-repeat;list-style:none;overflow:visible}
 .menu ul li a{display:block;height:40px; width:189px;padding-left:20px;font-size:15px;color:#585858;outline:none; line-height:35px;}
-
-.menu ul li .active{
+.menu ul li .active{	
 	color: #2977b3;
 	background-image: url(../images/off.png);
 	background-repeat: no-repeat;
@@ -296,6 +295,16 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 	border-left: 1px solid #cccccc;
 	border-top: 1px solid #cccccc;
 	color: #585858;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.tabson table th{
+	background-color: #6fb3e0;
+	border-left: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	color: #fff;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 
 .table1_B_bg{min-height:260px; background-color:#eff3f8;font-family: "微软雅黑"; color:#585858}
@@ -340,7 +349,9 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 
 .tablelist{width:100%; clear:both;}
 .tablelist tbody tr:hover{background:#f0f7fe;}
-
+.tablelist tr.alt { 
+background: #f9fafb; 
+}
 /*------ 表 ---------------------*/
 
 .listbox{clear: both;min-height: 300px;color: #585858;margin: 10px}
@@ -447,3 +458,13 @@ color: #585858; }
 #popm p{width:100%;height:100%;background:#fff;opacity:0.5;filter:alpha(opacity:50);}
 #popm div{position:absolute;left:50%;top:50%;}
 #popm div div{margin:-50% 0 0 -50%;position:static;font:14px/30px '宋体';}
+/*表格调整*/
+
+#tabson{border: solid 1px #cccccc;min-height: 290px;margin-bottom: 5px}
+#tabson table{border-right:1px solid #cccccc;border-bottom:1px solid #cccccc}
+#tabson table td{border-left: 1px solid #cccccc;border-top: 1px solid #cccccc;color: #585858;}
+
+#itab{height:36px; border-bottom:solid 1px #d0dee5; position:relative; border-left:solid 1px #d3dbde; margin-left:5px}
+#itab ul li{float:left;height:37px; line-height:37px; background:url(../images/itabbg.png) repeat-x; border-right:solid 1px #d3dbde;}
+#itab ul li a{font-size:14px;  padding-left:20px; padding-right:20px;color:#585858;}
+#itab ul li a.selected{ height:37px; display:block; background:url(../images/itabbg1.png) repeat-x; font-weight:bold; color:#2977b3}

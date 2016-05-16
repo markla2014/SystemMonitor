@@ -231,7 +231,7 @@ public class jdbcConnection {
 	    /*
 	     *  系统重启 
 	     * ****/
-	    public boolean doRestartServer(CloudConnection conn,String target) throws GwtException {
+	    public boolean doRestartServer(Connection conn,String target) throws GwtException {
 	        try {
 	            CloudDatabaseMetaData meta = (CloudDatabaseMetaData) conn.getMetaData();
 	            return meta.executeRestartServer(target);
@@ -942,5 +942,15 @@ public class jdbcConnection {
 				System.out.println();
 			}
 		
+	}
+	@Test
+	public void testRestart(){
+		Connection conn=jdbcConnectionTest();
+		CloudConnection connect=((CloudConnection) conn);
+		try{
+	 System.out.println(this.doRestartServer(conn,"192.168.0.20,192.168.0.21"));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

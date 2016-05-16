@@ -7,7 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.junit.runner.Request;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,11 +40,14 @@ public class MainInformationController {
 		return mv;
 	}
 	@RequestMapping("/login.do")
-	public String login(HttpServletRequest req,HttpServletResponse response) {
+	public String login(HttpServletRequest req) {
 		String username = req.getParameter("username");
 		String password = req.getParameter("Password");
 		 String returnValue= service.getMasterLogin(username, password);
         if(ServerMonitorConstant.SUCCESSFUL.equals(returnValue)){
+        	HttpSession session=req.getSession();
+        	  
+            session.setAttribute("UserName", "system");
         	name=username;
         	return "main";
         }else{
@@ -79,11 +84,12 @@ public class MainInformationController {
 	public ModelAndView diskInformation(HttpServletRequest req,HttpServletResponse response){
 		 ModelAndView mv=new ModelAndView("hardDiskInformation");
 		 totalMasterOverviewInformation info=service.getMasterInfroamtion();
-		   service1.getDFSConfigure();
+		   String[][] temp1=service1.getDFSConfigure();
 		   LinkedList<String[]> temp=service1.getDataNode();
 		 LinkedList<totalDiskSpaceDiagram> retrnValue=service.perpareTableDiskSpace(info);
 		 mv.addObject("info",JasonCover.toJason(retrnValue));
 		 mv.addObject("datanode",JasonCover.toJason(temp));
+		 mv.addObject("result",temp1);
 		return mv;
 	}
 		

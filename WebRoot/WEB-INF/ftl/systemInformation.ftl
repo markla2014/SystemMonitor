@@ -42,28 +42,28 @@ getInfomation();
 <div class="Titleicon"><img src="../page/images/home03.gif" width="18" height="38" /></div>
 <ul class="placeul">
     <li>监控</li>
-    <li class="title_text">主页</li>
+    <li class="title_text">系统概述</li>
   </ul>  
 </div>
 <div class="titlebg">
 <ul>
-<li>概览信息</li>
+<li>系统概述</li>
 </ul>
 
 </div>
 
 <table class="table table-condensed">
   <tr>
-    <td style="width:35%">Cloudwave 数据库版本号</td>
+    <td style="width:35%">版本号</td>
     <td>${info.version}</td>
 
   </tr>
   <tr>
-    <td style="width:35%">安装包发布时间</td>
+    <td style="width:35%">版本发布时间</td>
     <td>${info.compileDate}</td>
     </tr>
    <tr>
-    <td style="width:35%">发行版本</td>
+    <td style="width:35%">部署系统</td>
     <td>${info.mode}</td>
     </tr>
      <tr>
@@ -75,7 +75,7 @@ getInfomation();
     <td>${info.replication}</td>
     </tr>
         <tr>
-    <td style="width:35%">系统运行时间</td>
+    <td style="width:35%">系统开机时间</td>
     <td>${info.startedDate}</td>
     </tr>
     </table>
@@ -90,27 +90,27 @@ getInfomation();
     <td>${info.masterServer}</td>
   </tr>
     <tr>
-    <td style="width:35%" >存储节点运行状态</td>
+    <td style="width:35%" >子节点运行状态</td>
     <td>${info.tabletServers}</td>
 
   </tr>
     <tr>
-    <td style="width:35%">硬盘使用状况概述</td>
+    <td style="width:35%">硬盘使用状态</td>
     <td>${info.systemSpaces}</td>
 
   </tr>
     <tr>
-    <td style="width:35%">CPU使用状况概述</td>
+    <td style="width:35%">CPU使用状态</td>
     <td>${info.systemUsage}</td>
 
   </tr>
     <tr>
-    <td style="width:35%">当前数据库对话</td>
+    <td style="width:35%">在线会话数量</td>
     <td>${info.onlineSessions}</td>
 
   </tr>
     <tr>
-    <td style="width:35%">当前运行的sql</td>
+    <td style="width:35%">当前运行sql的  数量</td>
     <td>${info.runningSQL}</td>
 
   </tr>
@@ -118,10 +118,10 @@ getInfomation();
 <div class="col-md-12">
 <ul>
 <li><!--<div class="chart_T">CPU监控</div>-->
-<div id="line1" class="col-md-8" style="height:318px;"></div>
+<div id="line1" class="col-md-8 col-sm-8 col-lg-8 pull-left" style="height:318px;"></div>
 </li>
 <li><!--<div class="chart_T" >硬盘监控</div>-->
-<div id="pie1" class="col-md-4" style="height:318px;"></div>
+<div id="pie1" class="col-md-4 col-sm-4 col-lg-4 pull-right" style="height:318px;"></div>
 </li>
 </ul>
 </div>

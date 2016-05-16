@@ -193,5 +193,21 @@ public ResponseEntity<byte[]> download(HttpServletRequest req) throws IOExceptio
     headers.setContentDispositionFormData("attachment", "sql.txt");  
     return new ResponseEntity<byte[]>(input.getBytes(),headers, HttpStatus.CREATED);  
 }  
-
+@RequestMapping("/getBfileInterface.do")
+public ModelAndView getBfileInterface(HttpServletRequest req){
+	ModelAndView mv =new ModelAndView("fileList");
+	String schema=req.getParameter("schema");
+	String[][] temp=service1.getBfileInterface(schema);
+	int recordCount=service1.getBfileCount();
+	int pageCount=recordCount/20;
+	if(recordCount%20!=0){
+		pageCount++;
+	}
+	mv.addObject("result",temp);
+	mv.addObject("schema", schema);
+	mv.addObject("recordCount",recordCount);
+	mv.addObject("pageCount", pageCount);
+	mv.addObject("currentpage", 1);
+	return mv;  
+}
 }

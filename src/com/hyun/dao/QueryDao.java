@@ -257,7 +257,7 @@ public void setRowCount(long rowCount) {
 			DatabaseMetaData meta = connection.getMetaData();
 			CloudResultSet crs = (CloudResultSet) meta.getTables(null, schema,
 					table, new String[] { "VIEW" });
-			rows.add(new String[] { String.valueOf(crs.getRecordCount()) });
+			//rows.add(new String[] { String.valueOf(crs.getRecordCount()) });
 			rows.add(new String[] { "VIEW", "DESCRIPTION" });
 			int[] columns = new int[] { 3, 5 };
 			String[][] records = getMoreData(crs, crs.getRecordCount(), columns);

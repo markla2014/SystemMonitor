@@ -90,14 +90,14 @@ $(document).ready(function (){
     <td>配置</td>
   </tr>
 </table></a>
-        			<ul style="display:none;">
+ <!--         			<ul style="display:none;">
 				<li><a href="${pageContext.request.contextPath}/config/DFSInfo.dao" target="rightFrame"> <table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/ico_.png" width="26" height="20" /></td>
-    <td>文件配置</td>
+    <td>DFS文件配置</td>
   </tr>
 </table></a></li>
- <!--  
+ 
 				<li><a href="${pageContext.request.contextPath}/config/DFSInfo.dao" target="rightFrame"> <table width="280" border="0">
   <tr>
     <td width="30"><img src="page/images/ico.png" width="26" height="20" /></td>

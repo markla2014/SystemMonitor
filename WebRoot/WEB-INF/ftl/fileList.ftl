@@ -2,23 +2,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>内存信息</title>
+    <title>视图信息</title>
 	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css"/>
+	<link rel="stylesheet" href="../page/css/bootstrap.min.css"/>
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
-	<script src="${path}/page/js/SimpleTree.js" type="text/javascript"></script>
+	<script src="../page/js/bootstrap.min.js" type="text/javascript"></script>
+<script  type="text/javascript">
+$(document).ready(function() {
+$(".form_textbox").hide();
+if(totalpage>1){
+$(".pagin").show();
+}
+});
+</script>
 </head>
 <body>
   <div class="container-fluid" style="width:100%; float:left">
 <div class="title">
 
 <ul class="placeul">
-    <li>${table}表</li>
+    <li>${schema}下文件</li>
   </ul>
 </div>
 <!-- 
 <div class="navwrap">
-
 <ul id="nav">
  
 <li><a href="#">查询</a></li>
@@ -57,13 +65,13 @@
       <li><a href="">下移</a></li>      
   </ul>
 </div>-->
+
 <div class="main_box">
   <div class="itab">
   	<ul> 
-    <li><a id="column"class="selected">栏位</a></li> 
+    <!--  <li><a id="column"class="selected">栏位</a></li> -->
    <!-- <li><a id="index">索引</a></li> -->
-    <li><a id="data">数据</a></li> 
-    <li><a id="distribution">分布</a></li> 
+    <li><a id="data" class="selected">数据</a></li> 
   	</ul>
   </div>
 <div id="popm">
@@ -76,17 +84,21 @@
 			</div>
 		</div>
 </div> 
- <Div class="tabson">
-<table cellSpacing=0 cellPadding=0 width="100%" align=center border=0  >
+ <div class="tabson">
+<table class="table table-bordered">
   <tr>
     <td><div class="forminfo">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablelist">
 <#assign x=0 />
 <#list result as su>
 <tr>
-<#import "tableCol.ftl" as my/>
-<@my.columns col=su cou=x>
-</@my.columns>
+<#list su as col>
+<#if x==0>
+ <th height="40">${col}</th>
+<#else>
+<td height="40">${col}</td>
+</#if>	
+</#list>
 </tr>
 <#assign x=x+1 />
 </#list>
@@ -94,24 +106,22 @@
 
     </div></td>
   </tr>
-  <tr>
-    <td><div class="pagin">
+  <tr><td><div class="pagin">
     	<div class="message">共<i class="blue">${recordCount}</i>条记录，当前显示第&nbsp;<i class="blue" id="currentPage">${currentpage}&nbsp;</i>页</div>
         <ul class="paginList">
         <li class="paginItem"><a onclick="pagebackward()"><img src="../page/images/pre.png" width="28" height="30" id="pre"/></a></li>
         <li class="paginItem"><a onclick="pageForward()"><img src="../page/images/next.png" width="28" height="30" id="next"/></a></li>
         </ul>
-    </div></td>
-  </tr>
+    </div></td></tr>
     <tr>
-    <td><div class="form_textbox">栏位数: ${rowCount}</div></td>
+    <td></td>
   </tr>
 </table>
 
  </div>
-</Div>
 </div>
-</body>
+
+</div>
 <script type="text/javascript" >
 var totalpage=${pageCount};
 var current=${currentpage};
@@ -121,8 +131,8 @@ if(next>totalpage){
 alter("这是最后一页");
 return;
 }
-urlpath="${path}/command/getTableData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:next};
+urlpath="${path}/command/getBFile.do";
+ datapath={schema:"${schema}",pageNum:next};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
@@ -133,41 +143,13 @@ if(next<1){
 alter("这是第一页");
 return;
 }
-urlpath="${path}/command/getTableData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:next};
+urlpath="${path}/command/getBFile.do";
+ datapath={schema:"${schema}",pageNum:next};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
-
-$(".itab li a").click(function(){
-
-$(this).addClass('selected').parent().siblings().children().removeClass('selected');
-var tagename=$(this).attr("id");
-var urlpath="";
-var datapath;
-if(tagename=='distribution'){
-$(".container-fluid").css({width:'100%'});
- urlpath="${path}/query/getTableDistribution.do";
- datapath={schema:"${schema}",table:"${table}"};
- 	$(".form_textbox").hide();
- 	$(".pagin").show();
-}else if(tagename=='data'){
-$(".container-fluid").css({width:'auto'});
- urlpath="${path}/command/getTableData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:1 };
- $(".form_textbox").hide();
- if(totalpage>1){  $(".pagin").show(); }
-}else if(tagename=='column'){
-$(".container-fluid").css({width:'100%'});
-urlpath="${path}/query/getTableColumn.do";
-datapath={schema:"${schema}",table:"${table}"};
-	$(".form_textbox").show();
-	$(".pagin").hide();
-}
-updateTable(urlpath,datapath);
-});
 function updateTable(url,urldata){
-loadingShow(".tabson")
+loadingShow(".tabson");
     $.ajax({
          type: "get",
             dataType: "json",
@@ -207,10 +189,12 @@ loadingShow(".tabson")
                        value+="</tr>"
                   }
                   $(".tablelist").html(value);
-               loadingHide(".tabson")
+               loadingHide(".tabson");
                 }
             }
     }); 
 }         
 </script>
+</body>
+
 </html>
