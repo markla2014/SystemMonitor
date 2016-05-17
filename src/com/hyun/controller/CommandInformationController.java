@@ -1,5 +1,7 @@
 package com.hyun.controller;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,15 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cloudwave.jdbc.bfile.CloudBfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyun.common.JasonCover;
+import com.hyun.common.ServerMonitorConstant;
 import com.hyun.service.impl.CommandServiceImpl;
 import com.hyun.vo.DataTable;
 import com.hyun.vo.dataInfo;
 
 @Controller
 @RequestMapping("/command")
-public class CommandInformationController {
+public class CommandInformationController extends BaseController{
 	@Autowired
 	private CommandServiceImpl service;
 	@Autowired
@@ -147,6 +151,7 @@ public class CommandInformationController {
 	   return mv;
    }
    @RequestMapping("/getSreach.do")
+	@ResponseBody
    public Map<String,String> getSquery(HttpServletRequest req,HttpServletResponse response){
 	 Map<String,String> temp=new HashMap<String, String>();
 	 String sql=req.getParameter("sql");
@@ -172,5 +177,26 @@ public Map<String,String> getBFile(HttpServletRequest req){
 	 temp.put("info", JasonCover.toJason(value));
 	 temp.put("current", current+"");
 	 return temp;
+}
+@RequestMapping("/getBFileDownload.do")
+public String  getBFileDownload(HttpServletRequest req,HttpServletResponse response) throws Exception{
+	response.setCharacterEncoding("utf-8");
+	response.setContentType("multipart/form-data");
+	String fileId=req.getParameter("id");
+	long id=Long.parseLong(fileId);
+	CloudBfile file=service.getBFileDownlaod(id);
+	String fileName=file.getName();
+	response.setHeader("Content-Disposition", "attachment;fileName="
+			+ fileName);
+		   InputStream is = file.getInputStream(0L);
+		   OutputStream os = response.getOutputStream();
+	        byte[] bytes = new byte[4096];
+		int length;
+		while((length = is.read(bytes)) > 0){
+			os.write(bytes,0,length);
+		}
+		os.close();
+		is.close();
+    return null;	
 }
 }

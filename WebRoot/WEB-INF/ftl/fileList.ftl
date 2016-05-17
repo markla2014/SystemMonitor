@@ -15,10 +15,10 @@ if(totalpage>1){
 $(".pagin").show();
 }
 });
+
 </script>
 </head>
 <body>
-  <div class="container-fluid" style="width:100%; float:left">
 <div class="title">
 
 <ul class="placeul">
@@ -92,11 +92,16 @@ $(".pagin").show();
 <#assign x=0 />
 <#list result as su>
 <tr>
+<#assign y=0 />
 <#list su as col>
 <#if x==0>
  <th height="40">${col}</th>
+ <#elseif y=0>
+ <td height="40"><a href="${path}/command/getBFileDownload.do?id=${col}">${col}</a></td>
+<#assign y=y+1 />
 <#else>
 <td height="40">${col}</td>
+<#assign y=y+1 />
 </#if>	
 </#list>
 </tr>
@@ -119,8 +124,6 @@ $(".pagin").show();
 </table>
 
  </div>
-</div>
-
 </div>
 <script type="text/javascript" >
 var totalpage=${pageCount};
@@ -181,8 +184,11 @@ loadingShow(".tabson");
                      value+="<tr>";
                       for(var j=0;j<resobj[i].length;j++){
                           if(i==0){
-                           value+='<td width="285"  bgcolor="#6fb3e0"  style="color:#FFF;">'+resobj[i][j]+'</td>'
+                           value+='<th">'+resobj[i][j]+'</th>'
                           }else{
+                          if(j==0)
+                          value+='<td height="40"><a href="${path}/command/getBFileDownload.do?id='+resobj[i][j]+'">'+resobj[i][j]+'</td>'
+                          else
                           value+='<td height="40">'+resobj[i][j]+'</td>'
                           }
                        }

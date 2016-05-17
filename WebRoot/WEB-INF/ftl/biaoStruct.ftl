@@ -4,12 +4,21 @@
 <head>
     <title>内存信息</title>
 	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css"/>
+	<link rel="stylesheet" type="text/css" href="${path}/page/css/jquery.tablescroll.css"/>
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 	<script src="${path}/page/js/SimpleTree.js" type="text/javascript"></script>
+<script src="../page/js/jquery.tablescroll.js" type="text/javascript"></script>
+	<script  type="text/javascript">
+$(document).ready(function() {
+adjustTable();
+});
+$(window).resize(function() {
+	adjustTable();
+	});
+</script>
 </head>
 <body>
-  <div class="container-fluid" style="width:100%; float:left">
 <div class="title">
 
 <ul class="placeul">
@@ -110,7 +119,6 @@
 
  </div>
 </Div>
-</div>
 </body>
 <script type="text/javascript" >
 var totalpage=${pageCount};

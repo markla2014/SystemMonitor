@@ -35,7 +35,7 @@ function createMenus(mes){
 	     str+='<ul><li><a href="" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_11.png" width="26" height="20" /></td><td>创建视图</td></tr></table></a></li></ul></li>';
 	     str+='<li><a a href="query/getBfileInterface.do?schema='+temp+'" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/Folder.png" width="26" height="20" /></td><td>文件</td></tr></table></a></li>';
 	    // str+='<ul><li><a href="" target="rightFrame" ><table width="280" border="0"><tr><td width="30"><img src="page/images/2_16.png" width="26" height="20" /></td><td>创建函数</td></tr></table></a></li></ul></li>';
-	     str+='<li><a><table width="280" border="0"><tr><td width="30"><img src="page/images/2_19.png" width="26" height="20" /></td><td>查询</td></tr></table></a><ul><li><a href="command/getCommandInterface.do" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_20.png" width="26" height="20" /></td><td>创建查询</td></tr></table></a></li></ul></li></ul></li>';
+	     str+='<li><a><table width="280" border="0"><tr><td width="30"><img src="page/images/2_19.png" width="26" height="20" /></td><td>命令行</td></tr></table></a><ul><li><a href="command/getCommandInterface.do" target="rightFrame"><table width="280" border="0"><tr><td width="30"><img src="page/images/2_20.png" width="26" height="20" /></td><td>创建查询</td></tr></table></a></li></ul></li></ul></li>';
 	   
 	}
 	str+='</ul>'
@@ -102,3 +102,5 @@ function openViewWindow(temp){
 function openWindowtimes(temp,name,po){
 	window.open(temp,name,'left='+po+',top=130,height=341,width=420,menubar=no,toolbar=no,location=no,status=no,scrollbars=no');
 }
+function adjustTable(){var pageHight=$(".main_box").width()-25;
+$('.tablelist').tableScroll({height:1024,width:pageHight});}

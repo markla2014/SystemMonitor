@@ -13,7 +13,7 @@ import com.hyun.service.impl.ConfigurationServiceImpl;
 
 @Controller
 @RequestMapping("/config")
-public class ConfigInformationController {
+public class ConfigInformationController  extends BaseController {
  @Resource
  private ConfigurationServiceImpl service; 
  

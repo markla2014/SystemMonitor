@@ -21,7 +21,7 @@ import com.hyun.vo.totalCPUpercent;
 
 @Controller
 @RequestMapping("/cpu")
-public class CPUInformationController {
+public class CPUInformationController  extends BaseController {
 @Autowired
 private CPUServiceImpl service;
 @Resource

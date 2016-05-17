@@ -1,5 +1,7 @@
 package com.hyun.service.impl;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
+import com.cloudwave.jdbc.bfile.CloudBfile;
 import com.hyun.common.indexPager;
 import com.hyun.common.pageNumber;
 import com.hyun.dao.CommandDao;
@@ -180,6 +184,7 @@ public class CommandServiceImpl implements CommandService {
 	   String[][] temp;
 	try {
 		temp = dao.sreachQuery(sql, start, end);
+		logger.debug(sql);
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		temp=new String[1][1];
@@ -236,4 +241,11 @@ public class CommandServiceImpl implements CommandService {
 		       return temp;
 			}
 		}
+	@Override
+	public CloudBfile getBFileDownlaod(long id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getBfileDowlaod(dao.getConnection(), id);
+	
+		
+	}
 }

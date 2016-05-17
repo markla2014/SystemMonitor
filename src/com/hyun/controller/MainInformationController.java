@@ -25,7 +25,7 @@ import com.hyun.vo.diagram.totalDiskSpaceDiagram;
 
 @Controller
 @RequestMapping("/main")
-public class MainInformationController {
+public class MainInformationController  extends BaseController {
  public static String login_Name="";
  public final String login_PassWord="";
  @Resource

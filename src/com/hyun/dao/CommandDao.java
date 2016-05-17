@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cloudwave.jdbc.CloudConnection;
 import com.cloudwave.jdbc.CloudDatabaseMetaData;
+import com.cloudwave.jdbc.bfile.CloudBfile;
 import com.hyun.connectionpool.currentTemplate;
 @Repository
 public class CommandDao extends BaseDao {
@@ -154,5 +155,9 @@ public class CommandDao extends BaseDao {
     	  CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection.getMetaData();
           String user = meta.getSchemaOwner(schema);
           return user;
+      }
+      public CloudBfile getBfileDowlaod(CloudConnection connection,long id) throws Exception{
+    	  CloudBfile file=connection.getBfile(id);
+    	  return file;
       }
 }

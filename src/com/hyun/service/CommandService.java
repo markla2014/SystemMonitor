@@ -1,5 +1,9 @@
 package com.hyun.service;
 
+import java.io.OutputStream;
+
+import com.cloudwave.jdbc.CloudConnection;
+import com.cloudwave.jdbc.bfile.CloudBfile;
 import com.hyun.vo.DataTable;
 
 
@@ -21,4 +25,5 @@ public interface CommandService {
 	  public String[][] getSreachQuery(String sql,int start,int end);
 	public String[][] getBfileInterface(String schema);
 	public String[][] getBfile(String schema,int start, int end);
+	public CloudBfile getBFileDownlaod(long id) throws Exception;
 }

@@ -4,21 +4,27 @@
 <head>
     <title>视图信息</title>
 	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css"/>
+	<link rel="stylesheet" type="text/css" href="${path}/page/css/jquery.tablescroll.css"/>
 	<link rel="stylesheet" href="../page/css/bootstrap.min.css"/>
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 	<script src="../page/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../page/js/jquery.tablescroll.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function() {
 $(".form_textbox").hide();
 if(totalpage>1){
 $(".pagin").show();
 }
+adjustTable();
 });
+$(window).resize(function() {
+	adjustTable();
+	});
 </script>
 </head>
 <body>
-  <div class="container-fluid" style="width:auto; float:left">
+ <!--<div class="container-fluid" style="width:auto; float:left">--> 
 <div class="title">
 
 <ul class="placeul">
@@ -118,7 +124,7 @@ $(".pagin").show();
  </div>
 </div>
 
-</div>
+<!--/div-->
 <script type="text/javascript" >
 var totalpage=${pageCount};
 var current=${currentpage};

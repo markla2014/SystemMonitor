@@ -25,7 +25,7 @@ import com.hyun.service.impl.CommandServiceImpl;
 import com.hyun.service.impl.QueryServiceImpl;
 @Controller
 @RequestMapping("/query")
-public class QueryInformationController {
+public class QueryInformationController  extends BaseController {
 @Autowired
 private QueryServiceImpl service;
 @Autowired
