@@ -8,13 +8,10 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <base href="<%=basePath%>">
-<!--如果找不到基础路径加上这个标签 -->
-
 <title>EM系统登陆界面</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -39,7 +36,7 @@
 				</tr>
 				<tr>
 					<td height="58" colspan="2"><input type="text"
-						class=" login_input2" placeholder="密码" name="Password" /></td>
+						class=" login_input2" placeholder="密码" name="Password" type="password"/></td>
 				</tr>
 				<tr>
 				<td> <div class="Errors">${errorMessage}</div></td>

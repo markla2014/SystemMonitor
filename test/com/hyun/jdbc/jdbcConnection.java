@@ -30,7 +30,7 @@ import com.hyun.exception.GwtException;
 public class jdbcConnection {
 	public static final String USER_NAME = "system";
 	public static final String PASS_WORD = "CHANGEME";
-	public static final String SERVER = ":@192.168.0.20:1978";
+	public static final String SERVER = ":@192.168.0.13:1978";
 	public static final int CONNECT_POOLSIZE = 3;
     private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
     public static final int FETCH_PAGE = 1;
@@ -600,7 +600,11 @@ public class jdbcConnection {
 	                if (record2[3].equals("NULL")) {
 	                    record2[3] = "-";
 	                }
-	                
+	                if(record[4]=="YES"){
+	                	record[4]="NO";
+	                }else{
+	                	record[4]="YES";
+	                }
 	                int index = indexColumns.indexOf(record[0]);
 	                if (index >= 0) {
 	                    record2[record.length] = "YES";
@@ -952,5 +956,35 @@ public class jdbcConnection {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	@Test
+	public void testPrileger(){
+		Connection conn=jdbcConnectionTest();
+		CloudConnection connect=((CloudConnection) conn);
+		try {
+			System.out.println(this.getUserPrivileges(conn,"ba"));
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void testtableColumn(){
+		Connection conn=jdbcConnectionTest();
+		CloudConnection connect=((CloudConnection) conn);
+		
+		try {
+			String[][] temp=this.getTableColumns(connect,"ETLTEST","ITABLE1");
+			for(String[] a:temp){
+				for(String b:a){
+					System.out.print(b+" ");
+				}
+				System.out.println();
+			}
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

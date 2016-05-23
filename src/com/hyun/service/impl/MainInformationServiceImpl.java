@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ import com.hyun.vo.diagram.totalDiskSpaceDiagram;
 public class MainInformationServiceImpl implements MainInformationService {
 	@Autowired
 	private MainInformationDao dao;
-
+	private static Logger logger=Logger.getLogger(MainInformationServiceImpl.class);
 	
 	@Override
 	public totalMasterOverviewInformation getMasterInfroamtion() {
@@ -79,6 +80,7 @@ public class MainInformationServiceImpl implements MainInformationService {
 			} catch (GwtException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				logger.error(e.getMessage());
 			}		
 		}
 		return returnValue;

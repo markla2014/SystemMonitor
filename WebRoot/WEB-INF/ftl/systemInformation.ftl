@@ -118,10 +118,10 @@ getInfomation();
 <div class="col-md-12">
 <ul>
 <li><!--<div class="chart_T">CPU监控</div>-->
-<div id="line1" class="col-md-8 col-sm-8 col-lg-8 pull-left" style="height:318px;"></div>
+<div id="line1" class="col-md-8 col-sm-8 col-lg-8 pull-left" style="height:318px;min-width:518px"></div>
 </li>
 <li><!--<div class="chart_T" >硬盘监控</div>-->
-<div id="pie1" class="col-md-4 col-sm-4 col-lg-4 pull-right" style="height:318px;"></div>
+<div id="pie1" class="col-md-4 col-sm-4 col-lg-4 pull-right" style="height:318px;min-width:318"></div>
 </li>
 </ul>
 </div>

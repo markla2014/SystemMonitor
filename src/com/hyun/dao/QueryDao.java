@@ -76,7 +76,24 @@ public void setRowCount(long rowCount) {
 			throw new GwtException(t.getMessage());
 		}
 	}
-
+	public String[] checkTableName(Connection connection, String schema)
+			throws GwtException {
+		try {
+			CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection
+					.getMetaData();
+			CloudResultSet result = (CloudResultSet) meta.getTables("default",
+					schema, null, new String[] { "TABLE" });
+			int count = (int) result.getRecordCount();
+	         String[] temp=new String[count];
+				for (int j = 0; j < count && result.next(); j++) {
+				    temp[j]=result.getString(3);
+				}
+			result.close();
+		  return temp;
+		} catch (Throwable t) {
+			throw new GwtException(t.getMessage());
+		}
+	}
 	public String[][] getViewList(Connection connection, String schema)
 			throws GwtException {
 		try {
@@ -189,7 +206,6 @@ public void setRowCount(long rowCount) {
 				if (record2[3].equals("NULL")) {
 					record2[3] = "-";
 				}
-
 				int index = indexColumns.indexOf(record[0]);
 				if (index >= 0) {
 					record2[record.length] = "YES";
@@ -210,6 +226,11 @@ public void setRowCount(long rowCount) {
 				} else {
 					record2[record.length + 2] = "NO";
 					record2[record.length + 3] = "-";
+				}
+				if("YES".equals(record2[4])){
+					record2[4]="NO";
+				}else{
+					record2[4]="YES";
 				}
 				array.add(record2);
 			}

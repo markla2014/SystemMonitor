@@ -107,15 +107,17 @@ public class CommandServiceImpl implements CommandService {
 	}
 	public String createTable(DataTable forntValue){
 		 try{
+			 int sqlcount=1;
 			 String schema=forntValue.getSchema();
 			 String table=forntValue.getTable();
 			 StringBuffer sql=new StringBuffer("CREATE TABLE "+schema+"."+table+"(");
-			 StringBuffer fullindexsql=new StringBuffer("create fulltext index on"+schema+"."+table+"(");
+			 StringBuffer fullindexsql=new StringBuffer("create fulltext index on "+schema+"."+table+"(");
+			 LinkedList<String> fullIndexrecord=new LinkedList<String>();
 			 String singleSql="";
 			 boolean havefulltext=false;
 			 boolean haveindex=false;
-			 String Singlefulltextsql="";
-			 StringBuffer indexSql=new StringBuffer();
+		
+			 LinkedList<String> indexSql=new LinkedList<String>();
 		   for( dataInfo i:forntValue.getCols()){
 			if((i.getDatatype().equals("VARCHAR")||i.getDatatype().equals("CHAR")||i.getDatatype().equals("NUMERIC"))&&i.getLength()!=0){
 			    singleSql=i.getColName()+" "+i.getDatatype()+"("+i.getLength()+")";	
@@ -128,15 +130,18 @@ public class CommandServiceImpl implements CommandService {
 			if(i.getIsNull()==1){
 				singleSql+=" not null";
 			}
+			if(i.getIsUnique()==1){
+				singleSql+=",unique("+i.getColName()+")";
+			}
 			if(i.getIscover()==1){
 				  havefulltext=true;
-				fullindexsql.append(i.getColName()+",");
+				  fullIndexrecord.add(i.getColName());
 			}
 			if(i.getIsIndex()==1){
 				haveindex=true;
-				String singleindexSql="create index on "+schema+"."+table+"("+i.getColName()+")";
-				 indexSql.append(singleindexSql);
-				 indexSql.append("\r\n");
+				sqlcount++;
+				String singleindexSql="create index on "+schema+"."+table+"("+i.getColName()+");";
+		           indexSql.add(singleindexSql);
 			}
 			if(i.equals(forntValue.getCols().get((forntValue.getCols().size()-1)))){
 				sql.append(singleSql);
@@ -145,21 +150,32 @@ public class CommandServiceImpl implements CommandService {
 			}
 		   }
 		   sql.append(");");
-		   if(havefulltext){
-			   sql.append("\r\n");
-		    fullindexsql.append(");");
-		    sql.append(fullindexsql.toString());
+		   if(fullIndexrecord.size()>0){
+			   sqlcount++;
 		   }
+		   String[] sqls=new String[sqlcount];
+		   sqls[0]=sql.toString();
 		   if(haveindex){
-		    sql.append("\r\n");
-		    sql.append(indexSql.toString());
+			   for(int i=0;i<indexSql.size();i++){
+				   sqls[i+1]=indexSql.get(i);
+			   }
 		   }
-			dao.createCommand(sql.toString());
+		   if(havefulltext){
+		   for(int i=0;i<fullIndexrecord.size();i++){
+			   fullindexsql.append(fullIndexrecord.get(i));
+			  if(i!=(fullIndexrecord.size()-1)){
+				  fullindexsql.append(", ");
+			  }else{
+				  fullindexsql.append(");");
+			  }
+			  
+		   }
+		   sqls[sqls.length-1]=fullindexsql.toString();
+		   }
+			return dao.createCommand(sqls);
 		 }catch(Exception e){
 			 return e.getMessage();
 		 }
-		
-		return "";
 	}
 	public int getSreachQueryCount(String sql){
 		try {

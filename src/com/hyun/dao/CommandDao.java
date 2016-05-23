@@ -61,14 +61,12 @@ public class CommandDao extends BaseDao {
     	 String value= (test>-1)?SUCCESS:FAIL;
     	 return value;
     }
-      public String createCommand(String sql) throws Exception{
+      public String createCommand(String[] sql) throws Exception{
     	  logge.info(sql);
     	  String value=SUCCESS;
     	 int[] test=template.getTemplate().batchUpdate(sql);
     	 for(int i:test){
-    		 if(i<0){
-    			 value=FAIL;
-    		 }
+      System.out.println("sql 语句成功"+i);
     	 }
      	 return value;
       }

@@ -103,7 +103,18 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 			return temp;
 		}
 	}
-
+    public String[] checkTableName(String schema){
+    	try {
+			return dao.checkTableName(dao.getConnection(), schema);
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			String[] temp=new String[1];
+			temp[0]=e.getMessage();
+			logger.error(e.getMessage());
+			return temp;
+		}
+    	
+    }
 	@Override
 	public String[] getUsers() {
 		

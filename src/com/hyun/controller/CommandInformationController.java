@@ -109,12 +109,11 @@ public class CommandInformationController extends BaseController{
 			temp1.setSchema(schema);
 			temp1.setTable(table);
 			temp1.setCols(cols);
-	    service.createTable(temp1);
+	   return JasonCover.toJason(service.createTable(temp1));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			return JasonCover.toJason(e.getMessage());
 		}
-		return JasonCover.toJason("success");
 	}
 	@RequestMapping("/getCommandInterface.do")
 	public ModelAndView getCommandInterface(HttpServletRequest req,

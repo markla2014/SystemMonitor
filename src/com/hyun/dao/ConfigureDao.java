@@ -23,12 +23,5 @@ public class ConfigureDao extends BaseDao{
 	            throw new GwtException(t.getMessage());
 	        }
 	    }
-	   public boolean doRestartServer(CloudConnection conn,String target) throws GwtException {
-	        try {
-	            CloudDatabaseMetaData meta = (CloudDatabaseMetaData) conn.getMetaData();
-	            return meta.executeRestartServer(target);
-	        } catch (Throwable t) {
-	            throw new GwtException(t.getMessage());
-	        }
-	    }
+	
 }

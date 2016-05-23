@@ -11,4 +11,5 @@ public interface QueryService {
 			String[][] getTableDistriution(String schema, String table);
 			public String[] getUsers();
 			public String[][] getViewDefination(String schema,String view);
+			 public String[] checkTableName(String schema);
 }

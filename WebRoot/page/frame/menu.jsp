@@ -48,13 +48,14 @@ atemp.smartMenu(obj, {
 </script>
 </head>
 
-<body>
+<body STYLE='OVERFLOW:SCROLL;OVERFLOW-X:HIDDEN'>
 <table width="189" border="0" cellSpacing=0 cellPadding=0  background="page/images/menu_bg_06.gif" height="100%">
   <tr>
 <td height="40"><div class="menu_bg1">
 <ul>
 <li><a href="${pageContext.request.contextPath}/query/getSchema.do" target="menu"><div class="menu_bg1_DP1"></div></a></li>
 <li><a href="page/frame/menu2.jsp" target="menu"><div class="menu_bg1_monitor2"></div></a></li>
+<li><a href="page/frame/user.jsp" target="menu"><div class="menu_bg1_daily2"></div></a></li>
 </ul>
 
 </div></td>

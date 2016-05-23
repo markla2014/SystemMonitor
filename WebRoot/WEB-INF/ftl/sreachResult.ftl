@@ -16,17 +16,18 @@
 	var sql = "${runningsql}";
 	$(document).ready(function() {
 		checkwetherBfile();
-       $(".forminfo").scrollbars();
 		$(".pagin").show();
 		if (recordCount > 20) {
 			$(".paginList").show();
 		} else {
 			$(".paginList").hide();
 		}
-	adjustTable();
+	var pageHight=$(window).width();
+	$('.tablelist').tableScroll({height:1024,width:pageHight});
 	});
 	$(window).resize(function() {
-	adjustTable();
+	var pageHight=$(window).width();
+	$('.tablelist').tableScroll({height:1024,width:pageHight});
 	});
 </script>
 </head>
@@ -49,7 +50,7 @@
 		<table cellSpacing=0 cellPadding=0 width="100%" align=center border=0>
 			<tr>
 				<td>
-				<div class="forminfo scroll">
+				<div class="forminfo">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							class="tablelist">
 							<#assign x=0 /> <#list result as su>
@@ -166,7 +167,6 @@
 
 								$(".tablelist").html(value);
 								checkwetherBfile();
-								$(".forminfo").scrollbars();
 								loadingHide(".tabson");
 							}
 						}

@@ -173,20 +173,5 @@ public class ConfigurationServiceImpl implements ConfigurationSerice{
 		}
 		return temp2;
 	}
-
-
-	@Override
-	public String restartServer(String target) {
-		// TODO Auto-generated method stub
-		try{
-		if(dao.doRestartServer(dao.getConnection(), target)){
-			return ServerMonitorConstant.SUCCESSFUL ;
-		}else{
-		  return ServerMonitorConstant.FAIL;
-		}
-		}catch(Exception e){
-			return e.getMessage();
-		}
-	}
 	}
 
