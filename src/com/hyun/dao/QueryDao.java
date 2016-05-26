@@ -120,121 +120,144 @@ public void setRowCount(long rowCount) {
 
 	public String[][] getTableColumns(CloudConnection connection,
 			String schema, String table) throws GwtException {
-		ArrayList<String[]> array = new ArrayList<String[]>();
-		try {
-			CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection
-					.getMetaData();
-			CloudResultSet result = (CloudResultSet) meta.getColumns(
-					"DEFAULT_", schema, table, null);
+		 ArrayList<String[]> array = new ArrayList<String[]>();
+	        try {
+	            CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection.getMetaData();
+	            CloudResultSet result = (CloudResultSet) meta.getColumns("DEFAULT_", schema, table, null);
+	            
+	            long recordCount = result.getRecordCount();
+	            this.setRowCount(recordCount);
+	            int[] columns = new int[] { 4, 6, 7, 13, 18 };
+	            String[] head = new String[] {
+	                    "字段", "类型", "长度", "默认值", "可空"
+	            };
+	            String[] head2 = new String[head.length + 6];
+	            System.arraycopy(head, 0, head2, 0, head.length);
+	            head2[head.length] = "索引";
+	            head2[head.length + 1] = "全文";
+	            head2[head.length + 2] = "文本";
+	            head2[head.length + 3] = "主键";
+	            head2[head.length + 4]=   "唯一";
+	            head2[head.length + 5] = "键序";
+	            
+	            CloudResultSet pkResult = (CloudResultSet) meta.getPrimaryKeys("DEFAULT_", schema, table);
+	            ArrayList<String> pkColumns = new ArrayList<String>();
+	            ArrayList<Integer> pkSequences = new ArrayList<Integer>();
+	            String pkName = null;
+	            while (pkResult.next()) {
+	                if (pkName == null) {
+	                    pkName = pkResult.getString(6);
+	                }
+	                String pkColumn = pkResult.getString(4);
+	                int pkSequence = pkResult.getInt(5);
+	                pkColumns.add(pkColumn);
+	                pkSequences.add(pkSequence);
+	            }
+	            pkResult.close();
 
-			long recordCount = result.getRecordCount();
-			this.setRowCount(recordCount);
-			int[] columns = new int[] { 4, 6, 7, 13, 18 };
-			String[] head = new String[] { "字段", "类型", "长度", "默认值", "可空" };
-			String[] head2 = new String[head.length + 4];
-			System.arraycopy(head, 0, head2, 0, head.length);
-			head2[head.length] = "索引";
-			head2[head.length + 1] = "全文";
-			head2[head.length + 2] = "主键";
-			head2[head.length + 3] = "键序";
-
-			CloudResultSet pkResult = (CloudResultSet) meta.getPrimaryKeys(
-					"DEFAULT_", schema, table);
-			ArrayList<String> pkColumns = new ArrayList<String>();
-			ArrayList<Integer> pkSequences = new ArrayList<Integer>();
-			String pkName = null;
-			while (pkResult.next()) {
-				if (pkName == null) {
-					pkName = pkResult.getString(6);
-				}
-				String pkColumn = pkResult.getString(4);
-				int pkSequence = pkResult.getInt(5);
-				pkColumns.add(pkColumn);
-				pkSequences.add(pkSequence);
-			}
-			pkResult.close();
-
-			ArrayList<String> ftiColumns = new ArrayList<String>();
-			String ftiColumnsString = meta.getFullTextIndexColumns(schema,
-					table);
-			String[] tokens = ftiColumnsString.split(",");
-			for (String tok : tokens) {
-				if (tok.length() > 0) {
-					ftiColumns.add(tok);
-				}
-			}
-
-			ArrayList<String> indexColumns = new ArrayList<String>();
-			String indexColumnsString = meta.getIndexColumns(schema, table);
-			tokens = indexColumnsString.split(",");
-			for (String tok : tokens) {
-				if (tok.length() > 0) {
-					indexColumns.add(tok);
-				}
-			}
-
-			String[][] rows = getMoreData(result, recordCount, columns);
-			for (int i = 0; i < rows.length; i++) {
-				String[] record = rows[i];
-				if (record[0].equals(AUTOKEY_COLUMN)) {
-					recordCount--;
-				}
-			}
-
-			// array.add(new String[] { String.valueOf(recordCount) });
-			array.add(head2);
-			for (int i = 0; i < rows.length; i++) {
-				String[] record = rows[i];
-				if (record[0].equals(AUTOKEY_COLUMN)) {
-					continue;
-				}
-				String[] record2 = new String[record.length + 4];
-				System.arraycopy(record, 0, record2, 0, record.length);
-				// remove length part from data type
-				int ki = record2[1].indexOf("(");
-				if (ki > 0) {
-					String ctype = record2[1].substring(0, ki);
-					String clen = record2[1].substring(ki + 1,
-							record2[1].length() - 1);
-					record2[1] = ctype;
-					record2[2] = clen;
-				}
-				if (record2[1].equals("NUMBER")) {
-					record2[1] = "NUMERIC";
-				}
-				// replace NULL value
-				if (record2[3].equals("NULL")) {
-					record2[3] = "-";
-				}
-				int index = indexColumns.indexOf(record[0]);
-				if (index >= 0) {
-					record2[record.length] = "YES";
-				} else {
-					record2[record.length] = "NO";
-				}
-				int fulltext = ftiColumns.indexOf(record[0]);
-				if (fulltext >= 0) {
-					record2[record.length + 1] = "YES";
-				} else {
-					record2[record.length + 1] = "NO";
-				}
-				int pki = pkColumns.indexOf(record[0]);
-				if (pki >= 0) {
-					record2[record.length + 2] = "YES";
-					record2[record.length + 3] = String.valueOf(pkSequences
-							.get(pki));
-				} else {
-					record2[record.length + 2] = "NO";
-					record2[record.length + 3] = "-";
-				}
-				if("YES".equals(record2[4])){
-					record2[4]="NO";
-				}else{
-					record2[4]="YES";
-				}
-				array.add(record2);
-			}
-			return array.toArray(new String[0][]);
+	            ArrayList<String> ftiColumns = new ArrayList<String>();
+	            String ftiColumnsString = meta.getFullTextIndexColumns(schema, table);
+	            String[] tokens = ftiColumnsString.split(",");
+	            for (String tok : tokens) {
+	                if (tok.length() > 0) {
+	                    ftiColumns.add(tok);
+	                }
+	            }
+	            ArrayList<String> textArray = new ArrayList<String>();
+	            String textIndexString=meta.getTextIndexColumns(schema, table);
+	            tokens = textIndexString.split(",");
+	            for (String tok : tokens) {
+	                if (tok.length() > 0) {
+	                	textArray.add(tok);
+	                }
+	            }
+	            ArrayList<String> uniqueArray = new ArrayList<String>();
+	        	CloudResultSet uniqueSet=(CloudResultSet)meta.getUniqueKeys("DEFAULT_",schema,table);
+	        	while(uniqueSet.next()){
+	        		uniqueArray.add(uniqueSet.getString(4));
+	        	}
+	        	uniqueSet.close();
+	            ArrayList<String> indexColumns = new ArrayList<String>();
+	            String indexColumnsString = meta.getIndexColumns(schema, table);
+	            tokens = indexColumnsString.split(",");
+	            for (String tok : tokens) {
+	                if (tok.length() > 0) {
+	                    indexColumns.add(tok);
+	                }
+	            }
+	            
+	            String[][] rows = getMoreData(result, recordCount, columns);
+	            for (int i = 0; i < rows.length; i ++) { 
+	                String[] record = rows[i]; 
+	                if (record[0].equals(AUTOKEY_COLUMN)) {
+	                    recordCount --;
+	                }
+	            }
+	            
+	           // array.add(new String[] { String.valueOf(recordCount) });
+	            array.add(head2);
+	            for (int i = 0; i < rows.length; i ++) {
+	                String[] record = rows[i]; 
+	                if (record[0].equals(AUTOKEY_COLUMN)) {
+	                    continue;
+	                }
+	                String[] record2 = new String[record.length + 6];
+	                System.arraycopy(record, 0, record2, 0, record.length);
+	                // remove length part from data type  
+	                int ki = record2[1].indexOf("(");
+	                if (ki > 0) {
+	                    String ctype = record2[1].substring(0, ki);
+	                    String clen = record2[1].substring(ki + 1, record2[1].length() - 1);
+	                    record2[1] = ctype; 
+	                    record2[2] = clen;
+	                }
+	                if (record2[1].equals("NUMBER")) {
+	                    record2[1] = "NUMERIC";
+	                }
+	                // replace NULL value
+	                if (record2[3].equals("NULL")) {
+	                    record2[3] = "-";
+	                }
+	                if(record[4]=="YES"){
+	                	record[4]="NO";
+	                }else{
+	                	record[4]="YES";
+	                }
+	                int index = indexColumns.indexOf(record[0]);
+	                if (index >= 0) {
+	                    record2[record.length] = "YES";
+	                } else {
+	                    record2[record.length] = "NO";
+	                }
+	                int fulltext = ftiColumns.indexOf(record[0]);
+	                if (fulltext >= 0) {
+	                    record2[record.length + 1] = "YES";
+	                } else {
+	                    record2[record.length + 1] = "NO";
+	                }
+	                int text=textArray.indexOf(record[0]);
+	                if(text>=0){
+	                	  record2[record.length + 2] = "YES";
+	                } else {
+	                    record2[record.length + 2] = "NO";
+	                }
+	                int unique=uniqueArray.indexOf(record[0]);
+	                if(unique>=0){
+	                	record2[record.length + 4] = "YES";
+	                } else {
+	                    record2[record.length + 4] = "NO";
+	                }
+	                int pki = pkColumns.indexOf(record[0]);
+	                if (pki >= 0) {
+	                    record2[record.length + 3] = "YES";
+	                    record2[record.length + 5] = String.valueOf(pkSequences.get(pki));
+	                } else {
+	                    record2[record.length + 3] = "NO";
+	                    record2[record.length + 5] = "-";
+	                }
+	                array.add(record2);
+	            }
+	            return array.toArray(new String[0][]);
 		} catch (Throwable t) {
 			throw new GwtException(t.getMessage());
 		}
@@ -294,7 +317,7 @@ public void setRowCount(long rowCount) {
 	}
 
 	public String[][] getTableDistribution(CloudConnection connection,
-			String schema, String table) {
+			String schema, String table) throws GwtException {
 		ArrayList<String[]> array = new ArrayList<String[]>();
 		try {
 			CloudDatabaseMetaData dbmeta = (CloudDatabaseMetaData) connection
@@ -314,8 +337,9 @@ public void setRowCount(long rowCount) {
 			}
 			return array.toArray(new String[0][]);
 		} catch (Exception t) {
-			t.printStackTrace();
-			return null;
+			  
+			throw new GwtException(t.getMessage());
+		    
 		}
 
 	}

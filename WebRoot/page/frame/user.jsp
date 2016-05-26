@@ -41,11 +41,11 @@
 		<tr>
 			<td height="40"><div class="menu_bg1">
 					<ul>
+					<li><a href="${pageContext.request.contextPath}/page/frame/menu2.jsp" target="menu"><div
+									class="menu_bg1_monitor2"></div></a></li>
 						<li><a
 							href="${pageContext.request.contextPath}/query/getSchema.do"
 							target="menu"><div class="menu_bg1_DP2"></div></a></li>
-						<li><a href="${pageContext.request.contextPath}/page/frame/menu2.jsp" target="menu"><div
-									class="menu_bg1_monitor2"></div></a></li>
 						<li><a href="${pageContext.request.contextPath}/page/frame/user.jsp" target="menu"><div
 									class="menu_bg1_daily1"></div></a></li>
 					</ul>

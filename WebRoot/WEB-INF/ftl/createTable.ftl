@@ -69,6 +69,7 @@
 					<td width="35" bgcolor="#6fb3e0" style="color:#FFF;">可空</td>
 					<td width="35" bgcolor="#6fb3e0" style="color:#FFF;">唯一</td>
 					<td width="35" bgcolor="#6fb3e0" style="color:#FFF;">索引</td>
+					<td width="35" bgcolor="#6fb3e0" style="color:#FFF;">文本</td>
 					<td width="35" bgcolor="#6fb3e0" style="color:#FFF;">全文</td>
 					<td width="35" bgcolor="#6fb3e0" style="color:#FFF;">主键</td>
 					<td width="25" bgcolor="#6fb3e0" style="color:#FFF;">键序</td>
@@ -87,6 +88,7 @@
 								<option value="CHAR">CHAR</option>
 								<option value="DATE">DATE</option>
 								<option value="DOUBLE">DOUBLE</option>
+								<option value="CLOB">CLOB</option>
 								<option value="FLOAT">FLOAT</option>
 								<option value="INTEGER" selected="selected">INTEGER</option>
 								<option value="LONG">LONG</option>
@@ -104,6 +106,10 @@
 								<option value="0" selected="selected">no</option>
 						</select></td>
 						<td><select id="isIndex" name="isIndex">
+								<option value="1">yes</option>
+								<option value="0" selected="selected">no</option>
+						</select></td>
+						<td><select id="isText" name="isText" onchange="textchange($(this))">
 								<option value="1">yes</option>
 								<option value="0" selected="selected">no</option>
 						</select></td>
@@ -326,6 +332,9 @@
 	    alert("该键为主键不能添加索引");
 	    obj.val(0);
 	  }
+	  $("select[name='isText']").each(function(){
+		  $(this).val(0);
+		});
 	}
 	}
 	function uniqueChange(){
@@ -377,6 +386,14 @@
 		 }
 		 });
 		
+		}
+		function textchange(obj){
+		var selectValue=obj.val();
+		if(selectValue==1){
+		$("select[name='iscover']").each(function(){
+		  $(this).val(0);
+		});
+		}
 		}
 	</script>
 </body>

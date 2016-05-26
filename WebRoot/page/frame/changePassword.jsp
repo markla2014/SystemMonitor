@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <input id="confirm_password" name="confirm_password" type="password" />
             </p>
             <p>
-                <input class="submit" type="submit" value="创建用户" />
+                <input class="submit" type="submit" value="确定" />
             </p>
         </form>
     </body>

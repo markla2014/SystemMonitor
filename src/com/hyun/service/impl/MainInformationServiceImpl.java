@@ -87,9 +87,12 @@ public class MainInformationServiceImpl implements MainInformationService {
 	}
 
 
-	@Override
-	public String getMasterLogin(String username, String password) {
-	    return dao.getJdbcConnection("system", "CHANGEME");
+	public String getMasterLogin(String username, String password,String ipaddress) {
+	    try{
+		return dao.getJdbcConnection(username, password,ipaddress);
+	    }catch(GwtException e){
+	    	return e.getMessage();
+	    }
 	}
 
 

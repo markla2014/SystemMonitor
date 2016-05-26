@@ -1,5 +1,7 @@
 package com.hyun.service.impl;
 
+import java.sql.SQLException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,15 @@ public void setUsernameList(String[] usernameList) {
 }
 private static Logger logger=Logger.getLogger(UserServiceImpl.class);
 	@Override
-	public String[][] getUsertable()  {
+	public String[][] getUsertable(String user)  {
 		
 		try{
 		// TODO Auto-generated method stub
-	   String[] temp=dao.getUserNameList("", dao.getConnection());
+	   String[] temp=dao.getUserNameList(user, dao.getConnection());
 	    this.setUsernameList(temp);
+	    if(!"system".equals(user)){
+	    	temp=new String[]{user};
+	    }
 	   String[][] returnValue=new String[temp.length+1][5];
 	     String[] temp1={"用户名","默认数据库","拥有库","指派库","指派所属"};
 	     returnValue[0]=temp1;
@@ -80,7 +85,7 @@ private static Logger logger=Logger.getLogger(UserServiceImpl.class);
 		// TODO Auto-generated method stub
 	    try {
 	    	//
-			if(this.checkUsername(username)){
+			if(this.checkUsername(username)||"system".equals(username.trim().toLowerCase())){
 				int test=dao.createUser(username, password);
 				if(test>-1)
 			        return "成功建立用户";
@@ -91,7 +96,8 @@ private static Logger logger=Logger.getLogger(UserServiceImpl.class);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-		   return e.getMessage();
+			logger.error(e.getMessage());
+		   return "用户名或密码不合法";
 		}
 		
 	}
@@ -141,6 +147,15 @@ private static Logger logger=Logger.getLogger(UserServiceImpl.class);
 		}catch(Exception e){
 			logger.error(e.getStackTrace());
 			return false;
+		}
+	}
+	public void userQuite(){
+		try {
+			dao.getConnection().clearCache();
+			dao.getConnection().close();
+			
+		} catch (SQLException e) {
+             logger.error(e.getMessage());
 		}
 	}
 }

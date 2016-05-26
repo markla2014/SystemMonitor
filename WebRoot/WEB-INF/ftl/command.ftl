@@ -118,7 +118,7 @@ $(this).addClass('selected').parent().siblings().children().removeClass('selecte
 });
 function addNotice(notice){
 var annount=$("#runOutcome").val();
-annount+="\n\r"+notice;
+annount=notice;
 $("#runOutcome").val(annount);
 }
 function onClear(){
@@ -136,7 +136,8 @@ $("#commandInput").val("");
  var desPattern=/^(DESC|desc).*/;
  var createPattern=/^(create|CREATE).*/;
  var dropPattern=/^(drop|DROP).*/;
- var deletePattern=/^(delete|Delete).*/;
+ var deletePattern=/^(delete|DELETE).*/;
+ var alterPattern=/^(alter|ALTER).*/;
   $.each(commands,function(i,key){
   if(key==""||key=='undefined'){
        commands.splice(i,i);
@@ -149,7 +150,7 @@ $("#commandInput").val("");
      addNotice("运行成功请到页面查看");
      var postitation=280-i;
     openWindowtimes(url,url+i,postitation);
- }else if(insertPattern.test(key) || desPattern.test(key) || createPattern.test(key) || dropPattern.test(key) || deletePattern.test(key) ){
+ }else if(insertPattern.test(key) || desPattern.test(key) || createPattern.test(key) || dropPattern.test(key) || deletePattern.test(key) || alterPattern.test(key)){
     var url="${path}/command/getGernalCommand.do?sql="+key;
     sendRequest(url)
  }else{

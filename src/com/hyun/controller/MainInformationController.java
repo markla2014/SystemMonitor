@@ -43,11 +43,15 @@ public class MainInformationController  extends BaseController {
 	public String login(HttpServletRequest req) {
 		String username = req.getParameter("username");
 		String password = req.getParameter("Password");
-		 String returnValue= service.getMasterLogin(username, password);
+	    String ipaddress=req.getParameter("ipaddress").trim();
+	    if("请输入服务器地址".compareTo(ipaddress)==0){
+	    	ipaddress="";
+	    }
+		 String returnValue= service.getMasterLogin(username, password,ipaddress);
         if(ServerMonitorConstant.SUCCESSFUL.equals(returnValue)){
         	HttpSession session=req.getSession();
         	  
-            session.setAttribute("UserName", "system");
+            session.setAttribute("UserName", username);
         	name=username;
         	return "main";
         }else{

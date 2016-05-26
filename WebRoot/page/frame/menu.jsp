@@ -53,8 +53,8 @@ atemp.smartMenu(obj, {
   <tr>
 <td height="40"><div class="menu_bg1">
 <ul>
-<li><a href="${pageContext.request.contextPath}/query/getSchema.do" target="menu"><div class="menu_bg1_DP1"></div></a></li>
 <li><a href="page/frame/menu2.jsp" target="menu"><div class="menu_bg1_monitor2"></div></a></li>
+<li><a href="${pageContext.request.contextPath}/query/getSchema.do" target="menu"><div class="menu_bg1_DP1"></div></a></li>
 <li><a href="page/frame/user.jsp" target="menu"><div class="menu_bg1_daily2"></div></a></li>
 </ul>
 

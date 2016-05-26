@@ -1,16 +1,12 @@
 package com.hyun.service.impl;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.cloudwave.jdbc.CloudConnection;
 import com.cloudwave.jdbc.bfile.CloudBfile;
 import com.hyun.common.indexPager;
 import com.hyun.common.pageNumber;
@@ -112,10 +108,16 @@ public class CommandServiceImpl implements CommandService {
 			 String table=forntValue.getTable();
 			 StringBuffer sql=new StringBuffer("CREATE TABLE "+schema+"."+table+"(");
 			 StringBuffer fullindexsql=new StringBuffer("create fulltext index on "+schema+"."+table+"(");
+			 StringBuffer textsql=new StringBuffer("create text index on "+schema+"."+table+"(");
+			 String uniqueSql=",unique(";
 			 LinkedList<String> fullIndexrecord=new LinkedList<String>();
+			 LinkedList<String> textrecord=new LinkedList<String>();
+			 LinkedList<String> uniqueRecord=new LinkedList<String>();
 			 String singleSql="";
 			 boolean havefulltext=false;
+			 boolean havtext=false;
 			 boolean haveindex=false;
+			 boolean haveUnique=false;
 		
 			 LinkedList<String> indexSql=new LinkedList<String>();
 		   for( dataInfo i:forntValue.getCols()){
@@ -131,7 +133,12 @@ public class CommandServiceImpl implements CommandService {
 				singleSql+=" not null";
 			}
 			if(i.getIsUnique()==1){
-				singleSql+=",unique("+i.getColName()+")";
+				haveUnique=true;
+				uniqueRecord.add(i.getColName());
+			}
+			if(i.getIsText()==1){
+				havtext=true;
+				textrecord.add(i.getColName());
 			}
 			if(i.getIscover()==1){
 				  havefulltext=true;
@@ -149,30 +156,48 @@ public class CommandServiceImpl implements CommandService {
 				sql.append(singleSql+" , ");
 			}
 		   }
-		   sql.append(");");
-		   if(fullIndexrecord.size()>0){
-			   sqlcount++;
+		   if(haveUnique){
+			   for(int i=0;i<uniqueRecord.size();i++){
+				  
+				   if(i==(uniqueRecord.size()-1)){
+					   uniqueSql+=uniqueRecord.get(i)+")";
+				   }else{
+					   uniqueSql+=uniqueRecord.get(i)+","; 
+				   }
+			   }
 		   }
-		   String[] sqls=new String[sqlcount];
-		   sqls[0]=sql.toString();
+		   sql.append(uniqueSql);
+		   sql.append(");");
+		   ArrayList<String> sqls=new ArrayList<String>();
+		   sqls.add(sql.toString());
 		   if(haveindex){
 			   for(int i=0;i<indexSql.size();i++){
-				   sqls[i+1]=indexSql.get(i);
+				    sqls.add(indexSql.get(i));
 			   }
 		   }
 		   if(havefulltext){
 		   for(int i=0;i<fullIndexrecord.size();i++){
 			   fullindexsql.append(fullIndexrecord.get(i));
-			  if(i!=(fullIndexrecord.size()-1)){
+			  if(i!=(fullIndexrecord.size()-1))
 				  fullindexsql.append(", ");
-			  }else{
+			  else
 				  fullindexsql.append(");");
-			  }
-			  
 		   }
-		   sqls[sqls.length-1]=fullindexsql.toString();
+		   sqls.add(fullindexsql.toString());
 		   }
-			return dao.createCommand(sqls);
+		   if(havtext){
+			   for(int i=0;i<textrecord.size();i++){
+				   textsql.append(textrecord.get(i));
+				   if(i!=(textrecord.size()-1))
+					   textsql.append(", ");
+				   else
+					   textsql.append(");");
+			   }
+		   sqls.add(textsql.toString());
+		   }
+		   String[] sqlsTemp=new String[sqls.size()];
+		   sqls.toArray(sqlsTemp);
+			return dao.createCommand(sqlsTemp);
 		 }catch(Exception e){
 			 return e.getMessage();
 		 }
@@ -263,5 +288,9 @@ public class CommandServiceImpl implements CommandService {
 		return dao.getBfileDowlaod(dao.getConnection(), id);
 	
 		
+	}
+	public String createView(String sql, String schema, String viewname) {
+		// TODO Auto-generated method stub
+		return dao.createView(schema,viewname,sql);
 	}
 }

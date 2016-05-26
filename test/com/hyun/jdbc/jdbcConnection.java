@@ -528,12 +528,13 @@ public class jdbcConnection {
 	            String[] head = new String[] {
 	                    "字段", "类型", "长度", "默认值", "可空"
 	            };
-	            String[] head2 = new String[head.length + 4];
+	            String[] head2 = new String[head.length + 5];
 	            System.arraycopy(head, 0, head2, 0, head.length);
 	            head2[head.length] = "索引";
 	            head2[head.length + 1] = "全文";
 	            head2[head.length + 2] = "主键";
-	            head2[head.length + 3] = "键序";
+	            head2[head.length + 3]="唯一";
+	            head2[head.length + 4] = "键序";
 	            
 	            CloudResultSet pkResult = (CloudResultSet) meta.getPrimaryKeys("DEFAULT_", schema, table);
 	            ArrayList<String> pkColumns = new ArrayList<String>();
@@ -558,7 +559,13 @@ public class jdbcConnection {
 	                    ftiColumns.add(tok);
 	                }
 	            }
-	            
+	           
+	            ArrayList<String> uniqueArray = new ArrayList<String>();
+	        	CloudResultSet uniqueSet=(CloudResultSet)meta.getUniqueKeys("DEFAULT_",schema,table);
+	        	while(uniqueSet.next()){
+	        		uniqueArray.add(uniqueSet.getString(4));
+	        	}
+	        	uniqueSet.close();
 	            ArrayList<String> indexColumns = new ArrayList<String>();
 	            String indexColumnsString = meta.getIndexColumns(schema, table);
 	            tokens = indexColumnsString.split(",");
@@ -583,7 +590,7 @@ public class jdbcConnection {
 	                if (record[0].equals(AUTOKEY_COLUMN)) {
 	                    continue;
 	                }
-	                String[] record2 = new String[record.length + 4];
+	                String[] record2 = new String[record.length + 5];
 	                System.arraycopy(record, 0, record2, 0, record.length);
 	                // remove length part from data type  
 	                int ki = record2[1].indexOf("(");
@@ -617,13 +624,19 @@ public class jdbcConnection {
 	                } else {
 	                    record2[record.length + 1] = "NO";
 	                }
+	                int unique=uniqueArray.indexOf(record[0]);
+	                if(unique>=0){
+	                	record2[record.length + 3] = "YES";
+	                } else {
+	                    record2[record.length + 3] = "NO";
+	                }
 	                int pki = pkColumns.indexOf(record[0]);
 	                if (pki >= 0) {
 	                    record2[record.length + 2] = "YES";
-	                    record2[record.length + 3] = String.valueOf(pkSequences.get(pki));
+	                    record2[record.length + 4] = String.valueOf(pkSequences.get(pki));
 	                } else {
 	                    record2[record.length + 2] = "NO";
-	                    record2[record.length + 3] = "-";
+	                    record2[record.length + 4] = "-";
 	                }
 	                array.add(record2);
 	            }
@@ -974,7 +987,7 @@ public class jdbcConnection {
 		CloudConnection connect=((CloudConnection) conn);
 		
 		try {
-			String[][] temp=this.getTableColumns(connect,"ETLTEST","ITABLE1");
+			String[][] temp=this.getTableColumns(connect,"MARK","MARKTEST");
 			for(String[] a:temp){
 				for(String b:a){
 					System.out.print(b+" ");
@@ -986,5 +999,22 @@ public class jdbcConnection {
 			e.printStackTrace();
 		}
 
+	}
+	@Test
+	public void testUniquekey(){
+		Connection conn=jdbcConnectionTest();
+		CloudConnection connect=((CloudConnection) conn);
+		  try {
+			CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connect.getMetaData();
+			CloudResultSet test=(CloudResultSet)meta.getUniqueKeys("DEFAULT_","MARK","MARKTEST");
+			while(test.next()){
+				System.out.println(	test.getString(4));
+			
+			}
+			test.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

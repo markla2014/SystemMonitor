@@ -1,8 +1,9 @@
 package com.hyun.connectionpool;
 
+import java.sql.SQLException;
+
 import org.springframework.stereotype.Component;
 import org.springframework.jdbc.core.JdbcTemplate;
-
 import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 
 @Component
@@ -24,7 +25,5 @@ public JdbcTemplate getTemplate() {
 public void setTemplate(JdbcTemplate template) {
 	this.template = template;
 }
-
-
 
 }

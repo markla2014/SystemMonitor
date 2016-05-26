@@ -11,6 +11,15 @@ public class dataInfo implements Comparable<dataInfo> {
 	private int isPrimary;
 	private int keySquence;
 	private int isUnique;
+	private int isText;
+
+	public int getIsText() {
+		return isText;
+	}
+
+	public void setIsText(int isText) {
+		this.isText = isText;
+	}
 
 	public int getIsUnique() {
 		return isUnique;

@@ -56,6 +56,7 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 	background-position: 150px top;
 }
 .menu ul li a:hover { color:#2977b3; background-color: #CCC}
+.menu ul li a.active { color:#2977b3; background-color: #CCC}
 .menu ul li ul{display:none }
 .menu ul li ul li ul{margin-bottom:0px;}
 .menu ul li ul li{display: block;font-size:14px;list-style: circle;color:#2977b3;
@@ -78,6 +79,9 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 	background-position: 15px top;
 }
 .menu ul li ul li a:hover { color:#2977b3;}
+.menu ul li ul li a .active{
+	background: #2977b3; 
+}
 
 /*end*/
 
@@ -108,6 +112,7 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 .itab{height:36px; border-bottom:solid 1px #d0dee5; position:relative; border-left:solid 1px #d3dbde; margin-left:5px}
 .itab ul li{float:left;height:37px; line-height:37px; background:url(../images/itabbg.png) repeat-x; border-right:solid 1px #d3dbde;}
 .itab ul li a{font-size:14px;  padding-left:20px; padding-right:20px;color:#585858;}
+.itab ul li a:hover{cursor:pointer;}
 .itab ul li a.selected{ height:37px; display:block; background:url(../images/itabbg1.png) repeat-x; font-weight:bold; color:#2977b3}
 .tabson{border: solid 1px #cccccc;min-height: 290px;margin-bottom: 5px}
 .forminfo{ margin:3px 3px;border: solid 1px #cccccc; min-height:250px;}
@@ -246,7 +251,7 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 	-moz-box-shadow:0 0 5px rgba(81, 203, 238, 1);
 }
 
-.daily_top_button{ height:26px; width:86px; background: url(../images/rb_03.gif) no-repeat; border:none; margin-left:10px}
+.daily_top_button{ height:26px; width:86px; background: url(../images/rb_012.gif) no-repeat; border:none; margin-left:10px}
 .daily_mid{
 	min-height: 200px;
 }
@@ -468,3 +473,8 @@ color: #585858; }
 #itab ul li{float:left;height:37px; line-height:37px; background:url(../images/itabbg.png) repeat-x; border-right:solid 1px #d3dbde;}
 #itab ul li a{font-size:14px;  padding-left:20px; padding-right:20px;color:#585858;}
 #itab ul li a.selected{ height:37px; display:block; background:url(../images/itabbg1.png) repeat-x; font-weight:bold; color:#2977b3}
+/*联系人页面*/
+.contact{padding:40px 50px;}
+.contact li{margin-bottom: 10px;clear: both;line-height: 35px;border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #F5F5F5;
+}
+.contact li label{width:120px;line-height:35px; display:block; float:left; font-weight:bold; color:#2977b3}

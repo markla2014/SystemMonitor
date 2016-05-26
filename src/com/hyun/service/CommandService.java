@@ -26,4 +26,5 @@ public interface CommandService {
 	public String[][] getBfileInterface(String schema);
 	public String[][] getBfile(String schema,int start, int end);
 	public CloudBfile getBFileDownlaod(long id) throws Exception;
+	String createView(String sql, String schema, String viewname);
 }

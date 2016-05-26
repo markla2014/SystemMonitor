@@ -28,8 +28,9 @@ public class UserDao extends BaseDao {
             throw new GwtException(t.getMessage());
         }
     }
-	    public String[] getUserNameList(String catalog,CloudConnection connection) throws GwtException {
+	    public String[] getUserNameList(String currentuser,CloudConnection connection) throws GwtException {
 	        try {
+	        
 	            CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection.getMetaData();
 	            CloudResultSet result = (CloudResultSet)meta.getUsers();
 	            int count = (int) result.getRecordCount();
@@ -37,12 +38,13 @@ public class UserDao extends BaseDao {
 	            boolean existDba = false;  
 	            for (int i = 0; i < count && result.next(); i ++) {
 	                String user = result.getString(1); 
-	                if (!user.equals("system")) {
-	                    users[i] = user;
-	                } else {
-	                    users[i] = "管理员在尾部";
-	                    existDba = true;
-	                }
+		                if (!user.equals("system")) {
+		                    users[i] = user;
+		                } else {
+		                    users[i] = "管理员在尾部";
+		                    existDba = true;
+		                }
+		           
 	            }
 	            result.close();
 	            

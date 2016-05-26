@@ -8,7 +8,6 @@
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 		<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 	<script type="text/javascript">
-	//var error="${errorMessage}";
 	$(document).ready(function(){
 	    var user='${admin!""}';
 	    if(user!="system"){
@@ -19,12 +18,12 @@
 function createUser(){
 openWindow("${path}/page/frame/createuser.jsp");
 }
-function deleteUser(){
-var username=$(".tablelist tr").eq(2).children("td").eq(0).text();
+function deleteUser(obj){
+var username=obj.parent().parent().children("td").eq(0).text();
  location.href = "${path}/user/deleteUser.do?name="+username;
 }
-function changePassword(){
-var username=$(".tablelist tr").eq(2).children("td").eq(0).text();
+function changePassword(obj){
+var username=obj.parent().parent().children("td").eq(0).text();
 openWindow("${path}/user/changePasswordInterface.do?name="+username);
 }
 </script>
@@ -61,11 +60,11 @@ openWindow("${path}/user/changePasswordInterface.do?name="+username);
 </#list>
 <#if x!=0>
 <#if len==0>
-<td><a href="javascript:deleteUser(this);">删除</a></td>
+<td><a href="#" onclick="deleteUser($(this))">删除</a></td>
 <#else>
 <td></td>
 </#if>
-<td><a href="javascript:changePassword(this);">更改密码</a></td>
+<td><a href="#" onclick="changePassword($(this))">更改密码</a></td>
 <#else>
 <th width="285" bgcolor="#6fb3e0" style="color:#FFF;"></th>
 <th width="285" bgcolor="#6fb3e0" style="color:#FFF;"></th>

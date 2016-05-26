@@ -14,7 +14,6 @@ public class springTest {
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");  
 		CommandServiceImpl service = (CommandServiceImpl) context.getBean("commandServiceImpl");  
 		MainInformationServiceImpl service12=(MainInformationServiceImpl)context.getBean("mainInformationServiceImpl");
-		service12.getMasterLogin("", "");
 		System.out.println(service.getRowsCount("SMC4C","VIEW_SA_AUDIT_TREASURY"));
 		
 		System.out.println("run 1");

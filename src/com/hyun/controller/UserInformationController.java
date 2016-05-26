@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ private UserServiceImpl service;
 public String getUserList(HttpServletRequest req,HttpServletResponse response,Map<String,Object> map){
 	String error=req.getParameter("errorMessage");
 	String admin=req.getSession().getAttribute("UserName").toString();
-	String[][] temp=service.getUsertable();
+	String[][] temp=service.getUsertable(admin);
 	if("none".equals(error)){
 		error="";
 	}
@@ -73,8 +74,8 @@ public ModelAndView changePasswordInterface(HttpServletRequest req){
 @RequestMapping("/changePassword.do")
 public ModelAndView changePassword(HttpServletRequest req){
 	String username=req.getParameter("myname");
-	String newPassword=req.getParameter("password");
-	String oldPassword=req.getParameter("confirm_password");
+	String oldPassword=req.getParameter("password");
+	String newPassword=req.getParameter("confirm_password");
 	String result=service.changUserPassword(username, newPassword, oldPassword);
 	String url="forward:getUserList.do";
 	url=url+"?errorMessage="+result;
@@ -91,5 +92,12 @@ public String restart(HttpServletRequest req){
 		 return "success";
 	 }else
 		 return "fail";
+}
+@RequestMapping("/quite.do")
+public String quite(HttpServletRequest req ){
+	req.getSession().removeAttribute("UserName");
+	//((HttpSession) req.getAttribute("UserName")).invalidate();
+	service.userQuite();
+	return "index";
 }
 }

@@ -162,9 +162,10 @@ public ModelAndView deleteSchema(HttpServletRequest req,HttpServletResponse resp
 }
 @RequestMapping("/deleteView.do")
 public ModelAndView deleteView(HttpServletRequest req,HttpServletResponse response){
-	ModelAndView mv =new ModelAndView("forward:getSchema.do");
+	
 	String schema=req.getParameter("schema");
 	String view=req.getParameter("view");
+	ModelAndView mv =new ModelAndView("forward:getViews.do?schema="+schema);
 	service1.deleteView(schema, view);
 	return mv;
 }
@@ -211,5 +212,34 @@ public ModelAndView getBfileInterface(HttpServletRequest req){
 	mv.addObject("pageCount", pageCount);
 	mv.addObject("currentpage", 1);
 	return mv;  
+}
+@RequestMapping("/createViewInterface.do")
+public ModelAndView getViewInterface(HttpServletRequest req){
+	ModelAndView mv=new ModelAndView("createView");
+	String schema=req.getParameter("schema");
+	mv.addObject("schema", schema);
+	mv.addObject("error","");
+	return mv;
+}
+
+@RequestMapping("/createView.do")
+public ModelAndView getView(HttpServletRequest req){
+	
+	String schema=req.getParameter("schema");
+	String sql=req.getParameter("sql").trim();
+	String viewname=req.getParameter("name");
+	if(sql.contains(";")){
+		sql.replace(";","");
+	}
+	String result=service1.createView(sql,schema,viewname);
+	if(result=="success"){
+		ModelAndView mv=new ModelAndView("forward:getViews.do?schema="+schema);
+		return mv;
+	}else{
+		ModelAndView mv=new ModelAndView("createView");
+		mv.addObject("schema", schema);
+		mv.addObject("error",result);
+		return mv;
+	}
 }
 }

@@ -78,13 +78,22 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 		} catch (GwtException e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getStackTrace());
-			return new String[1][1];
+			String[][] errorRetrun= new String[1][1];
+			errorRetrun[0][0]=e.getMessage();
+			return errorRetrun;
 		}
 	}
 
 	@Override
 	public String[][] getTableDistriution(String schema, String table) {
+		try{
 		return dao.getTableDistribution(dao.getConnection(), schema, table);
+		}catch(GwtException e){
+			logger.error(e.getStackTrace());
+			String[][] errorRetrun= new String[1][1];
+			errorRetrun[0][0]=e.getMessage();
+			return errorRetrun;
+		}
 	}
 
 	@Override

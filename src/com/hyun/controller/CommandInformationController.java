@@ -186,7 +186,7 @@ public String  getBFileDownload(HttpServletRequest req,HttpServletResponse respo
 	CloudBfile file=service.getBFileDownlaod(id);
 	String fileName=file.getName();
 	response.setHeader("Content-Disposition", "attachment;fileName="
-			+ fileName);
+			+ new String( fileName.getBytes("gb2312"), "ISO8859-1" ));
 		   InputStream is = file.getInputStream(0L);
 		   OutputStream os = response.getOutputStream();
 	        byte[] bytes = new byte[4096];
@@ -198,4 +198,5 @@ public String  getBFileDownload(HttpServletRequest req,HttpServletResponse respo
 		is.close();
     return null;	
 }
+
 }

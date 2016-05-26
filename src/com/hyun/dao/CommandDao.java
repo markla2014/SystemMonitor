@@ -39,17 +39,9 @@ public class CommandDao extends BaseDao {
     return (template.getTemplate().update(sql)>-1)?SUCCESS:FAIL;
     }
     public String deleteView(String schema,String view) throws Exception{
-    	String sql="drop view ?.?";
-    	     final String Schema=schema;
-    	     final String View=view;
-    			 int count = template.getTemplate().update(sql, new PreparedStatementSetter() {  
-    			      @Override  
-    			      public void setValues(PreparedStatement pstmt) throws SQLException {  
-    			          pstmt.setObject(1, Schema);
-    			          pstmt.setObject(2, View); 
-    			  }});  
+    	String sql="drop view "+schema+"."+view;
     			 
-    			 return (count>-1)?SUCCESS:FAIL;
+    			 return (template.getTemplate().update(sql)>-1)?SUCCESS:FAIL;
     }
     public String deleteTable(String schema,String table) throws Exception{
     	String sql="drop table "+schema+"."+table;
@@ -158,4 +150,16 @@ public class CommandDao extends BaseDao {
     	  CloudBfile file=connection.getBfile(id);
     	  return file;
       }
+
+	public String createView(String schema,
+			String viewname, String sql) {
+		// TODO Auto-generated method stub
+		try{
+		String sqls="create view "+schema+"."+viewname+" as "+sql+";";
+		int affect=template.getTemplate().update(sqls);
+			return SUCCESS;
+		}catch(Exception e){
+			return e.getMessage();
+		}
+	}
 }

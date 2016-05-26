@@ -69,10 +69,10 @@ $(window).resize(function() {
 <div class="main_box">
   <div class="itab">
   	<ul> 
-    <li><a id="column"class="selected">栏位</a></li> 
+    <li><a id="column"class="selected">表定义</a></li> 
    <!-- <li><a id="index">索引</a></li> -->
-    <li><a id="data">数据</a></li> 
-    <li><a id="distribution">分布</a></li> 
+    <li><a id="data">表数据</a></li> 
+    <li><a id="distribution">小表分布</a></li> 
   	</ul>
   </div>
 <div id="popm">

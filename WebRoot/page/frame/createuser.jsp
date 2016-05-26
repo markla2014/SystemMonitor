@@ -40,6 +40,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     password:{
                         required:true,
                         rangelength:[3,10]
+                    },
+                    confirm_password:{
+                        required:true,
+                        rangelength:[3,10],
+                        equalTo:"#password"
                     }                   
                 },
                 messages:{
@@ -49,7 +54,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     password:{
                         required: "不能为空",
                         rangelength: $.format("密码最小长度:{0}, 最大长度:{1}。")
-                    }                                  
+                    },confirm_password:{
+                        required: "不能为空",
+                        rangelength: $.format("密码最小长度:{0}, 最大长度:{1}。"),
+                         equalTo: "请再次输入相同的值"
+                    }                                
                 }
                           
             });    });
@@ -66,6 +75,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <p>
                 <label for="password">登陆密码：</label>
                 <input id="password" name="password" type="password" />
+            </p>
+             <p >
+                <label for="confirm_password">确认登陆密码：</label>
+                <input id="confirm_password" name="confirm_password" type="password" />
             </p>
             <p>
                 <input class="submit" type="submit" value="创建用户" />
