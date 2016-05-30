@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import com.cloudwave.jdbc.CloudConnection;
@@ -22,6 +23,24 @@ import com.hyun.exception.GwtException;
 public class QueryDao extends BaseDao {
 	private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
 	private static final Logger logge = Logger.getLogger(QueryDao.class);
+	private CloudResultSet currentResultSet;
+	private String[] currenthead;
+	
+	public String[] getCurrenthead() {
+		return currenthead;
+	}
+
+	public void setCurrenthead(String[] currenthead) {
+		this.currenthead = currenthead;
+	}
+
+	public CloudResultSet getCurrentResultSet() {
+		return currentResultSet;
+	}
+
+	public void setCurrentResultSet(CloudResultSet currentResultSet) {
+		this.currentResultSet = currentResultSet;
+	}
 	private LinkedList<String[][]> templateResultCont=new LinkedList<String[][]>();
    public LinkedList<String[][]> getTemplateResultCont() {
 		return templateResultCont;
@@ -324,20 +343,28 @@ public void setRowCount(long rowCount) {
 			throw new GwtException(t.getMessage());
 		}
 	}
-    
 	public String[][] getTableDistributionRecord(CloudConnection connection,
 			String schema, String table,int pagenum) throws Exception{
 		int currentsize=this.getTemplateResultCont().size();
 	   if(currentsize>0){
-		    if(currentsize>pagenum){
-		   return this.getTemplateResultCont().get(pagenum);
-		    }else{
-		    	String[][] result=getTableDistribution(connection,schema,table);
-		    	this.getTemplateResultCont().add(result);
-		    	return result;
+		    if(currentsize>=pagenum){
+		    	if(pagenum==1){
+		    		this.setTemplateResultCont(new LinkedList<String[][]>());
+		    		   String[][] tesult=getTableDistribution(connection,schema,table);
+		    		   this.getTemplateResultCont().add(tesult);
+		    		   return tesult;
+		    	}else
+		       return this.getTemplateResultCont().get((pagenum-1));
+		    }
+		    else{
+		       String[][] tesult=readRowBypage(this.getCurrentResultSet(),20);
+		        this.getTemplateResultCont().add(tesult);
+		    	return tesult;
 		    }
 	   }else{
-		   return getTableDistribution(connection,schema,table);
+		   String[][] tesult=getTableDistribution(connection,schema,table);
+		   this.getTemplateResultCont().add(tesult);
+		   return tesult;
 	   }
 	}
 	
@@ -350,10 +377,11 @@ public void setRowCount(long rowCount) {
 			CloudResultSet result = (CloudResultSet) dbmeta.getTablets(schema,
 					table);
             this.setRowCount(result.getRecordCount());
+            this.setCurrentResultSet(result);
 			// array.add(new String[] { String.valueOf(recordCount) });
 			String[] head = getHeadData(result);
+			this.setCurrenthead(head);
 			array.add(head);
-            result.setFetchSize(20);
             
 			// CloudResultSet result1 =
 			// (CloudResultSet)dbmeta.getTablets(schema, table);
@@ -369,6 +397,27 @@ public void setRowCount(long rowCount) {
 		    
 		}
 
+	}
+	public String[][] readRowBypage(CloudResultSet result,int count){
+		ArrayList<String[]> array = new ArrayList<String[]>();
+		try {
+			
+		 array.add(this.getCurrenthead());
+		String[][] rows = getMoreData(result, 20);
+		this.setCurrentResultSet(result);
+		for (int i = 0; i < rows.length; i++) {
+			array.add(rows[i]);
+		}
+	    String[][] resultTemp= array.toArray(new String[0][]);
+		return resultTemp;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logge.error(e.getMessage());
+			String[][] errorTemp=new String[1][1];
+			errorTemp[0][0]=e.getMessage();
+		return 	errorTemp;
+		}
 	}
 
 	public String[] getHeadData(CloudResultSet result) throws SQLException {

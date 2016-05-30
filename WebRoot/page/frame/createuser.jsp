@@ -68,7 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <body>
         <form id="myform" class="basic-grey" method="post" action="${pageContext.request.contextPath}/user/createUser.do" target="rightFrame">
             <p>
-                <label for="myname">用户名：</label>
+                <label for="myname">用户名:</label>
                 <!-- id和name最好同时写上 -->
                 <input id="myname" name="myname" />
             </p>

@@ -2,7 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>内存信息</title>
+    <title>硬盘信息</title>
 	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css">
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="${path}/page/js/diagram/pie.js" type="text/javascript"></script>

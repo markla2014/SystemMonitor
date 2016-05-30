@@ -94,7 +94,7 @@ function loadingHide(opDiv){
        $(opDiv).css('display','block');
 }
 function openWindow(temp){
-	window.open(temp,'_blacnk','left=280,top=130,height=341,width=420,menubar=no,toolbar=no,location=no,status=no,scrollbars=no');
+	window.open(temp,'_blank','left=280,top=130,height=341,width=420,menubar=no,toolbar=no,location=no,status=no,scrollbars=no');
 }
 function openViewWindow(temp){
 	window.open(temp,'_blank','left=280,top=130,height=800,width=1200,menubar=no,toolbar=no,location=no,status=no,scrollbars=yes');

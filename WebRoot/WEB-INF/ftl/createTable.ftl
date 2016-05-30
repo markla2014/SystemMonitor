@@ -154,7 +154,7 @@
 			for (var i = 0; i < cellCount; i++) {
 				var cellHTML = bodyObj.rows[0].cells[i].innerHTML;
 
-				if (cellHTML.indexOf("none") >= 0) {
+				if (cellHTML>= 0) {
 					cellHTML = cellHTML.replace("none", "");
 				}
 				newRow.insertCell(i).innerHTML = cellHTML;
@@ -338,30 +338,22 @@
 	}
 	}
 	function uniqueChange(){
-	 $("select[name='isUnique']").each(function(){
-	 var selectValue=$(this).val();
-	if(selectValue==1){
-	 $(this).parent().next().next().next().children().val(0);
-	}
+	 $("select[name='isPrimary']").each(function(){
+	  $(this).val(0);
+	     $(this).parent().next().children().attr("readonly","readonly");
 	});
 	}
 	 function primaryChange(obj){
 	 var selectValue=obj.val();
 	 if(selectValue==1){
-	 obj.parent().prev().children().val(0);
+	 $("select[name='isUnique']").each(function(){
+	  $(this).val(0);
+	   
+	});
+	 obj.parent().next().children().removeAttr("readonly");
+	 }else{
+	   obj.parent().next().children().attr("readonly","readonly");
 	 }
- $("select[name='isPrimary']").each(function(){
-		   var selectValue=$(this).val();
-		  
-		   if(selectValue==1){
-		         $(this).parent().next().children().removeAttr("readonly");
-		         var test=obj.parent().prev().prev().prev();
-		         $(this).parent().prev().prev().prev().children().val(0);
-		   }else{
-		      $(this).parent().next().children().val("");
-		       $(this).parent().next().children().attr("readonly","readonly");
-		   }
-		   });
 		}
 		function checknum(){
 		 $("input[name='keySquence']").each(function(){

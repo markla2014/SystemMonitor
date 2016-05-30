@@ -2,7 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>内存信息</title>
+    <title>DFS配置信息</title>
 	<link rel="stylesheet" type="text/css" href="../page/css/frameStyle.css">
 	<script src="../page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="../page/js/diagram/pie.js" type="text/javascript"></script>

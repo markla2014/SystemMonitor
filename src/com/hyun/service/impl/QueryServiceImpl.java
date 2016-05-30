@@ -1,13 +1,13 @@
 package com.hyun.service.impl;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudResultSet;
 import com.hyun.dao.QueryDao;
 import com.hyun.exception.GwtException;
 import com.hyun.service.QueryService;
@@ -97,7 +97,7 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 			return errorRetrun;
 		}
 	}
-     
+	@Async
 	public String[][] getTableDistributionByPage(String schema,String table,int pagenum){
 		try{
 			return dao.getTableDistributionRecord(dao.getConnection(), schema, table, pagenum);

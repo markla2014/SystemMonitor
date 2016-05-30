@@ -28,7 +28,7 @@ $(document).ready(function (){
 createMenus(getSchema);
   $(".menu ul li").menu();
  	var obj = [[{
-		text:'删除模块',
+		text:'删除模式',
 				func:function(){
 					if(confirm("继续")){
 					 var currentSchema=$(this).find("td:last").html();
@@ -37,7 +37,7 @@ createMenus(getSchema);
 					}
 				}
 			}, { 
-	  text:'添加模块',func:function(){  
+	  text:'添加模式',func:function(){  
 	  openWindow("query/getCreateSchemaInterface.do") }
 		}]];
 	var atemp= $(".menu #thisSchema");

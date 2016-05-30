@@ -15,7 +15,7 @@ $(document).ready(function(){
 var array=${tableList};
 createTables(array);
 	var obj = [[{
-		text:'删除模块',
+		text:'删除表',
 				func:function(){
 				   var table=$(this).children().html()
 					location.href = "deleteTable.do?schema="+schema+"&table="+table;

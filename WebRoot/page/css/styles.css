@@ -120,11 +120,12 @@ padding: 0px 0px 10px 40px;
 display: block;
 border-bottom:1px solid #E4E4E4;
 margin: -10px -15px 30px -10px;;
-color: #888;
+color: #c0c0c0;
 }
 .basic-grey h1>span {
 display: block;
 font-size: 11px;
+color: red;
 }
 .basic-grey label {
 display: block;
