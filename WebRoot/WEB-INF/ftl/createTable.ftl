@@ -279,7 +279,7 @@
                window.location.href="${path}/query/getTables.do?schema="+schema;
               //  window.close();  
                 }else{
-                 window.location.reload();
+                 //window.location.reload();
                 $(".Errors").html(data);
                 $(".Errors").css('display','block'); 
                 }

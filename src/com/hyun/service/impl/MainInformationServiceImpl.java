@@ -81,6 +81,7 @@ public class MainInformationServiceImpl implements MainInformationService {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				logger.error(e.getMessage());
+				return getMasterInfroamtion();
 			}		
 		}
 		return returnValue;

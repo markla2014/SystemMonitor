@@ -60,6 +60,18 @@ public void setPassword(String password) {
     public currentTemplate getTemplate(){
     	return template;
     }
+    @SuppressWarnings("finally")
+	public CloudConnection reConnection(){
+       try {
+		this.connection.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		logger.error(e.getMessage());
+
+	}finally{
+		return this.getConnection();
+	}
+    }
 	public CloudConnection getConnection() {
 		try {
 			if(connection==null||connection.isClosed()){

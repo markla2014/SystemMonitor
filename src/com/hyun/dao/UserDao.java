@@ -60,7 +60,7 @@ public class UserDao extends BaseDao {
 	    public int changePassword(CloudConnection connection,String user,String newPassword,String oldpassord) throws Exception
 	    {
 	    	String sql="alter user "+user+" identified by "+newPassword+" replace "+oldpassord;
-	    	if(connection.getUserName().equals("system")){
+	    	if(connection.getUserName().equals("system")&&!"system".equals(user.toLowerCase())){
 	    		sql="alter user "+user+" identified by "+newPassword;
 	    	}
 	    	return template.getTemplate().update(sql);

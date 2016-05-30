@@ -105,7 +105,7 @@ $(window).resize(function() {
   </tr>
   <tr>
     <td><div class="pagin">
-    	<div class="message">共<i class="blue">${recordCount}</i>条记录，当前显示第&nbsp;<i class="blue" id="currentPage">${currentpage}&nbsp;</i>页</div>
+    	<div class="message">共<i class="blue" id="recordCount">${recordCount}</i>条记录，当前显示第&nbsp;<i class="blue" id="currentPage">${currentpage}&nbsp;</i>页</div>
         <ul class="paginList">
         <li class="paginItem"><a onclick="pagebackward()"><img src="../page/images/pre.png" width="28" height="30" id="pre"/></a></li>
         <li class="paginItem"><a onclick="pageForward()"><img src="../page/images/next.png" width="28" height="30" id="next"/></a></li>
@@ -122,15 +122,16 @@ $(window).resize(function() {
 </body>
 <script type="text/javascript" >
 var totalpage=${pageCount};
-var current=${currentpage};
+var current=$("#currentPage").text().trim();
+var urlpath="";
 function pageForward(){
 var next=current+1;
 if(next>totalpage){
 alter("这是最后一页");
 return;
 }
-urlpath="${path}/command/getTableData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:next};
+//urlpath="${path}/command/getTableData.do";
+datapath={schema:"${schema}",table:"${table}",pageNum:next};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
@@ -141,8 +142,8 @@ if(next<1){
 alter("这是第一页");
 return;
 }
-urlpath="${path}/command/getTableData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:next};
+//urlpath="${path}/command/getTableData.do";
+datapath={schema:"${schema}",table:"${table}",pageNum:next};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
@@ -151,18 +152,18 @@ $(".itab li a").click(function(){
 
 $(this).addClass('selected').parent().siblings().children().removeClass('selected');
 var tagename=$(this).attr("id");
-var urlpath="";
+urlpath="";
 var datapath;
 if(tagename=='distribution'){
 $(".container-fluid").css({width:'100%'});
- urlpath="${path}/query/getTableDistribution.do";
- datapath={schema:"${schema}",table:"${table}"};
+ urlpath="${path}/query/getTableDistributionpage.do";
+ datapath={schema:"${schema}",table:"${table}",pageNum:1};
  	$(".form_textbox").hide();
- 	$(".pagin").show();
+ 	$(".pagin").hide();
 }else if(tagename=='data'){
 $(".container-fluid").css({width:'auto'});
  urlpath="${path}/command/getTableData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:1 };
+ datapath={schema:"${schema}",table:"${table}",pageNum:1};
  $(".form_textbox").hide();
  if(totalpage>1){  $(".pagin").show(); }
 }else if(tagename=='column'){
@@ -182,15 +183,23 @@ loadingShow(".tabson")
             data:urldata,
             url: url,
             complete :function(){},
-            error:function(data){  
-           console.error(data);
+            error:function(msg){  
+               $(".tablelist").html("数据库返回异常");
+               loadingHide(".tabson");
         },  
             success: function(msg){
             if(msg.info!=null){
               	var resobj =JSON.parse(msg.info);
+              	$("#recordCount").html(msg.totalcount);
+              	if(urlpath.indexOf("TableColumn")<0){
+              	totalpage=msg.pageNumber;
+              	if(totalpage>1){
+              	 $(".pagin").show();
+              	}
+              	}
               	if(msg.current!=null){
                 current=parseInt(msg.current);
-                
+               $("#currentPage").html(current);
                 if(current==totalpage){
                 $("#pre").attr('src','../page/images/pre1.png');
                  $("#next").attr('src','../page/images/next1.png');
@@ -215,7 +224,7 @@ loadingShow(".tabson")
                        value+="</tr>"
                   }
                   $(".tablelist").html(value);
-               loadingHide(".tabson")
+               loadingHide(".tabson");
                 }
             }
     }); 
