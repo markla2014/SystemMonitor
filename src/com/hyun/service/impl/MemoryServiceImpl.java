@@ -35,7 +35,7 @@ public void setMemoryInformation(LinkedList<totalCPUpercent> memoryInformation) 
 		try {
 			temp=dao.getMemorySize(dao.getConnection());
 		} catch (GwtException e) {
-			e.printStackTrace();
+		     dao.reConnection();
 		}
 		if(temp!=null){
 		String[][] value=new String[temp.length][temp[0].length-2];

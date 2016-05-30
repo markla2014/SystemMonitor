@@ -10,7 +10,7 @@ import com.hyun.vo.diagram.totalDiskSpaceDiagram;
 public interface MainInformationService {
 
 	public totalMasterOverviewInformation getMasterInfroamtion();
-	public String getMasterLogin(String username,String password);
+	public String getMasterLogin(String username, String password,String ipaddress);
 	public totalDiskSpaceDiagram perpareTotalDiskSpace(totalMasterOverviewInformation informationTemp);
 	public totalCPUpercent perpareTotalCPU(totalMasterOverviewInformation informationTemp);
 	public LinkedList<totalDiskSpaceDiagram> perpareTableDiskSpace(totalMasterOverviewInformation informationTemp);

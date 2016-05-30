@@ -5,7 +5,7 @@
     <title>内存信息</title>
 	<link rel="stylesheet" type="text/css" href="${path}/page/css/frameStyle.css">
 	<script src="${path}/page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
-	<script src="${path}/page/js/diagram/createFlow.js" type="text/javascript"></script>
+	<script src="${path}/page/js/diagram/createMmoryFlow.js" type="text/javascript"></script>
 	<script src="${path}/page/js/view/common.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -23,7 +23,7 @@ var timeTicket=setInterval(function(){getInfomation();},3000);
 <div class="Titleicon"><img src="../page/images/home03.gif" width="18" height="38" /></div>
 <ul class="placeul">
     <li>监控</li>
-    <li class="title_text">memory</li>
+    <li class="title_text">内存</li>
   </ul>  
 </div>
 <div class="titlebg">

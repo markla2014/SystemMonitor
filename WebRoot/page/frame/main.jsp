@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -20,7 +20,7 @@
 <frameset border=0 frameSpacing=0 rows="44, *" frameBorder=0>
 <frame name=header  src="${pageContext.request.contextPath}/main/header.do" frameBorder=0 noResize scrolling=no>
 <frameset cols="189, *" >
-<frame name=menu src="page/frame/menu2.jsp" frameBorder=0 noResize scrolling="no">
+<frame name=menu src="page/frame/menu2.jsp" frameBorder=0 noResize scrolling="yes">
 <frame name=rightFrame src="${pageContext.request.contextPath}/main/mainInformtion.do" frameBorder=0 noResize scrolling=yes>
 </frameset>
 </frameset>

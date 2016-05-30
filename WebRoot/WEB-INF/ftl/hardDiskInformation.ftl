@@ -31,6 +31,28 @@ loadCharts(arrJson);
 <li>DFS节点信息</li>
 </ul>
 </div>
+<div id="content2" class="daily_mid">
+<table border='1' border='0' cellspacing='0' cellpadding='0' class='tablelist'>
+<#assign x = 0 />
+<#list result as su>
+<tr>
+<#list su as col>
+<#if x==0>
+<td width="285"  bgcolor="#6fb3e0"  style="color:#FFF;">${col}</td>
+<#else>
+<td height="40">${col}</td>
+</#if>	
+</#list>
+</tr>
+<#assign x=x+1 />
+</#list>
+</table>
+</div>
+<div class="titlebg">
+<ul>
+<li>DFS配置</li>
+</ul>
+</div>
 <div id="content" class="daily_mid">
 </div>
 <div class="titlebg">

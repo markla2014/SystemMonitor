@@ -7,15 +7,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.springframework.jdbc.core.StatementCreatorUtils;
+import org.junit.runner.Request;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonNull;
 import com.hyun.common.JasonCover;
 import com.hyun.common.ServerMonitorConstant;
 import com.hyun.service.impl.ConfigurationServiceImpl;
@@ -26,7 +25,7 @@ import com.hyun.vo.diagram.totalDiskSpaceDiagram;
 
 @Controller
 @RequestMapping("/main")
-public class MainInformationController {
+public class MainInformationController  extends BaseController {
  public static String login_Name="";
  public final String login_PassWord="";
  @Resource
@@ -41,11 +40,18 @@ public class MainInformationController {
 		return mv;
 	}
 	@RequestMapping("/login.do")
-	public String login(HttpServletRequest req,HttpServletResponse response) {
+	public String login(HttpServletRequest req) {
 		String username = req.getParameter("username");
 		String password = req.getParameter("Password");
-		 String returnValue= service.getMasterLogin(username, password);
+	    String ipaddress=req.getParameter("ipaddress").trim();
+	    if("请输入服务器地址".compareTo(ipaddress)==0){
+	    	ipaddress="";
+	    }
+		 String returnValue= service.getMasterLogin(username, password,ipaddress);
         if(ServerMonitorConstant.SUCCESSFUL.equals(returnValue)){
+        	HttpSession session=req.getSession();
+        	  
+            session.setAttribute("UserName", username);
         	name=username;
         	return "main";
         }else{
@@ -82,11 +88,12 @@ public class MainInformationController {
 	public ModelAndView diskInformation(HttpServletRequest req,HttpServletResponse response){
 		 ModelAndView mv=new ModelAndView("hardDiskInformation");
 		 totalMasterOverviewInformation info=service.getMasterInfroamtion();
-		   service1.getDFSConfigure();
+		   String[][] temp1=service1.getDFSConfigure();
 		   LinkedList<String[]> temp=service1.getDataNode();
 		 LinkedList<totalDiskSpaceDiagram> retrnValue=service.perpareTableDiskSpace(info);
 		 mv.addObject("info",JasonCover.toJason(retrnValue));
 		 mv.addObject("datanode",JasonCover.toJason(temp));
+		 mv.addObject("result",temp1);
 		return mv;
 	}
 		

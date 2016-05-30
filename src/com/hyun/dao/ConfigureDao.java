@@ -3,6 +3,7 @@ package com.hyun.dao;
 import org.springframework.stereotype.Repository;
 
 import com.cloudwave.jdbc.CloudConnection;
+import com.cloudwave.jdbc.CloudDatabaseMetaData;
 import com.hyun.exception.GwtException;
 @Repository
 public class ConfigureDao extends BaseDao{
@@ -22,4 +23,5 @@ public class ConfigureDao extends BaseDao{
 	            throw new GwtException(t.getMessage());
 	        }
 	    }
+	
 }

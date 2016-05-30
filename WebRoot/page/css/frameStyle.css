@@ -44,8 +44,7 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 
 .menu ul li{display:block;width:189px;background: url(../images/menu_04.gif) top left no-repeat;list-style:none;overflow:visible}
 .menu ul li a{display:block;height:40px; width:189px;padding-left:20px;font-size:15px;color:#585858;outline:none; line-height:35px;}
-
-.menu ul li .active{
+.menu ul li .active{	
 	color: #2977b3;
 	background-image: url(../images/off.png);
 	background-repeat: no-repeat;
@@ -57,6 +56,7 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 	background-position: 150px top;
 }
 .menu ul li a:hover { color:#2977b3; background-color: #CCC}
+.menu ul li a.active { color:#2977b3; background-color: #CCC}
 .menu ul li ul{display:none }
 .menu ul li ul li ul{margin-bottom:0px;}
 .menu ul li ul li{display: block;font-size:14px;list-style: circle;color:#2977b3;
@@ -79,6 +79,9 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 	background-position: 15px top;
 }
 .menu ul li ul li a:hover { color:#2977b3;}
+.menu ul li ul li a .active{
+	background: #2977b3; 
+}
 
 /*end*/
 
@@ -103,12 +106,13 @@ font-size: 12px;float:right;margin-right: 5px;margin-top: 7px;width: 70px;line-h
 .toollist{margin-left:20px; overflow:hidden; float:left;height:40px}
 .toollist li{ text-align:center; float:left; margin-right:10px; line-height:40px; height:40px;}
 .toollist li a{ color:#585858;text-decoration:none;}
-.toollist li a:hover{color:#2977b3;text-decoration:none; }
+.toollist li a:hover{color:#2977b3;text-decoration:none;cursor:pointer;}
 .main_box{border:solid 1px #cccccc; padding:5px 5px; color:#FFF; }
 
 .itab{height:36px; border-bottom:solid 1px #d0dee5; position:relative; border-left:solid 1px #d3dbde; margin-left:5px}
 .itab ul li{float:left;height:37px; line-height:37px; background:url(../images/itabbg.png) repeat-x; border-right:solid 1px #d3dbde;}
 .itab ul li a{font-size:14px;  padding-left:20px; padding-right:20px;color:#585858;}
+.itab ul li a:hover{cursor:pointer;}
 .itab ul li a.selected{ height:37px; display:block; background:url(../images/itabbg1.png) repeat-x; font-weight:bold; color:#2977b3}
 .tabson{border: solid 1px #cccccc;min-height: 290px;margin-bottom: 5px}
 .forminfo{ margin:3px 3px;border: solid 1px #cccccc; min-height:250px;}
@@ -247,7 +251,7 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 	-moz-box-shadow:0 0 5px rgba(81, 203, 238, 1);
 }
 
-.daily_top_button{ height:26px; width:86px; background: url(../images/rb_03.gif) no-repeat; border:none; margin-left:10px}
+.daily_top_button{ height:26px; width:86px; background: url(../images/rb_012.gif) no-repeat; border:none; margin-left:10px}
 .daily_mid{
 	min-height: 200px;
 }
@@ -268,6 +272,7 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #CCC;
+	display:none;
 }
 .pagin .blue{color:#056dae;font-style:normal;}
 .pagin .paginList{
@@ -295,6 +300,16 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 	border-left: 1px solid #cccccc;
 	border-top: 1px solid #cccccc;
 	color: #585858;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.tabson table th{
+	background-color: #6fb3e0;
+	border-left: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	color: #fff;
+	padding-right: 5px;
+	padding-left: 5px;
 }
 
 .table1_B_bg{min-height:260px; background-color:#eff3f8;font-family: "微软雅黑"; color:#585858}
@@ -339,7 +354,9 @@ filter: alpha(opacity: 0;)border: solid 1px #cccccc;}
 
 .tablelist{width:100%; clear:both;}
 .tablelist tbody tr:hover{background:#f0f7fe;}
-
+.tablelist tr.alt { 
+background: #f9fafb; 
+}
 /*------ 表 ---------------------*/
 
 .listbox{clear: both;min-height: 300px;color: #585858;margin: 10px}
@@ -441,3 +458,23 @@ color: #585858; }
 	border-bottom-color: #CCC;
 	border-left-color: #CCC;
 }
+/*加载窗口*/
+#popm{/*position:absolute;*/left:0;top:0;z-index:999;text-align:center; vertical-align:middle;width:100%;height:100%;display:none;}
+#popm p{width:100%;height:100%;background:#fff;opacity:0.5;filter:alpha(opacity:50);}
+#popm div{position:absolute;left:50%;top:50%;}
+#popm div div{margin:-50% 0 0 -50%;position:static;font:14px/30px '宋体';}
+/*表格调整*/
+
+#tabson{border: solid 1px #cccccc;min-height: 290px;margin-bottom: 5px}
+#tabson table{border-right:1px solid #cccccc;border-bottom:1px solid #cccccc}
+#tabson table td{border-left: 1px solid #cccccc;border-top: 1px solid #cccccc;color: #585858;}
+
+#itab{height:36px; border-bottom:solid 1px #d0dee5; position:relative; border-left:solid 1px #d3dbde; margin-left:5px}
+#itab ul li{float:left;height:37px; line-height:37px; background:url(../images/itabbg.png) repeat-x; border-right:solid 1px #d3dbde;}
+#itab ul li a{font-size:14px;  padding-left:20px; padding-right:20px;color:#585858;}
+#itab ul li a.selected{ height:37px; display:block; background:url(../images/itabbg1.png) repeat-x; font-weight:bold; color:#2977b3}
+/*联系人页面*/
+.contact{padding:40px 50px;}
+.contact li{margin-bottom: 10px;clear: both;line-height: 35px;border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #F5F5F5;
+}
+.contact li label{width:120px;line-height:35px; display:block; float:left; font-weight:bold; color:#2977b3}

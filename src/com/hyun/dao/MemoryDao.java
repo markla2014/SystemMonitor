@@ -35,19 +35,19 @@ public class MemoryDao extends BaseDao {
 	            for (String[] record : records) {
 	                Double phyical = Double.parseDouble(record[3])
 	                        / (1024 * 1024 * 1024);
-	                record[3] = numberS2Format.format(phyical);
+	                record[3] = numberS2Format.format(Math.abs(phyical));
 	                Double config = Double.parseDouble(record[4])
 	                        / (1024 * 1024 * 1024);
-	                record[4] = numberS2Format.format(config);
+	                record[4] = numberS2Format.format(Math.abs(config));
 	                Double commit = Double.parseDouble(record[5])
 	                        / (1024 * 1024 * 1024);
-	                record[5] = numberS2Format.format(commit);
+	                record[5] = numberS2Format.format(Math.abs(commit));
 	                Double current = Double.parseDouble(record[6])
 	                        / (1024 * 1024 * 1024);
-	                record[6] = numberS2Format.format(current);
+	                record[6] = numberS2Format.format(Math.abs(current));
 	                Double swap = Double.parseDouble(record[7])
 	                        / (1024 * 1024 * 1024);
-	                record[7] = numberS2Format.format(swap);
+	                record[7] = numberS2Format.format(Math.abs(swap));
 	                rows.add(record);
 	            }
 	            return rows.toArray(new String[0][]);
