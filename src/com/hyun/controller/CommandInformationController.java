@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyun.common.JasonCover;
 import com.hyun.common.ServerMonitorConstant;
 import com.hyun.service.impl.CommandServiceImpl;
+import com.hyun.service.impl.QueryServiceImpl;
 import com.hyun.vo.DataTable;
 import com.hyun.vo.dataInfo;
 
@@ -35,6 +36,8 @@ import com.hyun.vo.dataInfo;
 public class CommandInformationController extends BaseController{
 	@Autowired
 	private CommandServiceImpl service;
+	@Autowired
+	private QueryServiceImpl service1;
 	@Autowired
 	private CacheManager cacheManager;
 
@@ -49,6 +52,8 @@ public class CommandInformationController extends BaseController{
 		Map<String, String> temp = new HashMap<String, String>();
 		temp.put("info", JasonCover.toJason(result));
 		temp.put("current", pageNum + "");
+		temp.put("totalcount",service.getPager().getTotalRecord()+"");
+		temp.put("pageNumber",service.getPageCount()+"");
 		return temp;
 	}
 	/**

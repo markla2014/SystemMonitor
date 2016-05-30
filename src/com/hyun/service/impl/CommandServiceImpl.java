@@ -21,7 +21,13 @@ public class CommandServiceImpl implements CommandService {
 	public CommandDao dao;
 	private indexPager pager;
 	private LinkedList<pageNumber> pagelist;
-   private int BfileCount;
+   public indexPager getPager() {
+		return pager;
+	}
+	public void setPager(indexPager pager) {
+		this.pager = pager;
+	}
+private int BfileCount;
 	private static Logger logger = Logger.getLogger(CommandServiceImpl.class);
 	  public int getTotalRows(){
 		  return dao.getResultCount();
@@ -165,8 +171,9 @@ public class CommandServiceImpl implements CommandService {
 					   uniqueSql+=uniqueRecord.get(i)+","; 
 				   }
 			   }
+			   sql.append(uniqueSql);
 		   }
-		   sql.append(uniqueSql);
+		
 		   sql.append(");");
 		   ArrayList<String> sqls=new ArrayList<String>();
 		   sqls.add(sql.toString());

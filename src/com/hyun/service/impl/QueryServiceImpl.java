@@ -1,6 +1,7 @@
 package com.hyun.service.impl;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -87,6 +88,7 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 	@Override
 	public String[][] getTableDistriution(String schema, String table) {
 		try{
+		dao.setTemplateResultCont(new LinkedList<String[][]>());
 		return dao.getTableDistribution(dao.getConnection(), schema, table);
 		}catch(GwtException e){
 			logger.error(e.getStackTrace());
@@ -95,7 +97,17 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 			return errorRetrun;
 		}
 	}
-
+     
+	public String[][] getTableDistributionByPage(String schema,String table,int pagenum){
+		try{
+			return dao.getTableDistributionRecord(dao.getConnection(), schema, table, pagenum);
+		}catch(Exception e){
+			logger.error(e.getStackTrace());
+			String[][] errorRetrun= new String[1][1];
+			errorRetrun[0][0]=e.getMessage();
+			return errorRetrun;
+		}
+	}
 	@Override
 	public long getRowCount() {
 		

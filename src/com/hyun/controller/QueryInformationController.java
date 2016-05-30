@@ -129,6 +129,27 @@ public Map<String,String> getTabelDistribution(HttpServletRequest req,HttpServle
 	//mv.addObject("count",count);
 	return temp;
 }
+@RequestMapping("/getTableDistributionpage.do")
+@ResponseBody
+public Map<String,String> getTabelDistributionpage(HttpServletRequest req,HttpServletResponse response){
+	String schema=req.getParameter("schema");
+	String table=req.getParameter("table");
+	int pagenum=Integer.parseInt(req.getParameter("pageNum"));
+	String[][] result=service.getTableDistributionByPage(schema, table, pagenum);
+	Map<String,String> temp=new HashMap<String, String>();
+	long totalcount=service.getRowCount();
+	long pagenumber=totalcount/20;
+	if(!(totalcount%20==0)){
+		pagenumber++;
+	}
+	temp.put("info",JasonCover.toJason(result));
+	temp.put("current",JasonCover.toJason(pagenum));
+	temp.put("totalcount", totalcount+"");
+	temp.put("pageNumber",pagenumber+"");
+	//int count=service1.getTotalRows();
+	//mv.addObject("count",count);
+	return temp;
+}
 @RequestMapping("/createTableInterface.do")
 public ModelAndView createTableInterface(HttpServletRequest req,HttpServletResponse response){
 	ModelAndView mv=new ModelAndView("createTable");

@@ -109,7 +109,7 @@ public class CommandDao extends BaseDao {
        }
 
       public String[][] getTableInfor(String schema,String table,int start,int end){
-    	 String sql="select * from "+schema+"."+table+" where rownum >= "+start+" and rownum <= "+end;
+    	 String sql="select * from "+schema+"."+table+" where rownum >= "+start+" and rownum < "+end;
     	 List<Map<String, Object>> temp=template.getTemplate().queryForList(sql);
     	
     	 // Map<String, Object> keys=temp.get(0);
@@ -119,12 +119,14 @@ public class CommandDao extends BaseDao {
     	 return returnValue;
     	}else{
     	 int rows=temp.size()+1;
-    	 int col=temp.get(0).keySet().size();
+    	 int col=temp.get(0).keySet().size()+1;
     	 String[][] returnValue=new String[rows][col];
            int i=1;
-           int keyc=0;
+           int keyc=start+1;
+           returnValue[0][0]="记录条数";
     	 for(Map<String,Object> t:temp){
-    		  int j=0;
+    		  int j=1;
+    		  returnValue[i][0]=keyc+"";
         	   for(String k:t.keySet()){
         		   returnValue[0][j]=k;
         		   if(t.get(k)==null){
@@ -136,6 +138,7 @@ public class CommandDao extends BaseDao {
         		  j++;
         	   }
         	   i++;
+        	   keyc++;
            }
     	 
     	 return returnValue;

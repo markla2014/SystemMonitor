@@ -1,4 +1,5 @@
 <#assign path="${request.getContextPath()}">
+<#setting classic_compatible=true> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -55,7 +56,7 @@ openWindow("${path}/user/changePasswordInterface.do?name="+username);
 <#if x==0>
 <th width="285" bgcolor="#6fb3e0" style="color:#FFF;">${col}</th>
 <#else>
-<td height="40">${col}</td>
+<td height="40">${col?default("")}</td>
 </#if>
 </#list>
 <#if x!=0>

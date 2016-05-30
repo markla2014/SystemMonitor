@@ -7,6 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,15 @@ import com.hyun.exception.GwtException;
 public class QueryDao extends BaseDao {
 	private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
 	private static final Logger logge = Logger.getLogger(QueryDao.class);
-   private long rowCount=0;
+	private LinkedList<String[][]> templateResultCont=new LinkedList<String[][]>();
+   public LinkedList<String[][]> getTemplateResultCont() {
+		return templateResultCont;
+	}
+
+	public void setTemplateResultCont(LinkedList<String[][]> templateResultCont) {
+		this.templateResultCont = templateResultCont;
+	}
+private long rowCount=0;
    
 	public long getRowCount() {
 	return rowCount;
@@ -315,7 +324,23 @@ public void setRowCount(long rowCount) {
 			throw new GwtException(t.getMessage());
 		}
 	}
-
+    
+	public String[][] getTableDistributionRecord(CloudConnection connection,
+			String schema, String table,int pagenum) throws Exception{
+		int currentsize=this.getTemplateResultCont().size();
+	   if(currentsize>0){
+		    if(currentsize>pagenum){
+		   return this.getTemplateResultCont().get(pagenum);
+		    }else{
+		    	String[][] result=getTableDistribution(connection,schema,table);
+		    	this.getTemplateResultCont().add(result);
+		    	return result;
+		    }
+	   }else{
+		   return getTableDistribution(connection,schema,table);
+	   }
+	}
+	
 	public String[][] getTableDistribution(CloudConnection connection,
 			String schema, String table) throws GwtException {
 		ArrayList<String[]> array = new ArrayList<String[]>();
@@ -328,14 +353,16 @@ public void setRowCount(long rowCount) {
 			// array.add(new String[] { String.valueOf(recordCount) });
 			String[] head = getHeadData(result);
 			array.add(head);
-
+            result.setFetchSize(20);
+            
 			// CloudResultSet result1 =
 			// (CloudResultSet)dbmeta.getTablets(schema, table);
 			String[][] rows = getMoreData(result, 20);
 			for (int i = 0; i < rows.length; i++) {
 				array.add(rows[i]);
 			}
-			return array.toArray(new String[0][]);
+		    String[][] resultTemp= array.toArray(new String[0][]);
+			return resultTemp;
 		} catch (Exception t) {
 			  
 			throw new GwtException(t.getMessage());
