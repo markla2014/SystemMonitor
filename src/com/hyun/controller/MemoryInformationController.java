@@ -22,7 +22,7 @@ import com.hyun.vo.totalCPUpercent;
 
 @Controller
 @RequestMapping("/memory")
-public class MemoryInformationController {
+public class MemoryInformationController  extends BaseController {
 	 @Resource
 	 private MemoryServiceImpl service;
 	 @RequestMapping("/info.do")

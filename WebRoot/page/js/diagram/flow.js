@@ -7,7 +7,7 @@ var lineopt = {
 	tooltip : {
 		trigger : 'axis',
 		   formatter:function (params){ // tip的样式
-                var res = '时间 : ' + params[0].name +'<br/>';
+               var res = '时间 : ' + params[0].name +'<br/>';
                 for (var i = 0, l = params.length; i < l; i++) {
                     res += '<br/>' + params[i].seriesName + ' : ' + params[i].value+"%";
                 }    
@@ -18,13 +18,6 @@ var lineopt = {
 	toolbox : {
 		show : true,
 		feature : {
-			mark : {
-				show : true
-			},
-			dataView : {
-				show : true,
-				readOnly : false
-			},
 			restore : {
 				show : true
 			},
@@ -117,7 +110,7 @@ var now=new Date();
 var lineserie =  {
         name:'',
     	type : 'line',
-		stack : '总量',
+		//stack : '总量',
 		smooth:true,
 		itemStyle : {
 			normal : {

@@ -4,7 +4,9 @@
   <head>
     <title>Em 系统信息</title>
 	<link rel="stylesheet" type="text/css" href="../page/css/frameStyle.css">
+	<link rel="stylesheet" href="../page/css/bootstrap.min.css">
 	<script src="../page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+	<script src="../page/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="../page/js/diagram/pie.js" type="text/javascript"></script>
 <script type="text/javascript">
 var request_time = [];
@@ -35,46 +37,45 @@ getInfomation();
   </head>
 
   <body>
+  <div class="container-fluid">
 <div class="title">
 <div class="Titleicon"><img src="../page/images/home03.gif" width="18" height="38" /></div>
 <ul class="placeul">
     <li>监控</li>
-    <li class="title_text">主页</li>
+    <li class="title_text">系统概述</li>
   </ul>  
 </div>
 <div class="titlebg">
 <ul>
-<li>概览信息</li>
+<li>系统概述</li>
 </ul>
 
 </div>
 
-
-<Div class="daily_mid">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablelist">
+<table class="table table-condensed">
   <tr>
-    <td height="40">Cloudwave 数据库版本号</td>
+    <td style="width:35%">版本号</td>
     <td>${info.version}</td>
 
   </tr>
   <tr>
-    <td height="40">安装包发布时间</td>
+    <td style="width:35%">版本发布时间</td>
     <td>${info.compileDate}</td>
     </tr>
    <tr>
-    <td height="40">发行版本</td>
+    <td style="width:35%">部署系统</td>
     <td>${info.mode}</td>
     </tr>
      <tr>
-    <td height="40">文件块大小</td>
+    <td style="width:35%">文件块大小</td>
     <td>${info.blockSize}</td>
     </tr>
        <tr>
-    <td height="40">文件备份数</td>
+    <td style="width:35%">文件备份数</td>
     <td>${info.replication}</td>
     </tr>
         <tr>
-    <td height="40">系统运行时间</td>
+    <td style="width:35%">系统开机时间</td>
     <td>${info.startedDate}</td>
     </tr>
     </table>
@@ -83,46 +84,47 @@ getInfomation();
 <li>状态概览</li>
 </ul>
 </div>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablelist">
+    <table class="table table-condensed">
     <tr>
-    <td height="40">主节点运行状态</td>
+    <td style="width:35%">主节点运行状态</td>
     <td>${info.masterServer}</td>
   </tr>
     <tr>
-    <td height="40">存储节点运行状态</td>
+    <td style="width:35%" >子节点运行状态</td>
     <td>${info.tabletServers}</td>
 
   </tr>
     <tr>
-    <td height="40">硬盘使用状况概述</td>
+    <td style="width:35%">硬盘使用状态</td>
     <td>${info.systemSpaces}</td>
 
   </tr>
     <tr>
-    <td height="40">CPU使用状况概述</td>
+    <td style="width:35%">CPU使用状态</td>
     <td>${info.systemUsage}</td>
 
   </tr>
     <tr>
-    <td height="40">当前数据库对话</td>
+    <td style="width:35%">在线会话数量</td>
     <td>${info.onlineSessions}</td>
 
   </tr>
     <tr>
-    <td height="40">当前运行的sql</td>
+    <td style="width:35%">当前运行sql的  数量</td>
     <td>${info.runningSQL}</td>
 
   </tr>
 </table>
-<div class="chart_box">
+<div class="col-md-12">
 <ul>
-<li><div class="chart_T">CPU监控</div>
-<div id="line1" style="width:800px;height:318px;"></div>
+<li><!--<div class="chart_T">CPU监控</div>-->
+<div id="line1" class="col-md-8 col-sm-8 col-lg-8 pull-left" style="height:318px;min-width:518px"></div>
 </li>
-<li><div class="chart_T" >硬盘监控</div>
-<div id="pie1" style="width:318px;height:318px;"></div>
+<li><!--<div class="chart_T" >硬盘监控</div>-->
+<div id="pie1" class="col-md-4 col-sm-4 col-lg-4 pull-right" style="height:318px;min-width:318"></div>
 </li>
 </ul>
+</div>
 </div>
 <script src="../page/js/echarts.js" type="text/javascript"></script>
 <script src="../page/js/diagram/flow.js" type="text/javascript"></script>

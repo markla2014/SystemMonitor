@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<img id="switchImg" src="page/images/frameRight/jt_x.gif" width="10" height="11" />
 			</div>
 		    <div style="padding:10px; display: none;" id="exceptionDetailDiv">
-		    	<font size="3" color="red">#{exception.message}</font>
+		    	<font size="3" color="red">#{exceptionMessage}</font>
 		    	<hr>
 				<s:property value="exceptionStack"/>
 		    </div>

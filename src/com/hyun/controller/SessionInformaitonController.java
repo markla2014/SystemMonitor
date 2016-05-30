@@ -13,7 +13,7 @@ import com.hyun.service.impl.SessionListServiceImpl;
 
 @Controller
 @RequestMapping("/session")
-public class SessionInformaitonController {
+public class SessionInformaitonController  extends BaseController {
 	@Resource
 	 private SessionListServiceImpl service;
 

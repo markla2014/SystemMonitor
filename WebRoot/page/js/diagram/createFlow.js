@@ -10,7 +10,7 @@ charlen=ms.length;
 for(var i=0;i<ms.length;i++){
 var item=ms[i];
  tag+='<li><div class="chart_T"></div>';
- tag+='<div id="line'+i+'" style="width:1024px;height:510px;"></div>';
+ tag+='<div id="line'+i+'" style="width:1024px;height:350px;"></div>';
  tag+="</li>";
 }
 tag+='</url>';
@@ -38,23 +38,18 @@ var lineopt = {
 		trigger : 'axis',
 		   formatter:function (params){ // tip的样式
                 //var res = '时间 : ' + params[0].name +'<br/>';
-			   var test=params[0];
-			   var res="<br/>";
-                for (var i = 0, l = params.length; i < l; i++) {
+			   var res = '时间 : ' + params[0].name +'<br/>';
+               for (var i = 0, l = params.length; i < l; i++) {
                    res += '<br/>' + params[i].seriesName + ' : ' + params[i].value+"%";
-                }    
-                return res;
-            }
+               }    
+               return res;
+           }
 	},
 	toolbox : {
 		show : true,
 		feature : {
-			mark : {
-				show : true
-			},
 			dataView : {
-				show : true,
-				readOnly : false
+				show : true
 			},
 			restore : {
 				show : true
@@ -172,7 +167,7 @@ var lineserie =  {
         name:'',
     	type : 'line',
     	smooth:true,
-		stack : '总量',
+		//stack : '总量',
         markPoint: {
                   data: [
                     {type: 'max', name: '最大值'},

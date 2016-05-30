@@ -17,9 +17,8 @@
 <div class="top_right_welcome_text">欢迎，${username}</div>
 </div></li>
 
-<li><div class="top_right_user"><a href="">用户中心</a></div></li>
-<li><div class="top_right_user"><a href="">论坛</a></div></li>
-<li><div class="top_right_user"><a href="">退 出</a></div> </li>
+<li><div class="top_right_user"><a href="${path}/page/frame/contact.jsp" target="rightFrame">联系方式</a></div></li>
+<li><div class="top_right_user"><a href="javascript:top.window.location='${path}/user/quite.do'">退 出</a></div> </li>
 </ul>
 </div>
 </div>
