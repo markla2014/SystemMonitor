@@ -24,21 +24,26 @@
 <script type="text/javascript" >
 function checkIP(value){
     var exp=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
-    var reg = value.match(exp);
+    if(value!="请输入服务器地址"){
+     var reg = value.match(exp);
     if(reg==null)
     {
     alert("开始的IP地址不合法！");
     return false;
     }
+    }
 }
-function keyLogin(){
-	 if (event.keyCode==13)  //回车键的键值为13
+function keyLogin(e){
+var theEvent = window.event || e;
+var code = theEvent.keyCode || theEvent.which; 
+	 if (code==13)  //回车键的键值为13
 		 document.getElementById("login").submit();//调用登录按钮的登录事件
 	}
+	document.onkeypress=keyLogin; 
 </script>
 </head>
 
-<body onkeydown="keyLogin()">
+<body>
 	<div class="login_box">
 		<form id="login" action="main/login.do" method="post">
 			<table width="400" border="0" align="center" cellpadding="0"
@@ -61,7 +66,7 @@ function keyLogin(){
 					<td height="59" colspan="2"><table width="370" border="0"
 							cellpadding="0" cellspacing="0">
 							<tr>
-								<td width="260" height="48"><input type="text" id="ipaddress" name="ipaddress" class="login_select" value="192.168.0.13" onchange="checkIP($(this).val())"/></td>
+								<td width="260" height="48"><input type="text" id="ipaddress" name="ipaddress" class="login_select" value="请输入服务器地址" onchange="checkIP($(this).val())"/></td>
 								<!-- <td width="3" align="center" valign="middle"><img
 									src="page/images/login_11.gif" width="3" height="16" /></td>
 								<td width="125" align="center" valign="middle"><div

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="ServerMonitor">
+    <wb-module deploy-name="em2">
         <wb-resource deploy-path="/" source-path="/WebRoot" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/config"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
-        <property name="java-output-path" value="/ServerMonitor/WebRoot/WEB-INF/classes"/>
-        <property name="context-root" value="ServerMonitor"/>
+        <property name="java-output-path" value="/em2/WebRoot/WEB-INF/classes"/>
+        <property name="context-root" value="em2"/>
     </wb-module>
 </project-modules>

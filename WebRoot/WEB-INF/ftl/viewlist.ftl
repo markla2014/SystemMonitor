@@ -15,7 +15,7 @@ $(document).ready(function(){
 var array=${tableList};
 createViews(array);
 	var obj = [[{
-		text:'删除模块',
+		text:'删除视图',
 				func:function(){
 				   var table=$(this).children().html()
 					location.href = "deleteView.do?schema="+schema+"&view="+table;

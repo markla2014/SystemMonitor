@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>ServerMonitor</display-name>
-
+  <display-name>em2</display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
@@ -22,10 +21,10 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
-  <context-param>  
-        <param-name>log4jConfigLocation</param-name>  
-       <param-value>classpath:log4j.properties</param-value>  
-</context-param>
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>classpath:log4j.properties</param-value>
+  </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
@@ -43,7 +42,6 @@
     <filter-name>Spring character encoding filter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  <!--  -->
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.css</url-pattern>
@@ -52,7 +50,7 @@
     <servlet-name>default</servlet-name>
     <url-pattern>*.gif</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.png</url-pattern>
   </servlet-mapping>
@@ -64,17 +62,16 @@
     <servlet-name>default</servlet-name>
     <url-pattern>*.js</url-pattern>
   </servlet-mapping>
-  
-   <error-page>
-  <error-code>404</error-code>
-  <location>/WEB-INF/error/404.jsp</location>
- </error-page>
   <error-page>
-  <error-code>403</error-code>
-  <location>/WEB-INF/error/404.jsp</location>
- </error-page>
-   <error-page>
-  <error-code>500</error-code>
-  <location>/WEB-INF/error/500.jsp</location>
- </error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/error/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>403</error-code>
+    <location>/WEB-INF/error/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/error/500.jsp</location>
+  </error-page>
 </web-app>
