@@ -21,7 +21,15 @@ public class CommandServiceImpl implements CommandService {
 	public CommandDao dao;
 	private indexPager pager;
 	private LinkedList<pageNumber> pagelist;
-   public indexPager getPager() {
+	private long currentCommandId;
+
+public long getCurrentCommandId() {
+		return currentCommandId;
+	}
+	public void setCurrentCommandId(long currentCommandId) {
+		this.currentCommandId = currentCommandId;
+	}
+public indexPager getPager() {
 		return pager;
 	}
 	public void setPager(indexPager pager) {
@@ -29,7 +37,7 @@ public class CommandServiceImpl implements CommandService {
 	}
 private int BfileCount;
 	private static Logger logger = Logger.getLogger(CommandServiceImpl.class);
-	  public int getTotalRows(){
+	  public long getTotalRows(){
 		  return dao.getResultCount();
 	  }
 	  /**
@@ -300,4 +308,17 @@ private int BfileCount;
 		// TODO Auto-generated method stub
 		return dao.createView(schema,viewname,sql);
 	}
+	@Override
+	public String[][] withQuery(String sql) {
+		// TODO Auto-generated method stub
+		long id=System.currentTimeMillis();
+		this.setCurrentCommandId(id);
+		return dao.withQuery(sql,id,dao.getConnection());
+	}
+	@Override
+	public String[][] withQueryPage(long commandId, int pageNumer) {
+		// TODO Auto-generated method stub
+		return dao.withQuerypage(commandId, pageNumer);
+	}
+   
 }

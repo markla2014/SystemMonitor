@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cloudwave.jdbc.bfile.CloudBfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyun.common.JasonCover;
-import com.hyun.common.ServerMonitorConstant;
 import com.hyun.service.impl.CommandServiceImpl;
 import com.hyun.service.impl.QueryServiceImpl;
 import com.hyun.vo.DataTable;
@@ -141,10 +142,16 @@ public class CommandInformationController extends BaseController{
    public ModelAndView getSqueryQuery(HttpServletRequest req,HttpServletResponse response){
 	   ModelAndView mv=new ModelAndView("sreachResult");
 	   String sql=req.getParameter("sql");
-	   mv.addObject("runningsql", sql);
+	  
 	   int count=service.getSreachQueryCount(sql);
 	   mv.addObject("recordCount",count);
 	   String[][] value=service.getSreachQuery(sql,0,20);
+	   if(sql!=null){
+	   Pattern p = Pattern.compile("\t|\n");
+	   Matcher m = p.matcher(sql);
+	   sql=m.replaceAll("");
+	   }
+	   mv.addObject("runningsql", sql);
 	   mv.addObject("result", value);
 	   mv.addObject("current",1);
 	   int totalpage=count/20;
@@ -204,4 +211,36 @@ public String  getBFileDownload(HttpServletRequest req,HttpServletResponse respo
     return null;	
 }
 
+@RequestMapping("/withQuery.do")
+public ModelAndView getWithQuery(HttpServletRequest req,HttpServletResponse response){
+	ModelAndView mv=new ModelAndView("withResult");
+	String sql=req.getParameter("sql");
+	String[][] result=service.withQuery(sql);
+	long countTemp=service.getTotalRows();
+	mv.addObject("rowCount", countTemp);
+	mv.addObject("result",result);
+	 if(sql!=null){
+		   Pattern p = Pattern.compile("\t|\n");
+		   Matcher m = p.matcher(sql);
+		   sql=m.replaceAll("");
+		   }
+	mv.addObject("current", 1);
+    mv.addObject("runningsql",sql);
+	long recordCount=((countTemp%20)==0)?countTemp/20:(countTemp/20)+1;
+	mv.addObject("recordCount", recordCount);
+	mv.addObject("commandId", service.getCurrentCommandId());
+	return mv;
+}
+@RequestMapping("/withQueryPage.do")
+@ResponseBody
+public Map<String,String> getWithQueryPage(HttpServletRequest req,HttpServletResponse response){
+	String index=req.getParameter("index");
+	String pageNumer=req.getParameter("pageNum");
+	String[][] result=service.withQueryPage(Long.parseLong(index), Integer.parseInt(pageNumer));
+	Map<String,String> resultTemp=new HashMap<String,String>();
+	resultTemp.put("info", JasonCover.toJason(result));
+	resultTemp.put("current",pageNumer);
+
+	return resultTemp;
+}
 }

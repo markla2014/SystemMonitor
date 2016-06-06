@@ -4,8 +4,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.hyun.dao.CommandDao;
+import com.hyun.exception.GwtException;
 import com.hyun.service.impl.CommandServiceImpl;
-import com.hyun.service.impl.MainInformationServiceImpl;
 
 public class springTest {
       @Test
@@ -13,14 +14,16 @@ public class springTest {
 		// TODO Auto-generated constructor stub
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");  
 		CommandServiceImpl service = (CommandServiceImpl) context.getBean("commandServiceImpl");  
-		MainInformationServiceImpl service12=(MainInformationServiceImpl)context.getBean("mainInformationServiceImpl");
-		System.out.println(service.getRowsCount("SMC4C","VIEW_SA_AUDIT_TREASURY"));
+		CommandDao dao=(CommandDao)context.getBean("commandDao");
+		try {
+			dao.getJdbcConnection("system","CHANGEME", "192.168.0.13");
+		} catch (GwtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		System.out.println("run 1");
-		service.getViewData("SMC4C","VIEW_SA_AUDIT_TREASURY",1);
-		System.out.println("run2");
-		System.out.println(service.getRowsCount("SMC4C","VIEW_SA_AUDIT_TREASURY"));
-		service.getViewData("SMC4C","VIEW_SA_AUDIT_TREASURY",1);
+		
     }  
+ 
 	}
 

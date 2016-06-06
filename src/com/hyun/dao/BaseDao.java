@@ -72,17 +72,34 @@ public void setPassword(String password) {
 		return this.getConnection();
 	}
     }
+    public CloudConnection CreateConnection() throws SQLException{
+    
+    	CloudDriver driver = new CloudDriver();
+		Properties info = new Properties();
+		String user=this.getConnection().getUserName();
+		String password=this.getPassword();
+		String addr=this.getConnection().getServerAddr();
+		info.put("user", user);
+		info.put("password",password);
+		String url = "jdbc:cloudwave:@"+this.getConnection().getServerAddr()+":1978";;
+		
+		CloudConnection thisConnection=(CloudConnection)driver.connect(url, info);
+		
+		return thisConnection;
+    }
 	public CloudConnection getConnection() {
 		try {
 			if(connection==null||connection.isClosed()){
 				CloudDriver driver = new CloudDriver();
 				Properties info = new Properties();
-				info.put("user", this.getUsername());
-				info.put("password",this.getPassword());
-				String url = "jdbc:cloudwave" +this.getServerAddress();
+				String user=this.getConnection().getUserName();
+				String password=this.getPassword();
+				String addr=this.getConnection().getServerAddr();
+				info.put("user", user);
+				info.put("password",password);
+				String url = "jdbc:cloudwave:@"+this.getConnection().getServerAddr()+":1978";;
 				
-					connection = (CloudConnection)driver.connect(url, info);
-				
+			connection=(CloudConnection)driver.connect(url, info);
 				return connection;
 			}
 		} catch (SQLException e) {
@@ -96,7 +113,6 @@ public void setPassword(String password) {
 	}
 	public String getJdbcConnection(String username,String password,String ipaddress) throws GwtException {
 		try {
-			
 			CloudDriver driver = new CloudDriver();
 			Properties info = new Properties();
 			info.put("user", username);
@@ -111,8 +127,7 @@ public void setPassword(String password) {
 			connection = (CloudConnection)driver.connect(url, info);
 			String returnValue=connection.isClosed()? ServerMonitorConstant.FAIL:ServerMonitorConstant.SUCCESSFUL;
 			if(returnValue==ServerMonitorConstant.SUCCESSFUL){
-				this.setUsername(username);
-				this.setPassword(password);
+			
 			  BasicDataSource datasource=new BasicDataSource();
 			   datasource.setDriverClassName("com.cloudwave.jdbc.CloudDriver");
 			   datasource.setMaxIdle(2);
@@ -126,7 +141,8 @@ public void setPassword(String password) {
 		        WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);  
 		        AbstractRefreshableApplicationContext arac = (AbstractRefreshableApplicationContext)wac;  
 		        arac.refresh();  
-			    
+		    	this.setUsername(username);
+				this.setPassword(password);
 			}
 			return returnValue;
 		} catch (Throwable t) {

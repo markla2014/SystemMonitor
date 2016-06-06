@@ -118,7 +118,7 @@ $(this).addClass('selected').parent().siblings().children().removeClass('selecte
 });
 function addNotice(notice){
 var annount=$("#runOutcome").val();
-annount=notice;
+annount+=notice+"\n";
 $("#runOutcome").val(annount);
 }
 function onClear(){
@@ -126,6 +126,7 @@ $("#runOutcome").val("");
 $("#commandInput").val("");
 }
  function splitString(){
+   $("#runOutcome").val("");
  var commandString=$("#commandInput").val();
  if($.trim(commandString)==""){
    $("#runOutcome").val("不能为空");
@@ -138,6 +139,7 @@ $("#commandInput").val("");
  var dropPattern=/^(drop|DROP).*/;
  var deletePattern=/^(delete|DELETE).*/;
  var alterPattern=/^(alter|ALTER).*/;
+ var withPattern=/^(with|WITH).*/;
   $.each(commands,function(i,key){
   if(key==""||key=='undefined'){
        commands.splice(i,i);
@@ -145,7 +147,12 @@ $("#commandInput").val("");
  });
  $.each(commands,function(i,key){
   addNotice("当前运行语句 "+key);
- if(selectPattern.test(key)){
+  if( withPattern.test(key)){
+   var url="${path}/command/withQuery.do?sql="+key;
+     addNotice("运行成功请到页面查看");
+     var postitation=280-i;
+    openWindowtimes(url,url+i,postitation);
+  }else if(selectPattern.test(key)){
     var url="${path}/command/getSreachquery.do?sql="+key;
      addNotice("运行成功请到页面查看");
      var postitation=280-i;
@@ -168,8 +175,9 @@ $("#commandInput").val("");
             complete :function(){},
             error:function(data){  
             addNotice(data);
-              loadingHide(".tabson"); },  
+              loadingHide("#commandarea"); },  
             success: function(msg){
+          
                       if(msg.result=="success"){
                          addNotice('运行成功');
                       }else{

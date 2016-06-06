@@ -9,7 +9,7 @@ import com.hyun.vo.DataTable;
 
 public interface CommandService {
 
-  public int getTotalRows();
+  public long getTotalRows();
   public long getRowsCount(String schema,String table);
   public String[][] getTableDate(String schema,String table,int jumpPage);
   public long getPageCount();
@@ -27,4 +27,6 @@ public interface CommandService {
 	public String[][] getBfile(String schema,int start, int end);
 	public CloudBfile getBFileDownlaod(long id) throws Exception;
 	String createView(String sql, String schema, String viewname);
+	public String[][] withQuery(String sql);
+	public String[][] withQueryPage(long commandId,int pageNumer);
 }
