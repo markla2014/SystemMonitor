@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
 import com.hyun.dao.MainInformationDao;
 import com.hyun.exception.GwtException;
 import com.hyun.service.MainInformationService;
@@ -27,9 +28,11 @@ public class MainInformationServiceImpl implements MainInformationService {
 	public totalMasterOverviewInformation getMasterInfroamtion() {
 		
 		totalMasterOverviewInformation returnValue=new totalMasterOverviewInformation();
-		if(dao.getConnection()!=null){
+		CloudConnection connection=dao.CreateConnection();
+		
+		if(connection!=null){
 	        try {
-	        	String[] returnTemp=dao.getSystemOverview(dao.getConnection());
+	        	String[] returnTemp=dao.getSystemOverview(connection);
 	        	for(String i:returnTemp){
 	        		  String[] temp=i.split("=");
 	        		     String value_temp="";
@@ -76,13 +79,12 @@ public class MainInformationServiceImpl implements MainInformationService {
 	        				 break;
 	        		  }
 	        	}
-	        	
-			} catch (GwtException e) {
+	          connection.close();	
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				logger.error(e.getMessage());
-				return getMasterInfroamtion();
-			}		
+			}
 		}
 		return returnValue;
 	}

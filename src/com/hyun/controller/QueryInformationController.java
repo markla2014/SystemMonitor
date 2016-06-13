@@ -62,18 +62,14 @@ public ModelAndView getTabelColumn(HttpServletRequest req,HttpServletResponse re
 	String schema=req.getParameter("schema");
 	String table=req.getParameter("table");
 	String[][] result=service.getTableColumn(schema, table);
-	long recordCount=service1.getRowsCount(schema, table);
-	long pageCount=service1.getPageCount();
-	int currentpage=service1.getCurrent();
 	mv.addObject("table",table);
 	mv.addObject("schema",schema);
 	mv.addObject("result",result);
 	mv.addObject("rowCount",service.getRowCount());
-	mv.addObject("recordCount",recordCount);
-	mv.addObject("pageCount",pageCount);
-	mv.addObject("currentpage",currentpage);
-	//int count=service1.getTotalRows();
-	//mv.addObject("count",count);
+	mv.addObject("currentId","0");
+	//mv.addObject("recordCount",recordCount);
+  //mv.addObject("pageCount",pageCount);
+   mv.addObject("currentpage",1);
 	return mv;
 }
 @RequestMapping("/getViewDataInterface.do")
@@ -82,16 +78,16 @@ public ModelAndView getViewData(HttpServletRequest req,HttpServletResponse respo
 	String schema=req.getParameter("schema");
 	String table=req.getParameter("table");
 	long recordCount=service1.getRowsCount(schema, table);
-	String[][] result=service1.getViewData(schema,table,1);
-	long pageCount=service1.getPageCount();
-	int currentpage=service1.getCurrent();
+	String[][] result=service1.getViewData(schema,table,1,0);
+	long pageCount=service1.getTotalRows();
 	mv.addObject("table",table);
 	mv.addObject("schema",schema);
 	mv.addObject("result",result);
 	mv.addObject("rowCount",service.getRowCount());
 	mv.addObject("recordCount",recordCount);
 	mv.addObject("pageCount",pageCount);
-	mv.addObject("currentpage",currentpage);
+	mv.addObject("currentId",service1.getCurrentCommandId());
+	mv.addObject("currentpage",1);
 	//int count=service1.getTotalRows();
 	//mv.addObject("count",count);
 	return mv;

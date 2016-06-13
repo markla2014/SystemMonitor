@@ -27,9 +27,9 @@ public abstract class BaseDao {
 	
 	//public static final String USER_NAME = "system";
 	//public static final String PASS_WORD = "CHANGEME";
- public String username;
- public String password;
- public String serverAddress;
+ public static String username;
+ public static String password;
+ public static String serverAddress;
 	public String getServerAddress() {
 	return serverAddress;
 }
@@ -60,53 +60,27 @@ public void setPassword(String password) {
     public currentTemplate getTemplate(){
     	return template;
     }
-    @SuppressWarnings("finally")
-	public CloudConnection reConnection(){
-       try {
-		this.connection.close();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		logger.error(e.getMessage());
-
-	}finally{
-		return this.getConnection();
-	}
-    }
-    public CloudConnection CreateConnection() throws SQLException{
-    
+    public CloudConnection CreateConnection(){
+    	try{
     	CloudDriver driver = new CloudDriver();
 		Properties info = new Properties();
-		String user=this.getConnection().getUserName();
+		String user=this.getUsername();
 		String password=this.getPassword();
-		String addr=this.getConnection().getServerAddr();
+		String addr=this.getServerAddress();
 		info.put("user", user);
 		info.put("password",password);
-		String url = "jdbc:cloudwave:@"+this.getConnection().getServerAddr()+":1978";;
+		String url = "jdbc:cloudwave:@"+addr+":1978";;
 		
 		CloudConnection thisConnection=(CloudConnection)driver.connect(url, info);
-		
+    
 		return thisConnection;
+    	}catch(Exception e){
+    	logger.error(e.getMessage());
+    	return null;
+    	}
     }
 	public CloudConnection getConnection() {
-		try {
-			if(connection==null||connection.isClosed()){
-				CloudDriver driver = new CloudDriver();
-				Properties info = new Properties();
-				String user=this.getConnection().getUserName();
-				String password=this.getPassword();
-				String addr=this.getConnection().getServerAddr();
-				info.put("user", user);
-				info.put("password",password);
-				String url = "jdbc:cloudwave:@"+this.getConnection().getServerAddr()+":1978";;
-				
-			connection=(CloudConnection)driver.connect(url, info);
-				return connection;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			logger.error(e.getStackTrace());
-		}
-		return connection;
+	    return this.connection;
 	}
 	public void setConnection(CloudConnection connection) {
 		this.connection = connection;
@@ -143,6 +117,7 @@ public void setPassword(String password) {
 		        arac.refresh();  
 		    	this.setUsername(username);
 				this.setPassword(password);
+			     this.setServerAddress(connection.getServerAddr());
 			}
 			return returnValue;
 		} catch (Throwable t) {

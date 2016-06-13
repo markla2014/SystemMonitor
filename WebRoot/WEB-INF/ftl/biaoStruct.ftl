@@ -10,12 +10,19 @@
 	<script src="${path}/page/js/SimpleTree.js" type="text/javascript"></script>
 <script src="../page/js/jquery.tablescroll.js" type="text/javascript"></script>
 	<script  type="text/javascript">
+	var id=${currentId};
 $(document).ready(function() {
 adjustTable();
 });
 $(window).resize(function() {
 	adjustTable();
 	});
+$(window).unload(function(){ 
+$.get("${path}/command/cancle.do", {"id":id},
+    function(req) {
+        //成功时的回调方法
+    });
+}); 
 </script>
 </head>
 <body>
@@ -105,7 +112,7 @@ $(window).resize(function() {
   </tr>
   <tr>
     <td><div class="pagin">
-    	<div class="message">共<i class="blue" id="recordCount">${recordCount}</i>条记录，当前显示第&nbsp;<i class="blue" id="currentPage">${currentpage}&nbsp;</i>页</div>
+    	<div class="message">共<i class="blue" id="recordCount">0</i>条记录，当前显示第&nbsp;<i class="blue" id="currentPage">${currentpage}&nbsp;</i>页</div>
         <ul class="paginList">
         <li class="paginItem"><a onclick="pagebackward()"><img src="../page/images/pre.png" width="28" height="30" id="pre"/></a></li>
         <li class="paginItem"><a onclick="pageForward()"><img src="../page/images/next.png" width="28" height="30" id="next"/></a></li>
@@ -121,7 +128,7 @@ $(window).resize(function() {
 </Div>
 </body>
 <script type="text/javascript" >
-var totalpage=${pageCount};
+var totalpage=0;
 var current=$("#currentPage").text().trim();
 var urlpath="";
 function pageForward(){
@@ -131,7 +138,7 @@ alter("这是最后一页");
 return;
 }
 //urlpath="${path}/command/getTableData.do";
-datapath={schema:"${schema}",table:"${table}",pageNum:next};
+datapath={schema:"${schema}",table:"${table}",pageNum:next,id:id};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
@@ -143,7 +150,7 @@ alter("这是第一页");
 return;
 }
 //urlpath="${path}/command/getTableData.do";
-datapath={schema:"${schema}",table:"${table}",pageNum:next};
+datapath={schema:"${schema}",table:"${table}",pageNum:next,id:id};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
@@ -163,7 +170,7 @@ $(".container-fluid").css({width:'100%'});
 }else if(tagename=='data'){
 $(".container-fluid").css({width:'auto'});
  urlpath="${path}/command/getTableData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:1};
+ datapath={schema:"${schema}",table:"${table}",pageNum:1,id:id};
  $(".form_textbox").hide();
  if(totalpage>1){  $(".pagin").show(); }
 }else if(tagename=='column'){
@@ -190,6 +197,10 @@ loadingShow(".tabson")
             success: function(msg){
             if(msg.info!=null){
               	var resobj =JSON.parse(msg.info);
+              	 if(typeof(msg.currentId)!= "undefined"){
+              	 id=msg.currentId;
+              	 }
+              	
               	$("#recordCount").html(msg.totalcount);
               	if(urlpath.indexOf("TableColumn")<0){
               	totalpage=msg.pageNumber;

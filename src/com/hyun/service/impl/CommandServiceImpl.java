@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
+import com.cloudwave.jdbc.CloudResultSet;
 import com.cloudwave.jdbc.bfile.CloudBfile;
-import com.hyun.common.indexPager;
-import com.hyun.common.pageNumber;
 import com.hyun.dao.CommandDao;
 import com.hyun.service.CommandService;
 import com.hyun.vo.DataTable;
@@ -19,21 +19,16 @@ public class CommandServiceImpl implements CommandService {
 
 	@Autowired
 	public CommandDao dao;
-	private indexPager pager;
-	private LinkedList<pageNumber> pagelist;
-	private long currentCommandId;
+	private LinkedList<String> recorderList;
+	public LinkedList<String> getRecorderList() {
+		return recorderList;
+	}
+	public void setRecorderList(LinkedList<String> recorderList) {
+		this.recorderList = recorderList;
+	}
 
 public long getCurrentCommandId() {
-		return currentCommandId;
-	}
-	public void setCurrentCommandId(long currentCommandId) {
-		this.currentCommandId = currentCommandId;
-	}
-public indexPager getPager() {
-		return pager;
-	}
-	public void setPager(indexPager pager) {
-		this.pager = pager;
+		return dao.getCommandTempId();
 	}
 private int BfileCount;
 	private static Logger logger = Logger.getLogger(CommandServiceImpl.class);
@@ -43,45 +38,19 @@ private int BfileCount;
 	  /**
 	   *  考虑在当中加入chach 但是考虑部署和性能问题暂时停止
 	   */
-      public long getRowsCount(String schema,String table){
-    	  pager=new indexPager();
-    	  pager.setInterval(20);
-    	  long countTemp=dao.runCommnad(schema, table);
-    	  pager.setTotalRecord(countTemp);
-    	  long temp=pager.getTotalpages();
-    	  pagelist=pager.getPageCount();
-    	  pager.setCurrentPage(1);
-    	  return countTemp;
-    	  
-      }
-      public int getCurrent(){
-    	  return pager.getCurrentPage();
-      }
-      public long getPageCount(){
-    	  return pager.getTotalpages();
-      }
-	public String[][] getTableDate(String schema,String table,int jumpPage) {
+	public String[][] getTableData(String schema,String table,int jumpPage,long id) {
 		// TODO Auto-generated method stub
-		if(this.getPageCount()<1){
-            String[][] temp={{"没有数据"}}; 
-			return temp;
-		}else{
-			 pageNumber a=pagelist.get(jumpPage-1);
-             pager.setCurrentPage(jumpPage);
-		return dao.getTableInfor(schema, table,a.getStart(),a.getEnd());
-		}
+		  if(id==0){
+			  id=System.currentTimeMillis();
+		  }
+	    return dao.getTableInfor(schema, table, jumpPage, id);
 		
 	}
-
-	public String[][] getViewData(String schema,String view,int jumpPage){
-		if(this.getPageCount()<1){
-            String[][] temp={{"没有数据"}}; 
-			return temp;
-		}else{
-			 pageNumber a=pagelist.get(jumpPage-1);
-             pager.setCurrentPage(jumpPage);
-		return dao.getTableInfor(schema, view,a.getStart(),a.getEnd());
-		}
+	public String[][] getViewData(String schema,String view,int jumpPage,long id){
+		  if(id==0){
+			  id=System.currentTimeMillis();
+		  }
+	    return dao.getTableInfor(schema,view, jumpPage, id);
 	}
 	@Override
 	public String createSchema(String schema, String name) {
@@ -263,12 +232,15 @@ private int BfileCount;
 		// TODO Auto-generated method stub
 		 String sql = "select * from " +schema+".bfiles";
 		try{
-		String user=dao.getSchemaUser(dao.getConnection(), schema);
+		  CloudConnection connection=dao.CreateConnection();
+		String user=dao.getSchemaUser(connection, schema);
 		if(user!=null){
 			  sql +=" where create_user = '" + user + "'";
 		}
 		BfileCount=dao.sreachQueryCount(sql);
-		return this.getSreachQuery(sql,1,20);
+		String[][] template=this.getSreachQuery(sql,1,20);
+		connection.close();
+		 return template;
 		}catch(Exception e){
 			logger.error(e.getStackTrace());
 	       String[][] temp=new String[1][1];
@@ -285,7 +257,8 @@ private int BfileCount;
 	public String[][] getBfile(String schema,int start, int end){
 		 String sql = "select * from " +schema+".bfiles";
 			try{
-			String user=dao.getSchemaUser(dao.getConnection(), schema);
+				CloudConnection connection=dao.CreateConnection();
+			String user=dao.getSchemaUser(connection, schema);
 			if(user!=null){
 				  sql +=" where create_user = '" + user + "'";
 			}
@@ -300,8 +273,10 @@ private int BfileCount;
 	@Override
 	public CloudBfile getBFileDownlaod(long id) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.getBfileDowlaod(dao.getConnection(), id);
-	
+		CloudConnection connection=dao.CreateConnection();
+		CloudBfile template=dao.getBfileDowlaod(connection, id);
+		  connection.close();
+		return template;
 		
 	}
 	public String createView(String sql, String schema, String viewname) {
@@ -312,13 +287,21 @@ private int BfileCount;
 	public String[][] withQuery(String sql) {
 		// TODO Auto-generated method stub
 		long id=System.currentTimeMillis();
-		this.setCurrentCommandId(id);
 		return dao.withQuery(sql,id,dao.getConnection());
+		
 	}
 	@Override
 	public String[][] withQueryPage(long commandId, int pageNumer) {
 		// TODO Auto-generated method stub
 		return dao.withQuerypage(commandId, pageNumer);
 	}
-   
+	@Override
+	public long getRowsCount(String schema, String table) {
+		// TODO Auto-generated method stub
+		return dao.getResultCount();
+	}
+	public void cancleTemplate(long id) {
+		// TODO Auto-generated method stub
+		dao.removeTmeplate(id);
+	}
 }

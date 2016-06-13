@@ -3,9 +3,11 @@ package com.hyun.service.impl;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
 import com.hyun.common.ServerMonitorConstant;
 import com.hyun.dao.ConfigureDao;
 import com.hyun.exception.GwtException;
@@ -15,7 +17,7 @@ public class ConfigurationServiceImpl implements ConfigurationSerice{
   @Autowired
   private ConfigureDao dao;
   private LinkedList<String[]> DataNode;
-  
+  private Logger logge=Logger.getLogger(ConfigurationServiceImpl.class);
 
 
 	public LinkedList<String[]> getDataNode() {
@@ -33,10 +35,12 @@ public class ConfigurationServiceImpl implements ConfigurationSerice{
 		// TODO Auto-generated method stub
 		 String[] temp=null;
 		try {
-			temp=dao.getDfsStatus(dao.getConnection());
-		} catch (GwtException e) {
+			CloudConnection conn=dao.CreateConnection();
+			temp=dao.getDfsStatus(conn);
+			conn.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			 logge.error(e.getMessage());
 		}
 		 LinkedList<String[]> temp3=new LinkedList<String[]>();
 	      String[] tag={"节点名","IP 地址","运行状态","硬盘容量","使用容量","使用比率","剩余容量","剩余比率"};
@@ -97,10 +101,12 @@ public class ConfigurationServiceImpl implements ConfigurationSerice{
 		// TODO Auto-generated method stub
 		 String[] temp=null;
 		 try {
-			temp=dao.getConfigOptions(dao.getConnection());
-		} catch (GwtException e) {
+			 CloudConnection conn=dao.CreateConnection();
+			temp=dao.getConfigOptions(conn);
+			conn.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logge.error(e.getMessage());
 		}
 		 String[][] temp2=new String[temp.length+1][2];
 		 int c=0;

@@ -14,8 +14,6 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.ehcache.CacheManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,8 +37,6 @@ public class CommandInformationController extends BaseController{
 	private CommandServiceImpl service;
 	@Autowired
 	private QueryServiceImpl service1;
-	@Autowired
-	private CacheManager cacheManager;
 
 	@RequestMapping("/getTableData.do")
 	@ResponseBody
@@ -49,12 +45,17 @@ public class CommandInformationController extends BaseController{
 		String schema = req.getParameter("schema");
 		String table = req.getParameter("table");
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
-		String[][] result = service.getTableDate(schema, table, pageNum);
+		Long id = Long.parseLong(req.getParameter("id"));
+		String[][] result = service.getTableData(schema, table, pageNum, id);
+		long totalcount=service.getTotalRows();
+		long pageNumber=((totalcount%20)==0)?(totalcount/20):(totalcount/20)+1;
 		Map<String, String> temp = new HashMap<String, String>();
 		temp.put("info", JasonCover.toJason(result));
-		temp.put("current", pageNum + "");
-		temp.put("totalcount",service.getPager().getTotalRecord()+"");
-		temp.put("pageNumber",service.getPageCount()+"");
+		temp.put("totalPage",JasonCover.toJason(service.getTotalRows()));
+		temp.put("currentId",service.getCurrentCommandId()+"");
+		temp.put("totalcount",totalcount+"");
+		temp.put("pageNumber",pageNumber+"");
+		temp.put("current", pageNum+"");
 		return temp;
 	}
 	/**
@@ -71,10 +72,11 @@ public class CommandInformationController extends BaseController{
 		String schema = req.getParameter("schema");
 		String table = req.getParameter("table");
 		int pageNum = Integer.parseInt(req.getParameter("pageNum"));
-		String[][] result = service.getTableDate(schema, table, pageNum);
+		long id=Long.parseLong(req.getParameter("id"));
+		String[][] result = service.getTableData(schema, table, pageNum,id);
 		Map<String, String> temp = new HashMap<String, String>();
 		temp.put("info", JasonCover.toJason(result));
-		temp.put("currentpage", pageNum + "");
+		temp.put("current", pageNum + "");
 		return temp;
 	}
 	
@@ -242,5 +244,13 @@ public Map<String,String> getWithQueryPage(HttpServletRequest req,HttpServletRes
 	resultTemp.put("current",pageNumer);
 
 	return resultTemp;
+}
+@RequestMapping("/cancle.do")
+public void cancle(HttpServletRequest req){
+	String testId=req.getParameter("id").toString();
+	long id=Long.parseLong(req.getParameter("id").toString());
+	if(id!=0){
+	service.cancleTemplate(id);
+	}
 }
 }

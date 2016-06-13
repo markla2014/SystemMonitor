@@ -16,6 +16,7 @@
         diskExpiryThreadIntervalSeconds="120"
         memoryStoreEvictionPolicy="LRU"
         />
+        <!--  
      <cache
      	name="rowCount"
      	maxElementsInMemory="10000"
@@ -31,5 +32,5 @@
         overflowToDisk="true"
         maxElementsOnDisk="10000000"
         diskPersistent="false"
-        /> 
+        /> -->
 </ehcache>

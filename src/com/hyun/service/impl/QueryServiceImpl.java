@@ -148,5 +148,4 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 			return error;
 		}
 	}
-
 }

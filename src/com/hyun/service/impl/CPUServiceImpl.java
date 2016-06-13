@@ -10,27 +10,33 @@ import java.util.LinkedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
 import com.hyun.dao.CPUDao;
 import com.hyun.exception.GwtException;
 import com.hyun.service.CPUService;
 import com.hyun.vo.totalCPUpercent;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 @Service
 public class CPUServiceImpl implements CPUService{
        @Autowired
 	private CPUDao dao;
  	  private static DecimalFormat  numberS2Format = new DecimalFormat("0.0000");
+ 	  private Logger logge=Logger.getLogger(CPUServiceImpl.class);
 
 	@Override
 	public LinkedList<totalCPUpercent> getCPUInformation() {
 		// TODO Auto-generated method stub
 		String[][] temp=null;
 		try {
-		temp=dao.getSystemUtilization(dao.getConnection());
-		} catch (GwtException e) {
+			CloudConnection conn=dao.CreateConnection();
+		temp=dao.getSystemUtilization(conn);
+		conn.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		  logge.error(e.getMessage());
 		}
 		LinkedList<totalCPUpercent> returnValue=new LinkedList<totalCPUpercent>();
 		for(String[] i:temp){

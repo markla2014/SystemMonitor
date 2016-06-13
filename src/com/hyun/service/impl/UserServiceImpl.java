@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
 import com.hyun.common.ServerMonitorConstant;
 import com.hyun.dao.UserDao;
 import com.hyun.service.UserService;
@@ -28,7 +29,8 @@ private static Logger logger=Logger.getLogger(UserServiceImpl.class);
 		
 		try{
 		// TODO Auto-generated method stub
-	   String[] temp=dao.getUserNameList(user, dao.getConnection());
+			CloudConnection conn=dao.CreateConnection();
+	   String[] temp=dao.getUserNameList(user,conn);
 	    this.setUsernameList(temp);
 	    if(!"system".equals(user)){
 	    	temp=new String[]{user};
@@ -70,7 +72,8 @@ private static Logger logger=Logger.getLogger(UserServiceImpl.class);
 			  break;
 		  }
 		  }
-	   }
+	   } 
+	   conn.close();
 	     return returnValue;
 		}catch(Exception e){
 		  String[][] temp=new String[1][1];

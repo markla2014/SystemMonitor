@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import com.cloudwave.jdbc.CloudConnection;
 import com.cloudwave.jdbc.CloudResultSet;
 
-public class WithCommandVo {
+public class CommandVo {
 
 	private long rowCount;
 	private String[] header;

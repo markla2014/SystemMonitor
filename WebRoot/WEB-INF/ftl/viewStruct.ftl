@@ -11,6 +11,7 @@
 	<script src="../page/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="../page/js/jquery.tablescroll.js" type="text/javascript"></script>
 <script  type="text/javascript">
+var id=${currentId};
 $(document).ready(function() {
 $(".form_textbox").hide();
 if(totalpage>1){
@@ -21,6 +22,12 @@ adjustTable();
 $(window).resize(function() {
 	adjustTable();
 	});
+$(window).unload(function(){ 
+$.get("${path}/command/cancle.do", {"id":id},
+    function(req) {
+        //成功时的回调方法
+    });
+}); 
 </script>
 </head>
 <body>
@@ -135,7 +142,7 @@ alter("这是最后一页");
 return;
 }
 urlpath="${path}/command/getViewData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:next};
+ datapath={schema:"${schema}",table:"${table}",pageNum:next,id:id};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
@@ -143,11 +150,11 @@ $("#currentPage").html(next);
 function pagebackward(){
 var next=current-1;
 if(next<1){
-alter("这是第一页");
+alert("这是第一页");
 return;
 }
 urlpath="${path}/command/getViewData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:next};
+ datapath={schema:"${schema}",table:"${table}",pageNum:next,id:id};
 updateTable(urlpath,datapath);
 $("#currentPage").html(next);
 }
@@ -160,7 +167,7 @@ var datapath;
 
 if(tagename=='data'){
  urlpath="${path}/command/getViewData.do";
- datapath={schema:"${schema}",table:"${table}",pageNum:current};
+ datapath={schema:"${schema}",table:"${table}",pageNum:current,id:id};
  $(".form_textbox").hide();
  if(totalpage>1){  $(".pagin").show(); }
 }else if(tagename=='column'){
@@ -187,7 +194,6 @@ loadingShow(".tabson");
               	var resobj =JSON.parse(msg.info);
               	if(msg.current!=null){
                 current=parseInt(msg.current);
-                
                 if(current==totalpage){
                 $("#pre").attr('src','../page/images/pre1.png');
                  $("#next").attr('src','../page/images/next1.png');

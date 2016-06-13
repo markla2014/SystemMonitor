@@ -1,8 +1,10 @@
 package com.hyun.service.impl;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
 import com.hyun.dao.SessionDao;
 import com.hyun.exception.GwtException;
 import com.hyun.service.SessionListService;
@@ -10,15 +12,18 @@ import com.hyun.service.SessionListService;
 public class SessionListServiceImpl implements SessionListService {
   @Autowired
   private SessionDao dao;
+  Logger logge=Logger.getLogger(SessionListServiceImpl.class);
 	@Override
 	public String[][] getSessionList() {
 		// TODO Auto-generated method stub
 		String[][] temp=null;
 		try {
-			temp=dao.getOnlineSessions(dao.getConnection());
-		} catch (GwtException e) {
+			CloudConnection conn=dao.CreateConnection();
+			temp=dao.getOnlineSessions(conn);
+			conn.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		  logge.error(e.getMessage());
 		}
 		return temp;
 	}
@@ -26,10 +31,12 @@ public class SessionListServiceImpl implements SessionListService {
 	public String[][] getRunningSQL() {
            String[][] temp = null;
 		try {
+			CloudConnection conn=dao.CreateConnection();
 			temp = dao.getRunningSQL(dao.getConnection());
-		} catch (GwtException e) {
+			conn.close();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			  logge.error(e.getMessage());
 		}
 		return temp;
 	}

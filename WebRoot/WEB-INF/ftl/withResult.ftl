@@ -28,6 +28,12 @@
 	var pageHight=$(window).width();
 	$('.tablelist').tableScroll({height:1024,width:pageHight});
 	});
+	$(window).unload(function(){ 
+$.get("${path}/command/cancle.do", {"id":id},
+    function(req) {
+        //成功时的回调方法
+    });
+}); 
 </script>
 </head>
 <body>

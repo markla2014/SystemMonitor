@@ -22,7 +22,8 @@ import com.cloudwave.jdbc.CloudResultSet;
 import com.cloudwave.jdbc.bfile.CloudBfile;
 import com.hyun.connectionpool.currentTemplate;
 import com.hyun.exception.GwtException;
-import com.hyun.vo.WithCommandVo;
+import com.hyun.vo.CommandSingleton;
+import com.hyun.vo.CommandVo;
 @Repository
 public class CommandDao extends BaseDao {
    private long resultCount;
@@ -30,13 +31,22 @@ public class CommandDao extends BaseDao {
    private static final String FAIL="fail";
    private static final Logger logge = Logger.getLogger(CommandDao.class);
 	private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
-	private  Map<Long,WithCommandVo> commandtemp=new HashMap<Long, WithCommandVo>();
+	private  Map<Long,CommandVo> commandtemp=new HashMap<Long, CommandVo>();
+	private long commandTempId;
 
-	public Map<Long, WithCommandVo> getCommandtemp() {
+	public long getCommandTempId() {
+		return commandTempId;
+	}
+
+	public void setCommandTempId(long commandTempId) {
+		this.commandTempId = commandTempId;
+	}
+
+	public Map<Long, CommandVo> getCommandtemp() {
 		return commandtemp;
 	}
 
-	public void setCommandtemp(long time,WithCommandVo vo) {
+	public void setCommandtemp(long time,CommandVo vo) {
 		this.commandtemp.put(time, vo);
 	}
 
@@ -79,9 +89,6 @@ public class CommandDao extends BaseDao {
      	 return value;
       }
 
-	public long runCommnad(String schema,String table){
-    	return template.getTemplate().queryForObject("select count(*) from "+schema+"."+table,Long.class); 
-      }
 	public String Gernalquery(String sql) throws Exception{
 	   int count=template.getTemplate().update(sql);
 	   return (count>-1)?SUCCESS:FAIL;
@@ -92,7 +99,7 @@ public class CommandDao extends BaseDao {
 		 return count;
 	 }
 	 public String[][] withQuerypage(long id,int pagenum){
-		 WithCommandVo thiscommand=this.getCommandtemp().get(id);
+		 CommandVo thiscommand=this.getCommandtemp().get(id);
 		 
 			ArrayList<String[]> array = new ArrayList<String[]>();
 		 if(thiscommand.getCommandrecorder().size()>=pagenum){
@@ -141,7 +148,7 @@ public class CommandDao extends BaseDao {
 		    	  array.add(i);
 		      }}
 		      if(resultCount>20){
-		          WithCommandVo vo=new WithCommandVo();
+		          CommandVo vo=new CommandVo();
 		          vo.setConnection(conectionTemp);
 		          vo.setCurrentSet(result);
 		          vo.setTotalPage(resultCount);
@@ -149,6 +156,7 @@ public class CommandDao extends BaseDao {
 		          vo.setRowCount(resultCount);
 		          vo.setCommandrecorder(array.toArray(new String[0][]));
 		          this.getCommandtemp().put(id,vo);
+		           this.setCommandTempId(id);
 		      }
 		   }catch(Exception e){
 			   array.add(new String[]{e.getMessage()});
@@ -190,41 +198,75 @@ public class CommandDao extends BaseDao {
      	}
        }
 
-      public String[][] getTableInfor(String schema,String table,int start,int end){
-    	 String sql="select * from "+schema+"."+table+" where rownum >= "+start+" and rownum < "+end;
-    	 List<Map<String, Object>> temp=template.getTemplate().queryForList(sql);
+      public String[][] getTableInfor(String schema,String table,int pagenum,long commandId){
+    	ArrayList<String[]> array=new ArrayList<String[]>();
     	
-    	 // Map<String, Object> keys=temp.get(0);
-    	 this.setResultCount(temp.size());
-    	if(this.resultCount==0){
-    	String[][] returnValue={{"该表没有数据"}};
-    	 return returnValue;
+    	int num=pagenum-1;
+    	CommandVo vo= this.commandtemp.get(commandId);
+    	String[][] returnResult=null;
+    	try{
+    		
+    	if(vo!=null){
+    		LinkedList<String[][]> perviousList=vo.getCommandrecorder();
+    		if(perviousList.size()>=pagenum){
+    			returnResult=perviousList.get(num);
+    		}else{
+    		   array.add(vo.getHeader());
+    		   String[][] temp=this.getMoreData(vo.getCurrentSet(), 20);
+    		   for(String[] i:temp){
+    			   array.add(i);
+    		   }
+    		   returnResult=array.toArray(new String[0][]);
+    		   vo.getCommandrecorder().add(returnResult);
+    		   this.commandtemp.remove(commandId);
+    		   this.commandtemp.put(commandId, vo);
+    		   
+    		}
     	}else{
-    	 int rows=temp.size()+1;
-    	 int col=temp.get(0).keySet().size()+1;
-    	 String[][] returnValue=new String[rows][col];
-           int i=1;
-           int keyc=start+1;
-           returnValue[0][0]="记录条数";
-    	 for(Map<String,Object> t:temp){
-    		  int j=1;
-    		  returnValue[i][0]=keyc+"";
-        	   for(String k:t.keySet()){
-        		   returnValue[0][j]=k;
-        		   if(t.get(k)==null){
-        			   returnValue[i][j]="";
-        		   }else{
-        			   returnValue[i][j]=t.get(k).toString();
-        		   }
-        		 
-        		  j++;
-        	   }
-        	   i++;
-        	   keyc++;
-           }
-    	 
-    	 return returnValue;
+    		 CloudConnection conection=this.getConnection();
+		      Statement statement=conection.createStatement();
+		      CloudResultSet result=(CloudResultSet)statement.executeQuery("select * from "+schema+"."+table);
+		      long resultCount=result.getRecordCount();
+		       this.setResultCount(resultCount);
+		      result.setFetchSize(20);
+		      String[] header=this.getHeadData(result); 
+		      array.add(header);
+		      if(resultCount<1){
+		    	  array.add(new String[]{"没有数据 "});
+		    	  
+		      }else{
+		    String[][] rows=this.getMoreData(result, 20);
+		      for(String[] i:rows){
+		    	  array.add(i);
+		      }}
+		      if(resultCount>20){
+		          CommandVo vo1=new CommandVo();
+		          vo1.setConnection(conection);
+		          vo1.setCurrentSet(result);
+		          vo1.setTotalPage(resultCount);
+		          vo1.setHeader(header);
+		          vo1.setRowCount(resultCount);
+		          vo1.setCommandrecorder(array.toArray(new String[0][]));
+		          this.getCommandtemp().put(commandId,vo1);
+		          this.setCommandTempId(commandId);
+		      }else{
+		    	  this.setCommandTempId(0);
+		      }
+		      returnResult=array.toArray(new String[0][]);
     	}
+    	}catch(Exception e){
+    	   if(e.getMessage().contains("connection")){
+    		   try{
+    		   this.getConnection().close();
+    		   this.setConnection(this.CreateConnection());
+    		   }catch(Exception ex){logge.error(ex.getMessage());}
+    	   }
+    		array.add(new String[]{e.getMessage()});
+    		returnResult=array.toArray(new String[0][]);
+    	}
+    	
+   
+    	return returnResult;
       }
       public String getSchemaUser(CloudConnection connection, String schema) throws Exception{
     	  CloudDatabaseMetaData meta = (CloudDatabaseMetaData) connection.getMetaData();
@@ -297,5 +339,18 @@ public class CommandDao extends BaseDao {
 		}
 		return header;
 	}
-
+   public void removeTmeplate(long id){
+	   CommandVo closed=this.getCommandtemp().get(id);
+	   
+	   try{
+		if(closed!=null){
+			System.out.println("delete");
+	   closed.getCurrentSet().close();
+	   this.getCommandtemp().remove(id);
+		}
+	   }catch(Exception e){
+		   logge.error(e.getMessage());
+	   }
+	   
+   }
 }
