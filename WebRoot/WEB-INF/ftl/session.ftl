@@ -1,8 +1,10 @@
 <#assign path="${request.getContextPath()}">
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
+
   <head>
     <title>线程信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="../page/css/frameStyle.css">
 	<script src="../page/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="../page/js/diagram/pie.js" type="text/javascript"></script>

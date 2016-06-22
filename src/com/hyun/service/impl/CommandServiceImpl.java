@@ -287,7 +287,7 @@ private int BfileCount;
 	public String[][] withQuery(String sql) {
 		// TODO Auto-generated method stub
 		long id=System.currentTimeMillis();
-		return dao.withQuery(sql,id,dao.getConnection());
+		return dao.withQuery(sql,id,dao.CreateConnection());
 		
 	}
 	@Override

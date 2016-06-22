@@ -77,8 +77,9 @@ public ModelAndView getViewData(HttpServletRequest req,HttpServletResponse respo
 	ModelAndView mv=new ModelAndView("viewStruct");
 	String schema=req.getParameter("schema");
 	String table=req.getParameter("table");
-	long recordCount=service1.getRowsCount(schema, table);
+	
 	String[][] result=service1.getViewData(schema,table,1,0);
+	long recordCount=service1.getRowsCount(schema, table);
 	long pageCount=service1.getTotalRows();
 	mv.addObject("table",table);
 	mv.addObject("schema",schema);

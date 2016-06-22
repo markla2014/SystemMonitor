@@ -17,6 +17,7 @@
      <mvc:interceptor>
      <mvc:mapping path="/main/**"/>
      <mvc:mapping path="/command/**"/>
+     <mvc:mapping path="/query/**"/>
      <mvc:mapping path="/config/**"/>
      <mvc:mapping path="/cpu/**"/>
      <mvc:mapping path="/memory/**"/>

@@ -2,6 +2,7 @@ package com.hyun.controller;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,10 +53,10 @@ public class CommandInformationController extends BaseController{
 		Map<String, String> temp = new HashMap<String, String>();
 		temp.put("info", JasonCover.toJason(result));
 		temp.put("totalPage",JasonCover.toJason(service.getTotalRows()));
-		temp.put("currentId",service.getCurrentCommandId()+"");
-		temp.put("totalcount",totalcount+"");
-		temp.put("pageNumber",pageNumber+"");
-		temp.put("current", pageNum+"");
+		temp.put("currentId",JasonCover.toJason(service.getCurrentCommandId()));
+		temp.put("totalcount",JasonCover.toJason(totalcount));
+		temp.put("pageNumber",JasonCover.toJason(pageNumber));
+		temp.put("current",JasonCover.toJason(pageNum));
 		return temp;
 	}
 	/**
@@ -76,7 +77,7 @@ public class CommandInformationController extends BaseController{
 		String[][] result = service.getTableData(schema, table, pageNum,id);
 		Map<String, String> temp = new HashMap<String, String>();
 		temp.put("info", JasonCover.toJason(result));
-		temp.put("current", pageNum + "");
+		temp.put("current", JasonCover.toJason(pageNum));
 		return temp;
 	}
 	
@@ -135,6 +136,12 @@ public class CommandInformationController extends BaseController{
 	public Map<String,String> getGernalCommand(HttpServletRequest req,HttpServletResponse response){
 		Map<String,String> temp=new HashMap<String, String>();
 		String sql=req.getParameter("sql");
+		   try {
+				sql = new String(sql.getBytes("iso8859-1"), "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 	     temp.put("runned", sql);
 	     String returnValue=service.getGernalQuery(sql);
 		 temp.put("result", returnValue);
@@ -144,7 +151,12 @@ public class CommandInformationController extends BaseController{
    public ModelAndView getSqueryQuery(HttpServletRequest req,HttpServletResponse response){
 	   ModelAndView mv=new ModelAndView("sreachResult");
 	   String sql=req.getParameter("sql");
-	  
+	   try {
+		sql = new String(sql.getBytes("iso8859-1"), "utf-8");
+	} catch (UnsupportedEncodingException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
 	   int count=service.getSreachQueryCount(sql);
 	   mv.addObject("recordCount",count);
 	   String[][] value=service.getSreachQuery(sql,0,20);
@@ -168,6 +180,12 @@ public class CommandInformationController extends BaseController{
    public Map<String,String> getSquery(HttpServletRequest req,HttpServletResponse response){
 	 Map<String,String> temp=new HashMap<String, String>();
 	 String sql=req.getParameter("sql");
+	   try {
+			sql = new String(sql.getBytes("iso8859-1"), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	 String pageNum=req.getParameter("pageNum");
 	 int current=Integer.parseInt(pageNum);
 	 int start=(current-1)*20;
@@ -248,9 +266,12 @@ public Map<String,String> getWithQueryPage(HttpServletRequest req,HttpServletRes
 @RequestMapping("/cancle.do")
 public void cancle(HttpServletRequest req){
 	String testId=req.getParameter("id").toString();
-	long id=Long.parseLong(req.getParameter("id").toString());
+	  Pattern pattern = Pattern.compile("[0-9]*"); 
+	if(pattern.matcher(testId).matches()){
+	long id=Long.parseLong(testId);
 	if(id!=0){
 	service.cancleTemplate(id);
+	}
 	}
 }
 }

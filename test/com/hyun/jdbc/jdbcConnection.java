@@ -28,9 +28,9 @@ import com.cloudwave.jdbc.CloudResultSet;
 import com.hyun.exception.GwtException;
 
 public class jdbcConnection {
-	public static final String USER_NAME = "system";
-	public static final String PASS_WORD = "CHANGEME";
-	public static final String SERVER = ":@192.168.0.13:1978";
+	public static final String USER_NAME = "TEST1";
+	public static final String PASS_WORD = "TEST1";
+	public static final String SERVER = ":@192.168.0.11:1978";
 	public static final int CONNECT_POOLSIZE = 3;
     private static final String AUTOKEY_COLUMN = "__CLOUDWAVE_AUTO_KEY__";
     public static final int FETCH_PAGE = 1;
@@ -1016,5 +1016,23 @@ public class jdbcConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@Test
+	public void testInsert() throws Exception{
+		Connection conn=jdbcConnectionTest();
+		CloudConnection connect=((CloudConnection) conn);
+		   Statement stmt = conn.createStatement();
+		   List<Object[]> records = new ArrayList<Object[]>();
+		   records.add(new Object[] {"86021", "浙江省","2016-06-03","浙江省义务市浙江稠州银行"});
+	        records.add(new Object[] {"86022", "浙江省","2016-06-03", "浙江省绍兴市浙江广厦控股集团"});
+	        records.add(new Object[] {"86023", "北京市","2016-06-03", "北京市北京控股水务集团"});
+	        records.add(new Object[] {"86024", "广东省","2016-06-03", "广东省佛山市佛山农商银行"});
+	        records.add(new Object[] {"86025", "北京市","2016-06-03", "北京市北京首都钢铁金隅集团"});
+	        records.add(new Object[] {"86026", "浙江省","2016-06-03", "浙江省宁波市八一双鹿电池"});
+	        connect.insert("TEXTABLE", records.toArray(new Object[0][]));
+	        
+	        connect.commit();
+	        stmt.close();
+	        connect.close();
 	}
 }

@@ -27,7 +27,7 @@ $.get("${path}/command/cancle.do", {"id":id},
     function(req) {
         //成功时的回调方法
     });
-}); 
+});
 </script>
 </head>
 <body>

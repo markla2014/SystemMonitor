@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.cloudwave.jdbc.CloudConnection;
 import com.cloudwave.jdbc.CloudResultSet;
 import com.hyun.dao.QueryDao;
 import com.hyun.exception.GwtException;
@@ -35,9 +36,11 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 		// TODO Auto-generated method stub
 		
 		try {
-	           this.setCheckedSchemaList(dao.getSchemaNameList(dao.getConnection(),"default"));
+             CloudConnection conn = dao.CreateConnection();			
+	           this.setCheckedSchemaList(dao.getSchemaNameList(conn,"default"));
+	           conn.close();
 				return this.getCheckedSchemaList();
-		} catch (GwtException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage());
 		}
@@ -49,10 +52,11 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 		// TODO Auto-generated method stub
 		 String[][] temp=null;
 		try {
-			
-				temp=dao.getTableNameList(dao.getConnection(), schema);
+		     CloudConnection conn = dao.CreateConnection();	
+				temp=dao.getTableNameList(conn, schema);
+				conn.close();
 		
-		} catch (GwtException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getMessage());
 		}
@@ -63,11 +67,16 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 	public String[][] getView(String schema) {
 		// TODO Auto-generated method stub
 		 try {
-			return dao.getViewList(dao.getConnection(),schema);
-		} catch (GwtException e) {
+		     CloudConnection conn = dao.CreateConnection();	
+		 String[][] thisTemp = dao.getViewList(conn,schema);
+		 conn.close();
+		 return thisTemp;
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 		  logger.error(e.getMessage());
-		  return new String[1][1];
+		  String[][] error=new String[1][1];
+		  error[0][0]=e.getMessage();
+		  return error;
 		}
 	}
 
@@ -75,8 +84,11 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 	public String[][] getTableColumn(String schema,String table) {
 		// TODO Auto-generated method stub
 		try {
-			return dao.getTableColumns(dao.getConnection(), schema, table);
-		} catch (GwtException e) {
+			CloudConnection conn = dao.CreateConnection();
+		   String[][] thisTemp = dao.getTableColumns(conn, schema, table);
+		   conn.close();
+		   return thisTemp;
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getStackTrace());
 			String[][] errorRetrun= new String[1][1];
@@ -89,23 +101,40 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 	public String[][] getTableDistriution(String schema, String table) {
 		try{
 		dao.setTemplateResultCont(new LinkedList<String[][]>());
-		return dao.getTableDistribution(dao.getConnection(), schema, table);
-		}catch(GwtException e){
+		
+		String[][] thisTemp = dao.getTableDistribution(dao.getConnection(), schema, table);
+		return thisTemp;
+		}catch(Exception e){
+			if(e.getMessage().indexOf("connection")!=0){
+				dao.getConnection();
+				CloudConnection conn = dao.CreateConnection();
+				dao.setConnection(conn);
+				return  getTableDistriution(schema,table);
+			}else{
 			logger.error(e.getStackTrace());
 			String[][] errorRetrun= new String[1][1];
 			errorRetrun[0][0]=e.getMessage();
 			return errorRetrun;
+			}
 		}
 	}
 	@Async
 	public String[][] getTableDistributionByPage(String schema,String table,int pagenum){
 		try{
-			return dao.getTableDistributionRecord(dao.getConnection(), schema, table, pagenum);
+		    String[][] thisTemp = dao.getTableDistributionRecord(dao.getConnection(), schema, table, pagenum);
+		    return thisTemp;
 		}catch(Exception e){
+			if(e.getMessage().indexOf("connection")!=0){
+				dao.getConnection();
+				CloudConnection conn = dao.CreateConnection();
+				dao.setConnection(conn);
+				return  getTableDistriution(schema,table);
+			}else{
 			logger.error(e.getStackTrace());
 			String[][] errorRetrun= new String[1][1];
 			errorRetrun[0][0]=e.getMessage();
 			return errorRetrun;
+			}
 		}
 	}
 	@Override
@@ -115,8 +144,11 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 	}
 	public String[][] getViewDefination(String schema,String view){
 		try {
-			return dao.getViewDefinition(dao.getConnection(), schema,view);
-		} catch (GwtException e) {
+			CloudConnection conn = dao.CreateConnection();	
+			String[][] thisTemp=dao.getViewDefinition(conn, schema,view);
+			conn.close();
+			return thisTemp;
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			String[][] temp=new String[1][1];
 			temp[0][0]=e.getMessage();
@@ -126,8 +158,11 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 	}
     public String[] checkTableName(String schema){
     	try {
-			return dao.checkTableName(dao.getConnection(), schema);
-		} catch (GwtException e) {
+    		CloudConnection conn = dao.CreateConnection();
+		        String[] thisTemp = dao.checkTableName(conn, schema);
+		        conn.close();
+		        return thisTemp;
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			String[] temp=new String[1];
 			temp[0]=e.getMessage();
@@ -140,7 +175,9 @@ public void setCheckedSchemaList(String[] checkedSchemaList) {
 	public String[] getUsers() {
 		
 		try {
-			return dao.getUserNameList(dao.getConnection());
+			CloudConnection conn = dao.CreateConnection();
+			String[] thisTemp = dao.getUserNameList(conn);
+			return thisTemp;
 		} catch (GwtException e) {
 			// TODO Auto-generated catch block
 			logger.error(e.getStackTrace());

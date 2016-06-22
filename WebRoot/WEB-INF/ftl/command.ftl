@@ -172,6 +172,7 @@ $("#commandInput").val("");
          type: "get",
             dataType: "json",
             url: urlpath,
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             complete :function(){},
             error:function(data){  
             addNotice(data);

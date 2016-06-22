@@ -190,7 +190,8 @@ loadingShow(".tabson")
             data:urldata,
             url: url,
             complete :function(){},
-            error:function(msg){  
+            error:function(msg){
+            
                $(".tablelist").html("数据库返回异常");
                loadingHide(".tabson");
         },  

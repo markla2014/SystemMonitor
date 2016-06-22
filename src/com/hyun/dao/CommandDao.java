@@ -223,7 +223,7 @@ public class CommandDao extends BaseDao {
     		   
     		}
     	}else{
-    		 CloudConnection conection=this.getConnection();
+    		 CloudConnection conection=this.CreateConnection();
 		      Statement statement=conection.createStatement();
 		      CloudResultSet result=(CloudResultSet)statement.executeQuery("select * from "+schema+"."+table);
 		      long resultCount=result.getRecordCount();
@@ -257,7 +257,6 @@ public class CommandDao extends BaseDao {
     	}catch(Exception e){
     	   if(e.getMessage().contains("connection")){
     		   try{
-    		   this.getConnection().close();
     		   this.setConnection(this.CreateConnection());
     		   }catch(Exception ex){logge.error(ex.getMessage());}
     	   }
@@ -344,9 +343,9 @@ public class CommandDao extends BaseDao {
 	   
 	   try{
 		if(closed!=null){
-			System.out.println("delete");
-	   closed.getCurrentSet().close();
+		closed.getCurrentSet().close();
 	   this.getCommandtemp().remove(id);
+	   closed.getConnection().close();
 		}
 	   }catch(Exception e){
 		   logge.error(e.getMessage());
