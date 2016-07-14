@@ -1,7 +1,6 @@
 package com.hyun.service;
 
-
 public interface ServerListService {
 
-	public String[][] getServerlist();
+    public String[][] getServerlist();
 }

@@ -21,29 +21,30 @@ import com.hyun.vo.totalCPUpercent;
 
 @Controller
 @RequestMapping("/cpu")
-public class CPUInformationController  extends BaseController {
-@Autowired
-private CPUServiceImpl service;
-@Resource
-private ServerListServiceImpl serverService;
+public class CPUInformationController extends BaseController {
+    @Autowired
+    private CPUServiceImpl service;
+    @Resource
+    private ServerListServiceImpl serverService;
 
-@RequestMapping("/cpuInformation.do")
-public ModelAndView intitalSend(HttpServletRequest req,HttpServletResponse response){
-	ModelAndView vm=new ModelAndView("cpuInformation");
-	LinkedList<totalCPUpercent> temp=service.getCPUInformation();
-	String[][] temp1=serverService.getServerlist();
-	vm.addObject("serverList",JasonCover.toJason(temp1));
-	vm.addObject("info",JasonCover.toJason(temp));
-	return vm;
-}
-@RequestMapping("/getCPU.do")
-@ResponseBody
-public Map<String,LinkedList<totalCPUpercent>> getCPUInfomration(){
-	LinkedList<totalCPUpercent> temp=service.getCPUInformation();
+    @RequestMapping("/cpuInformation.do")
+    public ModelAndView intitalSend(HttpServletRequest req, HttpServletResponse response) {
+        ModelAndView vm = new ModelAndView("cpuInformation");
+        LinkedList<totalCPUpercent> temp = service.getCPUInformation();
+        String[][] temp1 = serverService.getServerlist();
+        vm.addObject("serverList", JasonCover.toJason(temp1));
+        vm.addObject("info", JasonCover.toJason(temp));
+        return vm;
+    }
 
-	Map<String,LinkedList<totalCPUpercent>> map=new HashMap<String,LinkedList<totalCPUpercent>>();
-	map.put("info",temp);
-	return map;
-}
-	
+    @RequestMapping("/getCPU.do")
+    @ResponseBody
+    public Map<String, LinkedList<totalCPUpercent>> getCPUInfomration() {
+        LinkedList<totalCPUpercent> temp = service.getCPUInformation();
+
+        Map<String, LinkedList<totalCPUpercent>> map = new HashMap<String, LinkedList<totalCPUpercent>>();
+        map.put("info", temp);
+        return map;
+    }
+
 }

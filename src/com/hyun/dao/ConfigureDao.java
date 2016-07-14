@@ -17,11 +17,18 @@ public class ConfigureDao extends BaseDao{
     }
 	 public String[] getConfigOptions(CloudConnection connection) throws GwtException {
 	        try {
-	            String[] result = connection.getConfigOptions();
+	            String[] result = connection.getConfigOptions(1);
 	            return result;
 	        } catch (Throwable t) {
 	            throw new GwtException(t.getMessage());
 	        }
 	    }
-	
+	 public String[] getCloudwaveOptions(CloudConnection connection) throws GwtException{
+	     try {
+             String[] result = connection.getConfigOptions(2);
+             return result;
+         } catch (Throwable t) {
+             throw new GwtException(t.getMessage());
+         }
+	 }
 }

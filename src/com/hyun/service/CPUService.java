@@ -6,5 +6,5 @@ import com.hyun.vo.totalCPUpercent;
 
 public interface CPUService {
 
-	public LinkedList<totalCPUpercent> getCPUInformation();
+    public LinkedList<totalCPUpercent> getCPUInformation();
 }

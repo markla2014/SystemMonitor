@@ -32,22 +32,21 @@ $.get("${path}/command/cancle.do", {"id":id},
     <li>${table}表</li>
   </ul>
 </div>
-<!-- 
 <div class="navwrap">
 
 <ul id="nav">
  
-<li><a href="#">查询</a></li>
+<li><a href="#">导出</a></li>
 
-<li><a href="#">编辑</a></li>
+<!--  <li><a href="#">编辑</a></li>
 
 <li><a href="#">窗口</a></li>
 
-<li><a href="#">帮助</a></li>
+<li><a href="#">帮助</a></li>-->
 
 </ul>
 
-</div>-->
+</div>
 <!--  <div class="toolsli">
   <ul class="toollist">
    <li><img src="../page/images/icon.gif" width="18" height="38" /></li>

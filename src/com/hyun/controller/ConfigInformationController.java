@@ -17,11 +17,26 @@ public class ConfigInformationController  extends BaseController {
  @Resource
  private ConfigurationServiceImpl service; 
  
- @RequestMapping("/baseInfo.dao")
+ @RequestMapping("/baseInfo.do")
  public ModelAndView getBaseConfigInfomation(HttpServletRequest req,HttpServletResponse response) {
 	 ModelAndView mv = new ModelAndView("BaseConfigInformation");
 	 String[][] temp=service.getBaseConfigure();
 	 mv.addObject("info", JasonCover.toJason(temp));
 	 return mv;
  }
+ @RequestMapping("/clodwaveInfo.do")
+ public ModelAndView getCloudWaveConfigInformation(HttpServletRequest req,HttpServletResponse response){
+     ModelAndView mv = new ModelAndView("BaseConfigInformation");
+     String[][] temp=service.getCloudwaveConfigure();
+     mv.addObject("info", JasonCover.toJason(temp));
+     return mv;
+ }
+ @RequestMapping("/motidfyCloudwaveInfoInterface.do")
+ public ModelAndView otidfyCloudwaveInfoInterfac(HttpServletRequest req,HttpServletResponse response){
+     ModelAndView mv = new ModelAndView("BaseConfigInformation");
+     String[][] temp=service.getCloudwaveConfigure();
+     mv.addObject("info", JasonCover.toJason(temp));
+     return mv;
+ }
+
 }

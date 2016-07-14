@@ -20,45 +20,45 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 @Service
-public class CPUServiceImpl implements CPUService{
-       @Autowired
-	private CPUDao dao;
- 	  private static DecimalFormat  numberS2Format = new DecimalFormat("0.0000");
- 	  private Logger logge=Logger.getLogger(CPUServiceImpl.class);
+public class CPUServiceImpl implements CPUService {
+    @Autowired
+    private CPUDao dao;
+    private static DecimalFormat numberS2Format = new DecimalFormat("0.0000");
+    private Logger logge = Logger.getLogger(CPUServiceImpl.class);
 
-	@Override
-	public LinkedList<totalCPUpercent> getCPUInformation() {
-		// TODO Auto-generated method stub
-		String[][] temp=null;
-		try {
-			CloudConnection conn=dao.CreateConnection();
-		temp=dao.getSystemUtilization(conn);
-		conn.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-		  logge.error(e.getMessage());
-		}
-		LinkedList<totalCPUpercent> returnValue=new LinkedList<totalCPUpercent>();
-		for(String[] i:temp){
-		totalCPUpercent temp1=new totalCPUpercent();
-        LinkedList<Double> temp2=new LinkedList<Double>();
-        BigDecimal testValue=(new BigDecimal(i[i.length-2]).multiply(new BigDecimal(100))).setScale(4, BigDecimal.ROUND_HALF_UP);
-        BigDecimal testprocess=(new BigDecimal(i[i.length-1]).multiply(new BigDecimal(100))).setScale(4, BigDecimal.ROUND_HALF_UP);
-        double tempValue=testValue.doubleValue();
-        double tempprocess=testprocess.doubleValue();
-        temp2.add(tempValue);
-        temp2.add(tempprocess);
-        temp1.setDataArray(temp2);
-		temp1.setObjName(i[0]);
-		String[] temp3={"系统利用率","进程利用率"};
-		Date date=new Date();
-		DateFormat format=new SimpleDateFormat("HH:mm:ss");
-		 temp1.setTime(format.format(date));
-		temp1.setCurName(temp3);
-		if(StringUtils.indexOf(i[2],"Standby",0)==-1){
-		returnValue.add(temp1);
-		}
-		}
-		return returnValue;
-	}
+    @Override
+    public LinkedList<totalCPUpercent> getCPUInformation() {
+        // TODO Auto-generated method stub
+        String[][] temp = null;
+        try {
+            CloudConnection conn = dao.CreateConnection();
+            temp = dao.getSystemUtilization(conn);
+            conn.close();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            logge.error(e.getMessage());
+        }
+        LinkedList<totalCPUpercent> returnValue = new LinkedList<totalCPUpercent>();
+        for (String[] i : temp) {
+            totalCPUpercent temp1 = new totalCPUpercent();
+            LinkedList<Double> temp2 = new LinkedList<Double>();
+            BigDecimal testValue = (new BigDecimal(i[i.length - 2]).multiply(new BigDecimal(100))).setScale(4, BigDecimal.ROUND_HALF_UP);
+            BigDecimal testprocess = (new BigDecimal(i[i.length - 1]).multiply(new BigDecimal(100))).setScale(4, BigDecimal.ROUND_HALF_UP);
+            double tempValue = testValue.doubleValue();
+            double tempprocess = testprocess.doubleValue();
+            temp2.add(tempValue);
+            temp2.add(tempprocess);
+            temp1.setDataArray(temp2);
+            temp1.setObjName(i[0]);
+            String[] temp3 = { "系统利用率", "进程利用率" };
+            Date date = new Date();
+            DateFormat format = new SimpleDateFormat("HH:mm:ss");
+            temp1.setTime(format.format(date));
+            temp1.setCurName(temp3);
+            if (StringUtils.indexOf(i[2], "Standby", 0) == -1) {
+                returnValue.add(temp1);
+            }
+        }
+        return returnValue;
+    }
 }

@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public abstract class BaseController {
 
     @ExceptionHandler
-    public String exception(HttpServletRequest request, Exception e) {  
-        request.setAttribute("exceptionMessage", e.getMessage());  
-          
+    public String exception(HttpServletRequest request, Exception e) {
+        request.setAttribute("exceptionMessage", e.getMessage());
+
         // 根据不同的异常类型进行不同处理
-        if(e instanceof SQLException) 
-            return "testerror";   
+        if (e instanceof SQLException)
+            return "testerror";
         else
-            return "error";  
-    }  
-    
+            return "error";
+    }
+
 }

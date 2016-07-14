@@ -12,23 +12,23 @@ import com.hyun.service.ServerListService;
 @Service
 public class ServerListServiceImpl implements ServerListService {
 
-	@Autowired
-	private MainInformationDao dao;
-    Logger logge=Logger.getLogger(ServerListServiceImpl.class);
-	@Override
-	public String[][] getServerlist() {
-		// TODO Auto-generated method stub
-		String[][] temp = null;
-		try {
-			CloudConnection conn=dao.CreateConnection();
-	    temp=dao.getServerList(conn);
-	    conn.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logge.error(e.getMessage());
-		}
-		return temp;
-	}
-	
-	
+    @Autowired
+    private MainInformationDao dao;
+    Logger logge = Logger.getLogger(ServerListServiceImpl.class);
+
+    @Override
+    public String[][] getServerlist() {
+        // TODO Auto-generated method stub
+        String[][] temp = null;
+        try {
+            CloudConnection conn = dao.CreateConnection();
+            temp = dao.getServerList(conn);
+            conn.close();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            logge.error(e.getMessage());
+        }
+        return temp;
+    }
+
 }

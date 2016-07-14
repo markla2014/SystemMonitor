@@ -2,6 +2,6 @@ package com.hyun.service;
 
 public interface MemoryService {
 
-	public String[][] getTotalMemoryInformation();
-	
+    public String[][] getTotalMemoryInformation();
+
 }

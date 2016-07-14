@@ -22,28 +22,28 @@ import com.hyun.vo.totalCPUpercent;
 
 @Controller
 @RequestMapping("/memory")
-public class MemoryInformationController  extends BaseController {
-	 @Resource
-	 private MemoryServiceImpl service;
-	 @RequestMapping("/info.do")
-		public ModelAndView showMemoryList(HttpServletRequest req,HttpServletResponse response) {
-			ModelAndView mv = new ModelAndView("memoryInformation");
-			String[][] temp=service.getTotalMemoryInformation();
-			LinkedList<totalCPUpercent> memoryList=service.getMemoryInformation();
-			mv.addObject("info",JasonCover.toJason(temp));
-			mv.addObject("memoryList", JasonCover.toJason(memoryList));
-			return mv;
-		}
-	 
-	 @RequestMapping("/getMemory.do")
-	 @ResponseBody
-	 public Map<String,LinkedList<totalCPUpercent>> getMemoryInfomration(){
-	 	service.getTotalMemoryInformation();
-	 	LinkedList<totalCPUpercent> temp=service.getMemoryInformation();
-	 	Map<String,LinkedList<totalCPUpercent>> map=new HashMap<String,LinkedList<totalCPUpercent>>();
-	 	map.put("info",temp);
-	 	return map;
-	 }
-	 
-	
+public class MemoryInformationController extends BaseController {
+    @Resource
+    private MemoryServiceImpl service;
+
+    @RequestMapping("/info.do")
+    public ModelAndView showMemoryList(HttpServletRequest req, HttpServletResponse response) {
+        ModelAndView mv = new ModelAndView("memoryInformation");
+        String[][] temp = service.getTotalMemoryInformation();
+        LinkedList<totalCPUpercent> memoryList = service.getMemoryInformation();
+        mv.addObject("info", JasonCover.toJason(temp));
+        mv.addObject("memoryList", JasonCover.toJason(memoryList));
+        return mv;
+    }
+
+    @RequestMapping("/getMemory.do")
+    @ResponseBody
+    public Map<String, LinkedList<totalCPUpercent>> getMemoryInfomration() {
+        service.getTotalMemoryInformation();
+        LinkedList<totalCPUpercent> temp = service.getMemoryInformation();
+        Map<String, LinkedList<totalCPUpercent>> map = new HashMap<String, LinkedList<totalCPUpercent>>();
+        map.put("info", temp);
+        return map;
+    }
+
 }
